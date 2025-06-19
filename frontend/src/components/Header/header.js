@@ -32,7 +32,11 @@ export const Header = () => {
     <div className='header'>
       <div className='avatar'>
         <Avatar> H </Avatar>
+<<<<<<< HEAD
       </div> 
+=======
+      </div>
+>>>>>>> a7e3c02 (Up to date to last month and restructured project)
       <div className='searchBar'>
       <SearchBar
         value= {searchTerm}
@@ -42,14 +46,24 @@ export const Header = () => {
       </div>
       <div className='orderButton'>
        <IconButton>
+<<<<<<< HEAD
          <ReceiptIcon aria-label='orders' /> 
+=======
+         <ReceiptIcon aria-label='orders' />
+>>>>>>> a7e3c02 (Up to date to last month and restructured project)
        </IconButton>
       </div>
       <div className='cartButton'>
         <IconButton>
+<<<<<<< HEAD
          <ShoppingCartIcon aria-label='cart' /> 
         </IconButton>
       </div> 
+=======
+         <ShoppingCartIcon aria-label='cart' />
+        </IconButton>
+      </div>
+>>>>>>> a7e3c02 (Up to date to last month and restructured project)
      </div>
   )
 }
