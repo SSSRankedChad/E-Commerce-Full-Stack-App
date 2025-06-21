@@ -1,69 +1,21 @@
 import React from 'react';
-import {useSelector, useDispatch} from 'react-redux';
-import IconButton from '@mui/material/IconButton';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCartOutlined';
-import ReceiptIcon from '@mui/icons-material/Receipt';
-import Avatar from '@mui/material/Avatar';
-import SearchBar from 'material-ui-search-bar';
+import "./header.css";
+import img1 from '../../../public/resources/gold-zipper-on-black-fashion-backpack.jpg';
+import img2 from '../../../public/resources/black-bag-over-the-shoulder.jpg';
+import img3 from '../../../public/resources/stacked-bracelets.jpg';
+import img4 from '../../../public/resources/DIY-beard-balm.jpg';
+import img5 from '../../../public/resources/blue-t-shirt.jpg';
 
 
 export const Header = () => {
-
-  const [searchTermLocal, setSearchTermLocal] = useState('');
-  const searchTerm = useSelector((state) => state.product.searchTerm);
-  const dispatch = useDispatch();
-
-  const handleSubmit = (e) => {
-    searchTermLocal(e.target.value);
-  }
-
-
-  useEffect(() => {
-    setSearchTermLocal(searchTerm)
-  }, [searchTerm]);
-
-  const onHandleChange = (e) => {
-    e.preventDefault();
-    dispatch(setSearchTermLocal(searchTerm));
-  }
-
   return (
-
-    <div className='header'>
-      <div className='avatar'>
-        <Avatar> H </Avatar>
-<<<<<<< HEAD
-      </div> 
-=======
-      </div>
->>>>>>> a7e3c02 (Up to date to last month and restructured project)
-      <div className='searchBar'>
-      <SearchBar
-        value= {searchTerm}
-        onChange={onHandleChange}
-        onRequestSearch={handleSubmit}
-        />
-      </div>
-      <div className='orderButton'>
-       <IconButton>
-<<<<<<< HEAD
-         <ReceiptIcon aria-label='orders' /> 
-=======
-         <ReceiptIcon aria-label='orders' />
->>>>>>> a7e3c02 (Up to date to last month and restructured project)
-       </IconButton>
-      </div>
-      <div className='cartButton'>
-        <IconButton>
-<<<<<<< HEAD
-         <ShoppingCartIcon aria-label='cart' /> 
-        </IconButton>
-      </div> 
-=======
-         <ShoppingCartIcon aria-label='cart' />
-        </IconButton>
-      </div>
->>>>>>> a7e3c02 (Up to date to last month and restructured project)
-     </div>
-  )
+    <div className="header">
+      <span> Welcome! <span>
+      <img src={img1} />
+      <img src={img2} />
+      <img src={img3} />
+      <img src={img4} />
+      <img src={img5} />
+    <div/>
+  );
 }
