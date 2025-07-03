@@ -3,7 +3,7 @@ import Avatar from '@mui/material';
 import TextInput from '@mui/material';
 import Loader from '../../components/Loader/loader.js';
 import Alert from '@mui/material/Alert';
-import Buttom from '@mui/material';
+import Button from '@mui/material';
 import { loadUserById, updateUser, changePassword, selectUser, selectUserId, selectLoadingUser, selectLoadUserError, selectRegisterUserSuccess,
         selectUpdatingUser, selectUpdateUserSuccess, selectUpdateUserError,  selectChangePasswordSuccess, selectChangePasswordError,
         selectLoginSuccess, clearUsersStatusUpdates } from '../../store/User/usersSlice.js';
@@ -41,7 +41,7 @@ export const User = () => {
     if(target.name === "username") {
       setUsername(target.value);
     }
-    else if(target.name === "changepassword") {
+    else if(target.name === "password") {
         setPassword(target.value);
     }
     else if (target.name === 'gender') {
@@ -56,9 +56,6 @@ export const User = () => {
       else if (target.name === 'date_of_birth') {
           setDob(target.value);
       }
-      else if (target.name === 'passwordmatch') {
-          setPassMatch(target.value);
-      }
       else if (target.name === 'firstname') {
           setFirstName(target.value);
       }
@@ -71,6 +68,9 @@ export const User = () => {
       else if (target.name === 'zip') {
           setZip(target.value);
       }
+    else if (target.name === 'passwordmatch') {
+      setPassMatch(target.value);
+     }
   };
 
   const userProfile = {
@@ -125,6 +125,30 @@ export const User = () => {
     };
 
     return (
+      <section className="user__container">
+      {loginSuccess && Alert severity="error" msg={loadUserError} onClose = (() => dispatch(clearUserStatusUpdates()))}
+      {updateUserSuccess && Alert severity="error" msg={updateUserError} onClose(() => dispatch(clearUserStatusUpdates()))}
+      <h3 className="profile_title">{`Welcome, ${user.first_name}!`}</h3>
+       <Avatar> D </Avatar>
+       <TextInput name="username" value={username} onChange={handleChange}/>
+       <TextInput name="firstname" value={first_name} onChange={handleChange}/>
+       <TextInput name="lastname" value={last_name} onChange={handleChange}/>
+       <TextInput name="gender" value={gender} onChange={handleChange}/>
+       <TextInput name="streetaddress" value={street_address} onChange={handleChange}/>
+       <TextInput name="city" value={city} onChange={handleChange}/>
+       <TextInput name="state" value={state} onChange={handleChange}/>
+       <TextInput name="zip" value={zip} onChange={handleChange}/>
 
+       <section className="change__password__container">
+        <h3 className> Change Password </h3>
+        {changePasswordSuccess && Alert severity="error" msg={changePasswordError} onClose=(() => dispatch(clearUserStatusUpdates()))}
+        <TextInput name="New Password" value={password} onChange={handleChange}/>
+        {password && <TextInput name="password_match" value={passMatch} type="password" onChange={handleChange}/>
+         placeholder="Please enter a new password"}
+        {passMatch && <Button name="Change Password" onClick={handleClick}/>}
+       <section/>
+
+       <Link to='/orders'><p className="order__link"> View order history</p></Link>
+      <section/>
     )
 }
