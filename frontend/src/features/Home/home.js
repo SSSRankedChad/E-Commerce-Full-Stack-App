@@ -1,7 +1,7 @@
 import React from 'react';
 import './home.css';
 import Header from '../../components/Header/header.js';
-import Product from '../Product/product.js';
+import Product from '../component/Product/product.js';
 
 
 
