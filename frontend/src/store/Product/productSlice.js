@@ -1,17 +1,25 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 const axios = require('axios');
 
-export const getProductById = createAsyncThunk('/products/{productId}', async(productId, {reject}) => {
-  const response = await axios.get('/products/{productId}');
-  return response.data;
+export const getProductById = createAsyncThunk('/products/getProductById}', async(productId, {reject}) => {
+  try {
+   const response = await axios.get('/products/{productId}');
+   return response.data;
+  } catch(err) {
+    return reject(err.response.data);
+  }
 });
 
 
 
-export const loadProducts = createAsyncThunk('/products', async({reject}) => {
-  const response = await axios.get('/products');
-  return response.data;
-});
+export const loadProducts = createAsyncThunk('/products/loadProducts', async({reject}) => {
+  try {
+   const response = await axios.get('/products');
+   return response.data;
+  } catch(err) {
+    return reject(err.response.data);
+  }
+ });
 
 const initialState = {
   product: {},
@@ -23,6 +31,7 @@ const initialState = {
   productsPending: false,
   productsLoadSuccess: false,
   productsLoadError: false,
+  searchTerm: false;
 };
 
 const productSlice = createSlice({
@@ -38,6 +47,11 @@ const productSlice = createSlice({
       return state;
     },
 
+    setSearchTerm: (state) => {
+      state.searchTerm = action.payload;
+      return state;
+    },
+
     clearProdStatusUpdates: (state) => {
       state.productPending = false;
       state.productLoadError = false;
@@ -50,7 +64,6 @@ const productSlice = createSlice({
       [getProductById.pending]: (state, action) => {
         state.productPending = true;
         state.productLoadError = false;
-        state.productLoadSuccess = false;
       },
       [getProductById.fulfilled]: (state, action) => {
         state.productLoadSuccess = true;
@@ -58,14 +71,12 @@ const productSlice = createSlice({
         state.product = action.payload;
       },
       [getProductById.rejected]: (state, action) => {
-        state.productLoadSuccess = false;
         state.productPending = false;
         state.productLoadError = action.payload;
       },
       [loadProducts.pending]: (state, action) => {
         state.productsPending = true;
         state.productsLoadError = false;
-        state.productsLoadSuccess = false;
       },
       [loadProducts.fulfilled]: (state, action) => {
         state.productsLoadSuccess = true;
@@ -73,7 +84,6 @@ const productSlice = createSlice({
         state.products = action.payload;
       },
       [loadProducts.rejected]: (state, action) => {
-        state.productsLoadSuccess = false;
         state.productsPending = false;
         state.productsLoadError = action.payload;
       },
