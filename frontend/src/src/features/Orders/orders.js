@@ -1,0 +1,86 @@
+import React, {useEffect, useState} from 'react';
+import Alert from '@mui/material/Alert';
+import Navbar from '../../components/Navbar/navbar.js';
+import Loader from '../../components/Loader/loader.js';
+import { useSelector, useDispatch } from 'react-redux';
+import { clearOrders, loadOrders, selectOrdersPending, selectCancelOrderSuccess, clearOrderStatusUpdates, selectOrders, selectOrdersLoadSuccess, selectCancelingOrderError} from '../../store/Orders/orderSlice.js';
+import { selectUserId, selectLoginSuccess, selectLogoutSuccess } from '../../store/User/userSlice.js';
+import { selectCheckoutSuccess } from '../../store/Cart/cartSlice.js';
+
+
+
+export const Orders = () => {
+  const sortingOptions = ['', 'newest', 'oldest'];
+  const [sort, setSort] = useState('');
+  const orders = useSelector(selectOrders);
+  const loadingOrders = useSelector(selectOrdersPending);
+  const loadOrdersSuccess = useSelector(selectOrdersLoadSuccess);
+  const cancelOrder = useSelector(selectCheckoutSuccess);
+  const userId = useSelector(selectUserId);
+  const cancelOrderError = useSelector(selectCancelingOrderError);
+  const loginSuccess = useSelector(selectLoginSuccess);
+  const logoutSuccess = useSelector(selectLogoutSuccess);
+  const dispatch = useDispatch();
+  const checkoutSuccess = useSelector(selectCheckoutSuccess);
+
+
+  const handleChange = ({target}) => {
+    setSort(target.value);
+  };
+
+
+  useEffect(() => {
+    if(userId) {
+      dispatch(loadOrders({userId, sort}))
+    }
+  }, [dispatch, userId, sort]);
+
+
+  useEffect(() => {
+    if(cancelOrderSuccess || loginSuccess || checkoutSuccess) {
+      dispatch(loadOrders({userId, sort}))
+    }
+    if(logoutSuccess) {
+      dispatch(clearOrders());
+    }
+    if(loadOrdersSuccess) {
+      dispatch(clearOrderStatusUpdates())
+    }
+  }, [sort, userId, dispatch, cancelOrderSuccess, logoutSuccess, loginSuccess, checkoutSuccess, loadOrdersSuccess]);
+
+
+  useEffect(() => {
+    if(loadingOrders) {
+      return (
+        <div className="order__loading__container"/>
+         <Loader />
+        <div/>
+      );
+    }
+  }, []);
+
+  if(!orders.length) {
+    return (
+      <div className="order__history__container"/>
+        <h2 classname="order_history"/> No order history! </h2>
+        <p classNmae="order__history__message"/> Please make an order! </p>
+      <div/>
+    );
+  }
+
+  return (
+    <section className="orders"/>
+     <h2 className="Orders__heading__container"> Order History </h2>
+     <div className="Orders__container"/>
+      <span className="Orders__label"> Sort: </span>
+      <select className="Orders__select__container" name="sort" value={sort} onChange={handleChange}>
+      {sortOptions.map((sortOpt,i) => <option key={`${sortOpt}__${i}`} value={sortOpt}>{sortOpt}</option>)}
+     </select>
+
+     <ul className="Orders__list">
+     {loadOrdersError && Alerty severity="error" msg={loadOrdersError} onClose={() => dispatch(clearOrderStatusUpdates())}/>}
+     {orders.map((order) => <li key={order.order_id}> <Order order={order}/></li>)}
+     </ul>
+    <section/>
+  );
+}
