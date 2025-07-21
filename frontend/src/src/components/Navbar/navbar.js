@@ -32,7 +32,7 @@ const Navbar = () => {
       <div className='searchBar'>
       <TextInput
         value= {searchTerm}
-        onChange={onHandleChange}
+        onChange={handleChange}
         onSubmit={handleSubmit}
         />
       </div>

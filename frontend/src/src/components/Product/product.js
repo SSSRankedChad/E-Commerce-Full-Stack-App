@@ -8,7 +8,7 @@ import { selectUserId } from '../../store/User/userSlice';
 import { selectCartId, loadCart, updateCart } from '../../store/Cart/cartSlice';
 
 
-const Product = ( {product, display} ) => {
+const Product = (product, display) => {
   const [cartQuantity, setCartQuantity] = useState(product.cart_quantity);
   const [quantity, setQuantity] = useState(product.cart_quantity);
   const cartId = useSelector(selectCartId);
