@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import Moment from 'moment';
-import Button from '@mui/material';
+import Button from '@mui/material/Button';
 import Alert from '@mui/material/Alert';
 import { Link} from 'react-router-dom';
 import { setOrderId, selectOrders, clearOrders, cancelOrder, clearOrderStatusUpdates } from '../../store/Orders/orderSlice.js';
@@ -8,7 +8,7 @@ import { selectUserId } from '../../store/User/userSlice.js';
 import { useSelector, useDispatch } from 'react-redux';
 
 
-export const Order = ( {order} ) => {
+const Order = ( {order} ) => {
   const orders = useSelector(selectOrders);
   const orderId = order.order_id;
   const date = Moment(order.date);
@@ -44,7 +44,7 @@ export const Order = ( {order} ) => {
      {cancelOrderError && <Alert severity="error" msg={cancelOrderError}/>}
       <Link to={'/orders/{orderId}'}>
        <h3 className="order__id" onClick={handleOrderClick}>Order Id: {orderId}</h3>
-      <Link/>
+      </Link>
      <p className="order__date"> Date: {data} </p>
      <p className="order__status"> Status: {order.status} </p>
      <div/>
@@ -66,6 +66,8 @@ export const Order = ( {order} ) => {
                     <p className="Order__cardNum">Card Number: *{order.card_num}</p>
                 </div>
             </div>
-        </section>
+      </section>
     );
 }
+
+export default Order;

@@ -1,17 +1,18 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 const axios = require('axios');
 
-const loadOrderById = createAsyncThunk('/orders/loadOrderById', async({orderId}, {reject}) => {
+
+export const loadOrderById = createAsyncThunk('/orders/loadOrderById', async({orderId}, {reject}) => {
     const response = await axios.get('/orders/{orderId}', orderId);
     return response.data;
 });
 
-const loadOrders = createaAsyncThunk('/orders', async({}) => {
+export const loadOrders = createAsyncThunk('/orders', async({}) => {
     const response = await axios.get('/orders');
     return response.data;
 });
 
-const createOrder = createAsyncThunk('/orders/createOrder', async({orderId}, {reject}) => {
+export const createOrder = createAsyncThunk('/orders/createOrder', async({orderId}, {reject}) => {
   try {
     const response = await axios.post('/orders/{orderId}', orderId);
     return response.data;
@@ -20,7 +21,7 @@ const createOrder = createAsyncThunk('/orders/createOrder', async({orderId}, {re
   }
 });
 
-const cancelOrder = createAsyncThunk('/orders/cancelOrder', async({orderId}, {reject}) => {
+export const cancelOrder = createAsyncThunk('/orders/cancelOrder', async({orderId}, {reject}) => {
   try {
     const response = await axios.delete('/orders/{orderId}', orderId);
     return response.data;
@@ -29,7 +30,7 @@ const cancelOrder = createAsyncThunk('/orders/cancelOrder', async({orderId}, {re
   }
 });
 
-const updateOrder = createAsyncThunk('/orders/updateOrder', async({orderId}, {reject}) => {
+export const updateOrder = createAsyncThunk('/orders/updateOrder', async({orderId}, {reject}) => {
   try {
     const response = await axios.put('/orders/{orderId}', orderId);
     return response.data;
@@ -86,14 +87,13 @@ const orderSlice = createSlice({
       state.updatingOrder = false;
       state.updateOrderError = false;
     },
-    extraReducers: {
       [loadOrderById.pending]: (state, action) => {
         state.orderPending = true;
         state.orderLoadError = false;
       },
       [loadOrderById.fulfilled]: (state, action) => {
         state.orderPending = false;
-        state.orderLoadError  false;
+        state.orderLoadError =  false;
         state.orderLoadSuccess = true;
         state.order = action.payload;
       },
@@ -136,18 +136,18 @@ const orderSlice = createSlice({
         state.order = {};
         state.orderId = null;
       },
-      [cancelingOrder.pending]: (state, action) => {
+      [cancelOrder.pending]: (state, action) => {
         state.cancelingOrder = true;
         state.cancelOrderError = false;
       },
-      [cancelingOrder.fulfilled]: (state, action) => {
+      [cancelOrder.fulfilled]: (state, action) => {
         state.cancelingOrder = false;
         state.cancelOrderError = false;
         state.cancelOrderSuccess = action.payload;
         state.order = {};
         state.orderId = null;
       },
-      [cancelingOrder.rejected]: (state, action) => {
+      [cancelOrder.rejected]: (state, action) => {
         state.cancelingOrder = false;
         state.cancelOrderError = action.payload;
       },
@@ -167,10 +167,10 @@ const orderSlice = createSlice({
         state.order = {};
         state.orderId = null;
       }
-    });
-
-  export const userSlice.reducer;
-  export const {setOrderId, clearOrderStatusUpdates, clearOrders} = userSlice.actions;
+    }
+});
+  export const {setOrderId, clearOrderStatusUpdates, clearOrders} = orderSlice.actions;
+  export default orderSlice.reducer;
 
   export const selectOrder = state => state.order.order;
   export const selectOrders = state => state.order.orders;
@@ -181,7 +181,7 @@ const orderSlice = createSlice({
   export const selectOrdersLoadError = state => state.order.ordersLoadError;
   export const selectOrdersLoadSuccess = state => state.order.ordersLoadSuccess;
   export const selectCancelingOrder = state => state.order.cancelingOrder;
-  export const selectCancelOrderSuccess = state => state.order.cancelOrderSuccess;:
+  export const selectCancelOrderSuccess = state => state.order.cancelOrderSuccess;
   export const selectCancelingOrderError = state => state.order.cancelOrderError;
   export const selectCreatingOrder = state => state.order.creatingOrder;
   export const selectCreatingOrderError = state => state.order.creatingOrderError;

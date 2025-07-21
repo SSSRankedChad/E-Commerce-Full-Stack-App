@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import Avatar from '@mui/material';
-import TextInput from '@mui/material';
+import Avatar from '@mui/material/Avatar';
+import TextInput from '@mui/material/TextField';
 import Loader from '../../components/Loader/loader.js';
 import Alert from '@mui/material/Alert';
-import Button from '@mui/material';
-import { loadUserById, updateUser, changePassword, selectUser, selectUserId, selectLoadingUser, selectLoadUserError, selectRegisterUserSuccess,
+import Button from '@mui/material/Button';
+import { loadUserById, updateUser, changePassword, selectUser, selectUserId, selectUserLoading, selectUserLoadingError, selectRegisteringUserSuccess,
         selectUpdatingUser, selectUpdateUserSuccess, selectUpdateUserError,  selectChangePasswordSuccess, selectChangePasswordError,
-        selectLoginSuccess, clearUsersStatusUpdates } from '../../store/User/usersSlice.js';
-import { useSelector, useDispatch } from '@reduxjs/toolkit';
+        selectLoginSuccess, clearUserStatusUpdates } from '../../store/User/userSlice.js';
+import { useSelector, useDispatch } from 'react-redux';
 
-export const User = () => {
+const User = () => {
     const user = useSelector(selectUser);
     const userId = useSelector(selectUserId);
     const [username, setUsername] = useState(user.username);
@@ -120,14 +120,16 @@ export const User = () => {
 
     if(userLoading || updatingUser) {
       return (
+        <>
         <Loader />
+        </>
       )
     };
 
     return (
       <section className="user__container">
-      {loginSuccess && Alert severity="error" msg={loadUserError} onClose = (() => dispatch(clearUserStatusUpdates()))}
-      {updateUserSuccess && Alert severity="error" msg={updateUserError} onClose(() => dispatch(clearUserStatusUpdates()))}
+      {loginSuccess && <Alert severity="error" msg={loadUserError} onClose={(() => dispatch(clearUserStatusUpdates()))}/>}
+      {updateUserSuccess && <Alert severity="error" msg={updateUserError} onClose={(() => dispatch(clearUserStatusUpdates()))}/>}
       <h3 className="profile_title">{`Welcome, ${user.first_name}!`}</h3>
        <Avatar> D </Avatar>
        <TextInput name="username" value={username} onChange={handleChange}/>
@@ -141,14 +143,15 @@ export const User = () => {
 
        <section className="change__password__container">
         <h3 className> Change Password </h3>
-        {changePasswordSuccess && Alert severity="error" msg={changePasswordError} onClose=(() => dispatch(clearUserStatusUpdates()))}
+        {changePasswordSuccess && <Alert severity="error" msg={changePasswordError} onClose={(() => dispatch(clearUserStatusUpdates()))}/>}
         <TextInput name="New Password" value={password} onChange={handleChange}/>
-        {password && <TextInput name="password_match" value={passMatch} type="password" onChange={handleChange}/>
-         placeholder="Please enter a new password"}
+        {password && <TextInput name="password_match" value={passMatch} type="password" onChange={handleChange} placeholder="Please enter a new password"/>}
         {passMatch && <Button name="Change Password" onClick={handleClick}/>}
-       <section/>
+       </section>
 
        <Link to='/orders'><p className="order__link"> View order history</p></Link>
-      <section/>
+      </section>
     )
 }
+
+export default User;

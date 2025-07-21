@@ -1,11 +1,11 @@
-import React from 'react';
-import { Navbar } from '../src/components/Navbar/navbar.js';
-import { Orders } from '../src/features/Orders/orders.js';
-import { Order } from '../src/features/ Order/order.js';
-import { User } from '../src/features/User/user.js';
-import { Product } from '../src/components/Product/product.js';
-import { Login } from '../src/features/Login/login.js';
-import { Home } from '../src/features/Home/home.js';
+import React, {useEffect} from 'react';
+import Navbar  from '../src/components/Navbar/navbar.js';
+import Orders  from '../src/features/Orders/orders.js';
+import Order  from '../src/features/ Order/order.js';
+import User  from '../src/features/User/user.js';
+import Product  from '../src/components/Product/product.js';
+import Login  from '../src/features/Login/login.js';
+import Home from '../src/features/Home/home.js';
 import { stripeContainer } from '../src/components/stripe/stripe.js';
 import { Routes, Route} from 'react-router-dom';
 import {useSelector, useDispatch} from 'react-redux';
@@ -13,7 +13,7 @@ import {session, selectUserId, clearUserStatusUpdates, selectSessionSuccess } fr
 
 
 
-export const App = () => {
+const App = () => {
   const userId = useSelector(selectUserId);
   const sessionSuccess = useSelector(selectSessionSuccess);
   const dispatch = useDispatch();
@@ -48,3 +48,5 @@ export const App = () => {
 
 
 }
+
+export default App;

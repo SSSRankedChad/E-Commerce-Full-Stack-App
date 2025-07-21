@@ -1,30 +1,26 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import IconButton from '@mui/material/IconButton';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCartOutlined';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import ReceiptIcon from '@mui/icons-material/Receipt';
 import Avatar from '@mui/material/Avatar';
-import SearchBar from '../SearchBar/SearchBar.js';
+import TextInput from '@mui/material/TextField';
+import { selectSearchTerm, selectFilteredProducts } from '../../store/Product/productSlice.js';
 
-
-export const Navbar = () => {
+const Navbar = () => {
 
   const [searchTermLocal, setSearchTermLocal] = useState('');
-  const searchTerm = useSelector((state) => state.product.searchTerm);
+  const searchTerm = useSelector(selectSearchTerm);
   const dispatch = useDispatch();
 
-  const handleSubmit = (e) => {
-    searchTermLocal(e.target.value);
+  const handleChange = ({target}) => {
+    setSearchTermLocal(target.value);
   }
 
-
-  useEffect(() => {
-    setSearchTermLocal(searchTerm)
-  }, [searchTerm]);
-
-  const onHandleChange = (e) => {
-    e.preventDefault();
-    dispatch(setSearchTermLocal(searchTerm));
+  const handleSubmit = (e) => {
+    if(searchTermLocal === searchTerm) {
+      dispatch(selectFilteredProducts());
+    }
   }
 
   return (
@@ -32,38 +28,27 @@ export const Navbar = () => {
     <div className='header'>
       <div className='avatar'>
         <Avatar> H </Avatar>
-<<<<<<< HEAD
-      </div> 
-=======
       </div>
->>>>>>> a7e3c02 (Up to date to last month and restructured project)
       <div className='searchBar'>
-      <SearchBar
+      <TextInput
         value= {searchTerm}
         onChange={onHandleChange}
-        onRequestSearch={handleSubmit}
+        onSubmit={handleSubmit}
         />
       </div>
       <div className='orderButton'>
        <IconButton>
-<<<<<<< HEAD
-         <ReceiptIcon aria-label='orders' /> 
-=======
          <ReceiptIcon aria-label='orders' />
->>>>>>> a7e3c02 (Up to date to last month and restructured project)
+         <ReceiptIcon aria-label='orders' />
        </IconButton>
       </div>
       <div className='cartButton'>
         <IconButton>
-<<<<<<< HEAD
-         <ShoppingCartIcon aria-label='cart' /> 
-        </IconButton>
-      </div> 
-=======
-         <ShoppingCartIcon aria-label='cart' />
+         <ShoppingCartIcon aria-label='cart'/>
         </IconButton>
       </div>
->>>>>>> a7e3c02 (Up to date to last month and restructured project)
      </div>
   )
 }
+
+export default Navbar;

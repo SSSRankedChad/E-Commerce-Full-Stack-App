@@ -1,15 +1,15 @@
 import React, {useState, useEffect} from 'react';
-import Buttom, { Alert } from '@mui/material';
 import Loader from '../../components/Loader/loader.js';
-import Avatar from '@mui/material';
+import Button from '@mui/material/Button';
+import Avatar from '@mui/material/Avatar';
 import Alert from '@mui/material/Alert';
 import { Link, useNavigate } from 'react-router-dom';
-import TextInput from '@mui/material';
-import { login, selectLogginIn, selectLoginSuccess, selectLoginError, selectSessionSuccess, clearStatusUserUpdates } from '../../store/User/userSlice.js';
+import TextInput from '@mui/material/TextField';
+import { login, selectLogginIn, selectLoginSuccess, selectLoginError, selectSessionSuccess, clearUserStatusUpdates } from '../../store/User/userSlice.js';
 import { useSelector, useDispatch } from 'react-redux';
 
 
-export const Login = () => {
+const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const loggingIn = useSelector(selectLogginIn);
@@ -67,13 +67,15 @@ export const Login = () => {
      <form className="login__form" method="post" action="">
       <h3 className="login__form__title"> Login </h3>
       <Avatar> H </Avatar>
-      {<loginError && <Alert msg={loginError} onClose={() => dispatch(clearStatusUserUpdates())}/>}
+      {loginError && <Alert msg={loginError} onClose={() => dispatch(clearStatusUserUpdates())}/>}
       <TextInput name="Username" value={username} onChange={handleChange}/>
       <TextInput name="Password" value={password} onChange={handleChange}/>
       <Button name="Login" fullWidth onClick={handleClick}/>
       <Link to='/register'><p className="Login__registerLink"> New User? Please Register! </p></Link>
      </form>
-   <div/>
+    </div>
   );
 
 }
+
+export default Login;

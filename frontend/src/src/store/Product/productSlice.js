@@ -31,14 +31,14 @@ const initialState = {
   productsPending: false,
   productsLoadSuccess: false,
   productsLoadError: false,
-  searchTerm: false;
+  searchTerm: false
 };
 
 const productSlice = createSlice({
   name: 'product',
   initialState,
   reducers: {
-    setProductId: (state) {
+    setProductId: (state) => {
       state.productId = action.payload;
       return state;
     },
@@ -60,8 +60,6 @@ const productSlice = createSlice({
       state.productsLoadError = false;
       return state;
     },
-
-    extraReducers: {
       [getProductById.pending]: (state, action) => {
         state.productPending = true;
         state.productLoadError = false;
@@ -89,12 +87,11 @@ const productSlice = createSlice({
         state.productsLoadError = action.payload;
       },
     }
-  }
 });
 
-export const productSlice.reducer;
+export default productSlice.reducer;
 export const {setProductId, clearProduct, clearProdStatusUpdates} = productSlice.actions;
-const selectSearchTerm = (state) => state.products.searchTerm;
+export const selectSearchTerm = (state) => state.products.searchTerm;
 
 export const selectProductId = state => state.product.productId;
 export const selectProduct = state => state.product.product;

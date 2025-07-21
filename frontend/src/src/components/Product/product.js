@@ -1,15 +1,14 @@
 import React , { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import './Product.css';
-import IconButton from '@mui/material';
-import Button from '@mui/material';
+import IconButton from '@mui/material/IconButton';
+import Button from '@mui/material/Button';
 import { setProductId } from '../../store/Product/productSlice';
 import { selectUserId } from '../../store/User/userSlice';
 import { selectCartId, loadCart, updateCart } from '../../store/Cart/cartSlice';
 
 
-export const Product = ( {product, display} ) => {
+const Product = ( {product, display} ) => {
   const [cartQuantity, setCartQuantity] = useState(product.cart_quantity);
   const [quantity, setQuantity] = useState(product.cart_quantity);
   const cartId = useSelector(selectCartId);
@@ -53,8 +52,9 @@ export const Product = ( {product, display} ) => {
   }, [cartId, userId, productId, cartQuantity, quantity, dispatch]);
 
 
-display === 'inCart' && return (
-   <section className="Product__inCart">
+  if(display === 'inCart') {
+     return (
+    <section className="Product__inCart">
                 <img className="Product__inCart__image" src={product.url} alt="" />
                 <div className="Product__inCart__info">
                     <div className="Product__inCart__container">
@@ -81,11 +81,14 @@ display === 'inCart' && return (
                         <p className="Product__inCart__itemTotal">${product.item_total}</p>
                     </div>
                 </div>
-  </section>
-);
+    </section>
+    );
+}
 
-display === 'detail' && return (
-    <section className="Product__details">
+
+else if(display === 'detail') {
+     return (
+     <section className="Product__details">
                 <div className="Product__details__main">
                     <img className="Product__details__image" src={product.url} alt="" />
                     <div className="Product__details__main__info">
@@ -120,8 +123,9 @@ display === 'detail' && return (
                         </div>
                     </div>
                 </div>
-            </section>
-  );
+       </section>
+     );
+}
 
   return (
      <section className="Product">
@@ -137,3 +141,5 @@ display === 'detail' && return (
             </section>
   )
 }
+
+export default Product;

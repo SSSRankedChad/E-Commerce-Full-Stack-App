@@ -2,7 +2,7 @@ import { createSlice, createAsyncThink, createAsyncThunk } from '@reduxjs/toolki
 const axios = require('axios');
 
 
-const loadUserById = createAsyncThunk('/users/loadUserById', async({userId}, {reject}) => {
+export const loadUserById = createAsyncThunk('/users/loadUserById', async({userId}, {reject}) => {
   try {
     const response = await axios.get('/users/{userId}', {userId});
     return response.data;
@@ -11,7 +11,7 @@ const loadUserById = createAsyncThunk('/users/loadUserById', async({userId}, {re
   }
 });
 
-const registerUser = createAsyncThunk('/users/registerUser', async({firstname, lastname, email, password, username}, {reject}) => {
+export const registerUser = createAsyncThunk('/users/registerUser', async({firstname, lastname, email, password, username}, {reject}) => {
   try {
    const response = await axios.post('/users/register', {firstname, lastname, username, email, password});
    return response.data;
@@ -20,7 +20,7 @@ const registerUser = createAsyncThunk('/users/registerUser', async({firstname, l
   }
 });
 
-const updateUser = createAsyncThunk('/users/updateUser', async({userId, userProfile}, {reject}) => {
+export const updateUser = createAsyncThunk('/users/updateUser', async({userId, userProfile}, {reject}) => {
   try {
    const resposne = await axios.put('/users/updateUser', {userId, userProfile});
    return response.data;
@@ -29,7 +29,7 @@ const updateUser = createAsyncThunk('/users/updateUser', async({userId, userProf
   }
 });
 
-const changePassword = createAsyncThunk('/users/changePassword', async({userId, password}, {reject}) => {
+export const changePassword = createAsyncThunk('/users/changePassword', async({userId, password}, {reject}) => {
   try {
     const response = await axios.put('/users/changePassword', {userId, password});
     return response.data;
@@ -38,7 +38,7 @@ const changePassword = createAsyncThunk('/users/changePassword', async({userId, 
   }
 });
 
-const login = createAsyncThunk('/auth/login', async({username, password}, {reject}) => {
+export const login = createAsyncThunk('/auth/login', async({username, password}, {reject}) => {
   try {
     const resposne = await axios.post('/auth/login', {username, password});
     return response.data;
@@ -47,15 +47,15 @@ const login = createAsyncThunk('/auth/login', async({username, password}, {rejec
   }
 });
 
-const logout = createAsyncThunk('/users/logout', async() => {
+export const logout = createAsyncThunk('/users/logout', async() => {
     const response = await axios.get('/users/logout');
     return response.data;
 });
 
-const session = createAsyncThunk('/auth/session', async() => {
+export const session = createAsyncThunk('/auth/session', async() => {
     const response = await axios.get('/auth/session');
     return response.data;
-};
+});
 
 
 
@@ -108,7 +108,6 @@ const userSlice = createSlice({
       return state;
     }
   },
-  extraReducers: {
     [loadUserById.pending]: (state, action) => {
       state.loadingUser = true;
       state.loadingUserError = false;
@@ -155,7 +154,7 @@ const userSlice = createSlice({
       state.updatingUser = false;
       state.updateUserError = action.payload;
       state.user = {};
-    }
+    },
     [changePassword.pending]: (state, action) => {
       state.changingPassword = true;
       state.changePasswordError = false;
@@ -198,35 +197,38 @@ const userSlice = createSlice({
       state.logginOut = false;
       state.logoutError = action.payload;
     },
-    [session.pending] = (state, action) => {
+    [session.pending]: (state, action) => {
       state.gettingSession = true;
       state.sessionError = false;
     },
-    [session.fulfilled] = (state, action) => {
+    [session.fulfilled]: (state, action) => {
       state.sessionSucces = true;
       state.sessionError = false;
       state.gettingSession = false;
       state.user = action.payload;
       state.userId = action.payload.user_id;
     }
-  }
 });
                                  export const {clearUserStatusUpdates} = userSlice.actions;
-                                 export const userSlice.reducer;
+                                 export default userSlice.reducer;
 
                                  export const selectUser = state => state.user.user;
                                  export const selectUserId = state => state.user.userId;
                                  export const selectUserLoading = state => state.user.loadingUser;
                                  export const selectUserLoadingError = state => state.user.loadingUserError;
-                                 export const selectRegisteringUser = state => state.user.registeringUser;
                                  export const selectRegisterUserError = state => state.user.registerUserError;
+                                 export const selectRegisterUserSuccess = state => state.user.registerUserSuccess;
                                  export const selectUpdatingUser = state => state.user.updatingUser;
                                  export const selectUpdateUserError = state => state.user.updateUserError;
-                                 export const selectChangingPassword = state => state.user.changingPassword;
+                                 export const selectUpdateUserSuccess = state => state.user.updateUserSuccess;
                                  export const selectChangePasswordError = state => state.user.changePasswordError;
-                                 export const logginIn = state => state.user.loggingIn;
-                                 export const logginOut = state => state.user.loggingOut;
-                                 export const loginError = state => state.user.loginError;
-                                 export const logoutError = state => state.user.logoutError;
-                                 export const session = state => state.user.gettingSession;
-                                 export const sessionError = state => state.user.sessionError;
+                                 export const selectChangePasswordSuccess = state => state.user.changePasswordSuccess;
+                                 export const selectLogginIn = state => state.user.loggingIn;
+                                 export const selectLogginOut = state => state.user.loggingOut;
+                                 export const selectLoginError = state => state.user.loginError;
+                                 export const selectLoginSuccess = state => state.user.loginSuccess;
+                                 export const selectLogoutError = state => state.user.logoutError;
+                                 export const selectLogoutSuccess = state => state.user.logoutSuccess;
+                                 export const selectSession = state => state.user.gettingSession;
+                                 export const selectSessionError = state => state.user.sessionError;
+                                 export const selectSessionSuccess = state => state.user.sessionSuccess;

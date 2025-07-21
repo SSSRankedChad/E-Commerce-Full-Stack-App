@@ -1,16 +1,16 @@
 import React from 'react';
-import './home.css';
 import Header from '../../components/Header/header.js';
-import Navbar from '../../components/Navbar/navbar.js';
-import Product from '../component/Product/product.js';
+import Product from '../../components/Product/product.js';
 
 
 
-export const Home = () => {
+const Home = () => {
   return (
     <section className="home__container">
       <Header />
       <Product />
-    <section />
+    </section>
   );
 }
+
+export default Home;

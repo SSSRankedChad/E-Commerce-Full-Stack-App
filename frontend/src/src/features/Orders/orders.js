@@ -9,7 +9,7 @@ import { selectCheckoutSuccess } from '../../store/Cart/cartSlice.js';
 
 
 
-export const Orders = () => {
+const Orders = () => {
   const sortingOptions = ['', 'newest', 'oldest'];
   const [sort, setSort] = useState('');
   const orders = useSelector(selectOrders);
@@ -52,35 +52,37 @@ export const Orders = () => {
   useEffect(() => {
     if(loadingOrders) {
       return (
-        <div className="order__loading__container"/>
+        <div className="order__loading__container">
          <Loader />
-        <div/>
+        </div>
       );
     }
   }, []);
 
   if(!orders.length) {
     return (
-      <div className="order__history__container"/>
-        <h2 classname="order_history"/> No order history! </h2>
-        <p classNmae="order__history__message"/> Please make an order! </p>
-      <div/>
+      <div className="order__history__container">
+        <h2 classname="order_history"> No order history! </h2>
+        <p classNmae="order__history__message"> Please make an order! </p>
+      </div>
     );
   }
 
   return (
-    <section className="orders"/>
+    <section className="orders">
      <h2 className="Orders__heading__container"> Order History </h2>
-     <div className="Orders__container"/>
+     <div className="Orders__container">
       <span className="Orders__label"> Sort: </span>
       <select className="Orders__select__container" name="sort" value={sort} onChange={handleChange}>
       {sortOptions.map((sortOpt,i) => <option key={`${sortOpt}__${i}`} value={sortOpt}>{sortOpt}</option>)}
      </select>
-
      <ul className="Orders__list">
-     {loadOrdersError && Alerty severity="error" msg={loadOrdersError} onClose={() => dispatch(clearOrderStatusUpdates())}/>}
+     {loadOrdersError && <Alert severity="error" msg={loadOrdersError} onClose={() => dispatch(clearOrderStatusUpdates())}/>}
      {orders.map((order) => <li key={order.order_id}> <Order order={order}/></li>)}
      </ul>
-    <section/>
+    </div>
+   </section>
   );
 }
+
+export default Orders;

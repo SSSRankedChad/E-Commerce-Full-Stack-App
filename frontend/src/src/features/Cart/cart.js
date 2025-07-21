@@ -1,24 +1,23 @@
 import React, {useState, useEffect} from 'react';
 import {Link, useNavigate, useLocation} from 'react-router-dom';
-import { IconButton } from '@mui/material';
-import { Button } from '@mui/material';
-import { useSelector, useDispatch } from '@reduxjs/toolkit';
+import  IconButton  from '@mui/material/IconButton';
+import  Button  from '@mui/material/Button';
+import { useSelector, useDispatch } from 'react-redux';
 import { useStripe, useElements, CardNumberElement, CardExpiryElement } from '@stripe/react-stripe-js';
-import { selectCartId, selectCartLoading, loadCart, checkout, selectCheckoutSuccess, selectCheckoutError, selectLoadingCart, selectLoadCartError, selectCheckingOut,
+import { selectCartId, selectCart, selectloadCart, selectCheckoutSuccess, selectLoadCartError, selectCheckoutPending,
          clearCartStatusUpdates, selectCheckoutError} from '../../store/Cart/cartSlice.js';
 import { selectUserId, selectUser } from '../../store/User/userSlice.js';
 import Loader from '../../components/Loader/loader.js';
-import Button from '@mui/material';
-import Product from '../Product/product.js';
+import Product from '../../components/Product/product.js';
 
 
 
-export const Cart = () = {
-  const cart = useSelector(loadCart);
+export const Cart = () => {
+  const cart = useSelector(selectCart);
   const cartId = useSelector(selectCartId);
-  const cartLoading = useSelector(selectCartLoading);
+  const cartLoading = useSelector(selectLoadCart);
   const loadCartError = useSelector(selectLoadCartError);
-  const checkingOut = useSelector(selectCheckingOut);
+  const checkoutPending = useSelector(selectCheckingPending);
   const checkout = useSelector(checkout);
   const checkoutError = useSelector(selectCheckoutError);
   const user = useSelector(selectUser);
@@ -109,7 +108,7 @@ export const Cart = () = {
     )
   } else  {
     return (
-      <Link to "/cart/checkout"><Button name = "Go to checkout" size="large" onClick{() => setInCheckout(true)}><Link/>
+       <Link to="/cart/checkout"><Button name="Go to checkout" size="large" onClick={() => setInCheckout(true)}/></Link>
     )
   }
 
@@ -154,24 +153,24 @@ export const Cart = () = {
     return (
       <div className="cart__order__container">
        <p className="cartSuccess"> Your order has been placed! </p>
-      <div />
-    );
+      </div>
+    )
   }
 
-  return (
-    <div className="Cart"/>
-     <div className="cart__address"/>
-    {inCheckout && <form className="Cart__form" method="post" action=""
-      <h2 className="cart__address__container">
-      <TextInput name="Full Name" value={shipToName} onChange={handleChange}/>
-      <TextInput name= "Email" value={email} type="email" onChange={handleChange}/>
-      <TextInput name= "City" value={shipToCity} onChange={handleChange}/>
-      <TextInput name= "Street" value={shipToStreet} onChange={handleChange}/>
-      <TextInput name= "State" value={shipToState} onChange={handleChange}/>
-      <TextInput name= "Zip" value={shipToZip} onChange={handleChange}>
-    <div/>
-    <div className="Cart__payment">
-                    <h2 className="Cart__payment__container">Payment Information</h2>
+ return (
+      <section className="Cart">
+            {inCheckout && <form className="Cart__form" method="post" action="">
+                <div className="Cart__address">
+                    <h2 className="Cart__address__heading">Ship To Address</h2>
+                    <TextInput name="Full Name" value={shipToName} onChange={handleChange}/>
+                    <TextInput name="Street Address" value={shipToStreet} onChange={handleChange}/>
+                    <TextInput name="City" value={shipToCity} onChange={handleChange}/>
+                    <TextInput name="State" value={shipToState} onChange={handleChange}/>
+                    <TextInput name="Zip Code" value={shipToZip} onChange={handleChange}/>
+                    <TextInput name="Email" value={email} type="email" onChange={handleChange}/>
+                </div>
+                <div className="Cart__payment">
+                    <h2 className="Cart__payment__heading">Payment Information</h2>
                     <CardNumberElement className="Cart__input" id="cardNumStripe" name="cardNumStripe" required/>
                     <TextInput name="Verify Card Number" value={cardNum} placeholder="Re-enter your card number" onChange={handleChange}/>
                     <TextInput name="Card Type" value={payMethod}/>
@@ -188,12 +187,12 @@ export const Cart = () = {
                     {inCheckout ?
                     <div className="Cart__info__details">
                         <div className="Cart__info__pay__details">
-                            <p className="Cart__shipping">Shipping: $5.99</p>
-                            <p className="Cart__tax">{`Tax: $${(cart.subtotal * 0.0725).toFixed(2)}`}</p>
+                            <p className="Cart__shipping">Shipping: $9.99</p>
+                            <p className="Cart__tax">{`Tax: $${(cart.subtotal * 0.0825).toFixed(2)}`}</p>
                             <p className="Cart__subtotal">{`Subtotal: $${cart.subtotal.toFixed(2)}`}</p>
                         </div>
-                        <p className="Cart__total">{`Total: $${(cart.subtotal + (cart.subtotal * 0.0725) + 5.99).toFixed(2)}`}</p>
-                     </div> :
+                        <p className="Cart__total">{`Total: $${(cart.subtotal + (cart.subtotal * 0.0825) + 9.99).toFixed(2)}`}</p>
+                    </div> :
                     <p className="Cart__subtotal">{`Subtotal: $${cart.subtotal.toFixed(2)}`}</p>}
                     {button}
                 </div>
@@ -202,7 +201,6 @@ export const Cart = () = {
                 <h2 className="Cart__items__heading">Items in Cart</h2>
                 Your cart is empty.
             </section>}
-        </div>
-    </div>
-  )
-}
+      </section>
+    );
+  }
