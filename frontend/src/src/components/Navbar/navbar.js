@@ -6,7 +6,7 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import ReceiptIcon from '@mui/icons-material/Receipt';
 import AvatarCircle from '@mui/material/Avatar';
 import TextInput from '@mui/material/TextField';
-import Inventory2 from '@mui/icons-material/Inventory2';
+import Inventory2Icon from '@mui/icons-material/Inventory2';
 import { selectSearchTerm, selectFilteredProducts } from '../../store/Product/productSlice.js';
 import { HomeOutlined } from '@mui/icons-material';
 
