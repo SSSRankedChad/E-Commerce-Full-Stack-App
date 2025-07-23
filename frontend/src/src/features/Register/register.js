@@ -1,0 +1,98 @@
+import React, {useState, useEffect} from 'react';
+import Button from '@mui/material/Button';
+import TextInput from '@mui/material/TextField';
+import Alert from '@mui/material/Alert';
+import Loader from '../../components/Loader/loader.js';
+import {selectRegisteringUser, selectRegisterUserSuccess, selectRegisterUserError, registerUser, clearUserStatusUpdates } from '../../store/User/userSlice.js';
+import { useSelector, useDispatch } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+
+const Register = () => {
+  const [firstname, setFirstname] = useState('');
+  const [lastname, setLastname] = useState('');
+  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const registerUserError = useSelector(selectRegisterUserError);
+  const registerUserSuccess = useSelector(selectRegisterUserSuccess);
+  const registeringUser = useSelector(selectRegisteringUser);
+  const dispatch = useDispatch();
+  let navigate = useNavigate();
+
+
+  const handleChange = ({target}) => {
+    if(target.name === 'firstname') {
+      setFirstname(target.value);
+    }
+    else if (target.name === 'lastname') {
+      setLastname(target.value);
+    }
+    else if (target.name === 'email') {
+      setEmail(target.value);
+    }
+    else if (target.name === 'username') {
+      setUsername(target.value);
+    }
+    else if (target.name === 'password') {
+      setPassword(target.value);
+    }
+  };
+
+  const handleClick = (e) => {
+    e.preventDefault();
+    if(e.target.id === 'registerbutton') {
+      dispatch(registerUser( {firstname, lastname, email, username, password} ));
+    }
+  };
+
+
+  useEffect(() => {
+    dispatch(clearUserStatusUpdates())
+  }, [dispatch]);
+
+
+  useEffect(() => {
+    if(registerUserSuccess) {
+      setFirstname('');
+      setLastname('');
+      setEmail('');
+      setUsername('');
+      setPassword('');
+      navigate('/');
+      dispatch(clearUserStatusUpdates());
+    }
+  }, [dispatch, navigate, registerUserSuccess]);
+
+
+  if(registeringUser) {
+    return (
+      <div className="register__user__loader">
+       <Loader />
+      </div>
+    );
+  };
+
+
+
+  return (
+   <div className="register__user__container">
+    <form className="register__form" method="post" action="">
+     <h2 title="Register__user__title"> New User Registeration </h2>
+     <AccountCircleIcon />
+     {registerUserError && <Alert severity="error" msg={registerUserError} onClose={()=>dispatch(clearUserStatusUpdates())}/>}
+     <TextInput className="firstname" value={firstname} onChange={handleChange} />
+     <TextInput className="lastname" value={lastname} onChange={handleChange}/>
+     <TextInput className="email" value={email} onChange={handleChange}/>
+     <TextInput className="username" value={username} onChange={handleChange}/>
+     <TextInput className="password" value={password} onChange={handleChange}/>
+     <Button name="registerbutton" onClick={handleClick}/>
+     <Link to='/login'><p>Already registered? Login here!</p></Link>
+    </form>
+   </div>
+  );
+
+}
+
+export default Register;
+

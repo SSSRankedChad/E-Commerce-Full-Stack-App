@@ -3,7 +3,7 @@ import Moment from 'moment';
 import Button from '@mui/material/Button';
 import Alert from '@mui/material/Alert';
 import { Link} from 'react-router-dom';
-import { setOrderId, selectOrders, clearOrders, cancelOrder, clearOrderStatusUpdates } from '../../store/Orders/orderSlice.js';
+import { setOrderId, selectOrders, clearOrders, cancelOrder, clearOrderStatusUpdates} from '../../store/Orders/orderSlice.js';
 import { selectUserId } from '../../store/User/userSlice.js';
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -13,7 +13,7 @@ const Order = ( {order} ) => {
   const orderId = order.order_id;
   const date = Moment(order.date);
   const payMethod = order.pay_method[0].toUpperCase() + order.pay_method.slice(1);
-  const cancelOrder = useSelector(selectCancelOrderSuccess);
+  const cancelOrderSuccess = useSelector(selectCancelOrderSuccess);
   const cancelOrderError = useSelector(selectCancelOrderError);
   const userId = useSelector(selectUserId);
   const dispatch = useDispatch();

@@ -217,6 +217,7 @@ const userSlice = createSlice({
                                  export const selectUserLoading = state => state.user.loadingUser;
                                  export const selectUserLoadingError = state => state.user.loadingUserError;
                                  export const selectRegisterUserError = state => state.user.registerUserError;
+                                 export const selectRegisteringUser = state => state.registeringUser;
                                  export const selectRegisterUserSuccess = state => state.user.registerUserSuccess;
                                  export const selectUpdatingUser = state => state.user.updatingUser;
                                  export const selectUpdateUserError = state => state.user.updateUserError;

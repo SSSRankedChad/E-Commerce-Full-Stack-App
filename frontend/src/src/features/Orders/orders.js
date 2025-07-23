@@ -15,7 +15,7 @@ const Orders = () => {
   const orders = useSelector(selectOrders);
   const loadingOrders = useSelector(selectOrdersPending);
   const loadOrdersSuccess = useSelector(selectOrdersLoadSuccess);
-  const cancelOrder = useSelector(selectCheckoutSuccess);
+  const cancelOrderSuccess = useSelector(selectCancelOrderSuccess);
   const userId = useSelector(selectUserId);
   const cancelOrderError = useSelector(selectCancelingOrderError);
   const loginSuccess = useSelector(selectLoginSuccess);

@@ -43,6 +43,7 @@ export const updateOrder = createAsyncThunk('/orders/updateOrder', async({orderI
 const initialState = {
   order: {},
   orders: [],
+  orderId: null,
   orderPending: false,
   orderLoadError: false,
   orderLoadSuccess: false,

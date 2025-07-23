@@ -1,11 +1,14 @@
 import React, {useState, useEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
+import { Link } from 'react-router-dom';
 import IconButton from '@mui/material/IconButton';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import ReceiptIcon from '@mui/icons-material/Receipt';
-import Avatar from '@mui/material/Avatar';
+import AvatarCircle from '@mui/material/Avatar';
 import TextInput from '@mui/material/TextField';
+import Inventory2 from '@mui/icons-material/Inventory2';
 import { selectSearchTerm, selectFilteredProducts } from '../../store/Product/productSlice.js';
+import { HomeOutlined } from '@mui/icons-material';
 
 const Navbar = () => {
 
@@ -25,28 +28,34 @@ const Navbar = () => {
 
   return (
 
-    <div className='header'>
-      <div className='avatar'>
-        <Avatar> H </Avatar>
-      </div>
-      <div className='searchBar'>
-      <TextInput
-        value= {searchTerm}
-        onChange={handleChange}
-        onSubmit={handleSubmit}
-        />
-      </div>
+    <div className='navbar'>
       <div className='orderButton'>
-       <IconButton>
-         <ReceiptIcon aria-label='orders' />
-         <ReceiptIcon aria-label='orders' />
-       </IconButton>
+          <IconButton>
+            <ReceiptIcon aria-label='orders' />
+          </IconButton>
       </div>
       <div className='cartButton'>
         <IconButton>
          <ShoppingCartIcon aria-label='cart'/>
         </IconButton>
       </div>
+      <div className="productButton">
+        <IconButton>
+          <Inventory2Icon aria-label="product" />
+        </IconButton>
+      </div>
+      <div className="userButton">
+        <AvatarCircle />
+      </div>
+      <div className="homeButton">
+       <IconButton>
+         <HomeOutlined />
+       </IconButton>
+      </div>
+       <TextInput className="searchBar"
+        onChange={handleChange}
+        onSubmit={handleSubmit}
+        fullWidth/>
      </div>
   )
 }

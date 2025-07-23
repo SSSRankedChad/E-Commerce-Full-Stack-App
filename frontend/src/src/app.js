@@ -1,11 +1,11 @@
 import React, {useEffect} from 'react';
-import Navbar  from '../src/components/Navbar/navbar.js';
 import Orders  from '../src/features/Orders/orders.js';
 import Order  from '../src/features/ Order/order.js';
 import User  from '../src/features/User/user.js';
 import Product  from '../src/components/Product/product.js';
 import Login  from '../src/features/Login/login.js';
 import Home from '../src/features/Home/home.js';
+import Register from '../src/features/Register/register.js';
 import { stripeContainer } from '../src/components/stripe/stripe.js';
 import { Routes, Route} from 'react-router-dom';
 import {useSelector, useDispatch} from 'react-redux';
@@ -29,9 +29,7 @@ const App = () => {
 
 
   return (
-   <div className="App__container">
-     <Navbar/>
-     <div className="App__main__container">
+    <div className="App__main__container">
       <Routes>
        <Route path="login" element={<Login />} />
        <Route path="products" element={<Product />}/>
@@ -41,9 +39,9 @@ const App = () => {
        <Route path="/cart/checkout" element={<stripeContainer />}/>
        <Route path="/" element={<Home />}/>
        <Route path="*" element={<Home />}/>
+        <Route path='register' element={<Register />}/>
       </Routes>
-     </div>
-   </div>
+    </div>
   );
 
 
