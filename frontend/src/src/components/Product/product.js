@@ -8,14 +8,19 @@ import { selectUserId } from '../../store/User/userSlice';
 import { selectCartId, loadCart, updateCart } from '../../store/Cart/cartSlice';
 
 
-const Product = (product, display) => {
+const Product = ({product, display}) => {
+
+  if (!product || !display) {
+    return null;
+  }
+
   const [cartQuantity, setCartQuantity] = useState(product.cart_quantity);
   const [quantity, setQuantity] = useState(product.cart_quantity);
   const cartId = useSelector(selectCartId);
   const userId = useSelector(selectUserId);
-  const productId = product.product_id;
+  const productId = products.product_id;
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+  let navigate = useNavigate();
 
   const handleProductClick = () => {
     dispatch(setProductId(productId));
@@ -46,10 +51,14 @@ const Product = (product, display) => {
 
 
   useEffect(() => {
+  if(quantity !== cartQuantity) {
     dispatch(updateCart({ cartId, userId, cartQuantity, productId}));
     dispatch(loadCart( { cartId, userId } ));
     setQuantity(cartQuantity);
+    }
   }, [cartId, userId, productId, cartQuantity, quantity, dispatch]);
+
+
 
 
   if(display === 'inCart') {
@@ -138,7 +147,7 @@ else if(display === 'detail') {
                     <p className="Product__price">{product.sell_price}</p>
                     <Button name="Add to Cart" endIcon={<i className="fas fa-cart-plus fa-lg"></i>} onClick={handleCartClick}/>
                 </div>
-            </section>
+      </section>
   )
 }
 

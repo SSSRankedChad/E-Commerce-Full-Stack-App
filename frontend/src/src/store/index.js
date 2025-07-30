@@ -6,7 +6,7 @@ import orderReducer from './Orders/orderSlice.js';
 
 export const store = configureStore({
    reducer: {
-    products: productReducer,
+    product: productReducer,
     cart: cartReducer,
     user: userReducer,
     order: orderReducer

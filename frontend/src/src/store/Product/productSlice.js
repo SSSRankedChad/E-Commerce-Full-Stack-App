@@ -31,7 +31,7 @@ const initialState = {
   productsPending: false,
   productsLoadSuccess: false,
   productsLoadError: false,
-  searchTerm: false
+  searchTerm: null,
 };
 
 const productSlice = createSlice({
@@ -91,7 +91,7 @@ const productSlice = createSlice({
 
 export default productSlice.reducer;
 export const {setProductId, clearProduct, clearProdStatusUpdates} = productSlice.actions;
-export const selectSearchTerm = (state) => state.products.searchTerm;
+export const selectSearchTerm = (state) => state.product.searchTerm;
 
 export const selectProductId = state => state.product.productId;
 export const selectProduct = state => state.product.product;
@@ -109,5 +109,5 @@ export const selectFilteredProducts = state => {
   if(searchTerm) {
     products = products.filter(product => product.name.toLowerCase().includes(searchTerm.toLowerCase()));
   }
-  return products;
+  return product;
 };

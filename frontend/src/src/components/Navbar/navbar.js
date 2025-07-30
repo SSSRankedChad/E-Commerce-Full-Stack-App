@@ -21,6 +21,7 @@ const Navbar = () => {
   }
 
   const handleSubmit = (e) => {
+    e.preventDefault();
     if(searchTermLocal === searchTerm) {
       dispatch(selectFilteredProducts());
     }
@@ -53,9 +54,10 @@ const Navbar = () => {
        </IconButton>
       </div>
        <TextInput className="searchBar"
+        value={searchTermLocal}
         onChange={handleChange}
         onSubmit={handleSubmit}
-        fullWidth/>
+        />
      </div>
   )
 }
