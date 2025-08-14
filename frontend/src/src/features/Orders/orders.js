@@ -75,7 +75,7 @@ const Orders = () => {
       <span className="Orders__label"> Sort: </span>
       <select className="Orders__select__container" name="sort" value={sort} onChange={handleChange}>
       {sortOptions.map((sortOpt,i) => <option key={`${sortOpt}__${i}`} value={sortOpt}>{sortOpt}</option>)}
-     </select>
+      </select>
      <ul className="Orders__list">
      {loadOrdersError && <Alert severity="error" msg={loadOrdersError} onClose={() => dispatch(clearOrderStatusUpdates())}/>}
      {orders.map((order) => <li key={order.order_id}> <Order order={order}/></li>)}

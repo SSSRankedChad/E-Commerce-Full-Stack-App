@@ -1,0 +1,16 @@
+.navbar {
+  display: flex;
+  flex-direction: row;
+  position: fixed;
+  background: rgb(210, 210, 210, 0.7);
+  border-radius: 0.55rem;
+  width: 100%;
+}
+
+.orderButton, .cartButtton, .productButton, .userButtton, .homeButton {
+  margin-right: 10px;
+}
+
+.searchBar {
+  width: 70%;
+}

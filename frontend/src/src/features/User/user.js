@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Avatar from '@mui/material/Avatar';
+import AvatarCircle from '@mui/material/Avatar';
 import TextInput from '@mui/material/TextField';
 import Loader from '../../components/Loader/loader.js';
 import Alert from '@mui/material/Alert';
@@ -131,7 +131,7 @@ const User = () => {
       {loginSuccess && <Alert severity="error" msg={loadUserError} onClose={(() => dispatch(clearUserStatusUpdates()))}/>}
       {updateUserSuccess && <Alert severity="error" msg={updateUserError} onClose={(() => dispatch(clearUserStatusUpdates()))}/>}
       <h3 className="profile_title">{`Welcome, ${user.first_name}!`}</h3>
-       <Avatar> D </Avatar>
+       <AvatarCircle />
        <TextInput name="username" value={username} onChange={handleChange}/>
        <TextInput name="firstname" value={first_name} onChange={handleChange}/>
        <TextInput name="lastname" value={last_name} onChange={handleChange}/>

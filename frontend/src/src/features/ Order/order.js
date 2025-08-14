@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import Moment from 'moment';
 import Button from '@mui/material/Button';
 import Alert from '@mui/material/Alert';
-import { Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { setOrderId, selectOrders, clearOrders, cancelOrder, clearOrderStatusUpdates} from '../../store/Orders/orderSlice.js';
 import { selectUserId } from '../../store/User/userSlice.js';
 import { useSelector, useDispatch } from 'react-redux';
@@ -59,14 +59,14 @@ const Order = ( {order} ) => {
                     <span className="Order__state">{order.shipto_state} </span>
                     <span className="Order__zipcode">{order.shipto_zipcode}</span>
                     <p className="Order__email">{order.email}</p>
-                </div>
-                <div className="Order__payment">
+       </div>
+      <div className="Order__payment">
                     <h3 className="Order__total">Order Total: {order.total}</h3>
                     <p className="Order__payMethod">Payment Method: {payMethod}</p>
                     <p className="Order__cardNum">Card Number: *{order.card_num}</p>
-                </div>
-            </div>
-      </section>
+       </div>
+      </div>
+    </section>
     );
 }
 

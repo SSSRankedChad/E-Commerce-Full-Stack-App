@@ -6,6 +6,8 @@ import Button from '@mui/material/Button';
 import { setProductId } from '../../store/Product/productSlice';
 import { selectUserId } from '../../store/User/userSlice';
 import { selectCartId, loadCart, updateCart } from '../../store/Cart/cartSlice';
+import { AddCircle } from '@mui/icons-material';
+import { RemoveCircle } from '@mui/icons-material';
 
 
 const Product = ({product, display}) => {
@@ -113,7 +115,7 @@ else if(display === 'detail') {
                             <p className="Product__details__label">PRICE</p>
                             <p className="Product__details__price">{product.sell_price}</p>
                         </div>
-                        <Button name="Add to Cart" endIcon={<i className="fas fa-cart-plus fa-lg"></i>} onClick={handleCartClick}/>
+                        <Button name="Add to Cart" onClick={handleCartClick}/>
                     </div>
                 </div>
                 <div className="Product__details__container">
@@ -145,7 +147,7 @@ else if(display === 'detail') {
                         <h2 id={product.product_id} className="Product__name" onClick={handleProductClick}>{product.name}</h2>
                     </Link>
                     <p className="Product__price">{product.sell_price}</p>
-                    <Button name="Add to Cart" endIcon={<i className="fas fa-cart-plus fa-lg"></i>} onClick={handleCartClick}/>
+                    <Button name="Add to Cart" onClick={handleCartClick}/>
                 </div>
       </section>
   )

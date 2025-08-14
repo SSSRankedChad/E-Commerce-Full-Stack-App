@@ -1,4 +1,5 @@
 import React, {useEffect} from 'react';
+import Navbar from '../src/components/Navbar/navbar.js';
 import Orders  from '../src/features/Orders/orders.js';
 import Order  from '../src/features/ Order/order.js';
 import User  from '../src/features/User/user.js';
@@ -30,6 +31,7 @@ const App = () => {
 
   return (
     <div className="App__main__container">
+      <Navbar />
       <Routes>
        <Route path="login" element={<Login />} />
        <Route path="products" element={<Product />}/>
@@ -39,7 +41,7 @@ const App = () => {
        <Route path="/cart/checkout" element={<stripeContainer />}/>
        <Route path="/" element={<Home />}/>
        <Route path="*" element={<Home />}/>
-        <Route path='register' element={<Register />}/>
+       <Route path='register' element={<Register />}/>
       </Routes>
     </div>
   );
