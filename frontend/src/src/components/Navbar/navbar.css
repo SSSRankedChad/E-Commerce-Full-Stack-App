@@ -5,6 +5,7 @@
   background: rgb(210, 210, 210, 0.7);
   border-radius: 0.55rem;
   width: 100%;
+  z-index: 100;
 }
 
 .orderButton, .cartButtton, .productButton, .userButtton, .homeButton {
