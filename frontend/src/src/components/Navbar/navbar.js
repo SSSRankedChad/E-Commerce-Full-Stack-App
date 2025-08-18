@@ -32,26 +32,36 @@ const Navbar = () => {
 
     <div className='navbar'>
       <div className="userButton">
+       <Link to="/login">
         <AvatarCircle alt="Go to account"/>
+       </Link>
       </div>
       <div className="homeButton">
        <IconButton>
+        <Link to="/home">
          <HomeOutlined alt="Back to home"/>
+        </Link>
        </IconButton>
       </div>
       <div className="productButton">
         <IconButton>
+         <Link to="/products">
           <Inventory2Icon aria-label="product" alt="View products"/>
+         </Link>
         </IconButton>
       </div>
       <div className='cartButton'>
         <IconButton>
+        <Link to="/cart">
          <ShoppingCartIcon aria-label='cart' alt="View current cart"/>
+        </Link>
         </IconButton>
       </div>
       <div className='orderButton'>
           <IconButton>
+           <Link to="/orders">
             <ReceiptIcon aria-label='orders' alt="View past orders" />
+           </Link>
           </IconButton>
       </div>
       <TextField className="searchBar"

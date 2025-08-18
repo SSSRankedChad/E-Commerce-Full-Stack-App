@@ -24,8 +24,8 @@ const Login = () => {
     if(target.name === 'username') {
       setUsername(target.value);
     }
-    else if (target.password === 'password') {
-      setPassword('target.value');
+    else if (target.name === 'password') {
+      setPassword(target.value);
     }
   };
 
@@ -46,7 +46,7 @@ const Login = () => {
   };
 
   useEffect(() => {
-    dispatch(clearUserStatusUpdates())
+    dispatch((clearUserStatusUpdates()))
   }, [dispatch]);
 
   useEffect(() => {
@@ -70,9 +70,9 @@ const Login = () => {
       <h3 className="login__form__title"> Login </h3>
        <AccountCircleIcon />
       {loginError && <Alert msg={loginError} onClose={() => dispatch(clearStatusUserUpdates())}/>}
-      <TextInput name="Username" value={username} onChange={handleChange}/>
-      <TextInput name="Password" value={password} onChange={handleChange}/>
-      <Button name="Login" fullWidth onClick={handleClick}/>
+      <p> Enter Username: </p><TextInput name="Username" name="username" value={username} onChange={handleChange}/>
+      <p> Enter Password: </p><TextInput name="Password" name="password" type="password" value={password} onChange={handleChange}/>
+      <Button name="login-button" fullWidth onClick={handleClick}> Login </Button>
       <Link to='/register'><p className="Login__registerLink"> New User? Please Register! </p></Link>
      </form>
     </div>

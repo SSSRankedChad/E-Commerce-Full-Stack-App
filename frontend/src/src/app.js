@@ -31,7 +31,6 @@ const App = () => {
 
   return (
     <div className="App__main__container">
-      <Navbar />
       <Routes>
        <Route path="login" element={<Login />} />
        <Route path="products" element={<Product />}/>

@@ -28,6 +28,10 @@ const Header = () => {
       items={images}
       startIndex={0}
       autoPlay
+      showArrows={false}
+      showIndicators={false}
+      showStatus={false}
+      infiniteLoop={true}
       currentIndex={(currentIndex) => console.log(currentIndex)} />
     </div>
   </>
