@@ -1,8 +1,9 @@
 import React, {useEffect, useState} from 'react';
+import "./orders.css";
 import Alert from '@mui/material/Alert';
 import Navbar from '../../components/Navbar/navbar.js';
-import Loader from '../../components/Loader/loader.js';
 import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router';
 import { clearOrders, loadOrders, selectOrdersPending, selectCancelOrderSuccess, clearOrderStatusUpdates, selectOrders, selectOrdersLoadSuccess, selectCancelingOrderError} from '../../store/Orders/orderSlice.js';
 import { selectUserId, selectLoginSuccess, selectLogoutSuccess } from '../../store/User/userSlice.js';
 import { selectCheckoutSuccess } from '../../store/Cart/cartSlice.js';
@@ -21,6 +22,7 @@ const Orders = () => {
   const loginSuccess = useSelector(selectLoginSuccess);
   const logoutSuccess = useSelector(selectLogoutSuccess);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const checkoutSuccess = useSelector(selectCheckoutSuccess);
 
 
@@ -62,8 +64,11 @@ const Orders = () => {
   if(!orders.length) {
     return (
       <div className="order__history__container">
-        <h2 classname="order_history"> No order history! </h2>
-        <p classNmae="order__history__message"> Please make an order! </p>
+        <h1 className="order_history"> No order history! </h1>
+        <p className="order__history__message"> Redirecting....</p>
+        {setTimeout(() => {
+          navigate("/")
+        }, 3000)}
       </div>
     );
   }

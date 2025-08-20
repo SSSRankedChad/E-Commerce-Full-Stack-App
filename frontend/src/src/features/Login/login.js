@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+import "./login.css";
 import Loader from '../../components/Loader/loader.js';
 import Button from '@mui/material/Button';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
@@ -68,13 +69,12 @@ const Login = () => {
     <div className="login__container">
      <form className="login__form" method="post" action="">
       <h3 className="login__form__title"> Login </h3>
-       <AccountCircleIcon />
       {loginError && <Alert msg={loginError} onClose={() => dispatch(clearStatusUserUpdates())}/>}
+      <Link to='/register'><p className="Login__registerLink"> New User? Please Register! </p></Link>
       <p> Enter Username: </p><TextInput name="Username" name="username" value={username} onChange={handleChange}/>
       <p> Enter Password: </p><TextInput name="Password" name="password" type="password" value={password} onChange={handleChange}/>
-      <Button name="login-button" fullWidth onClick={handleClick}> Login </Button>
-      <Link to='/register'><p className="Login__registerLink"> New User? Please Register! </p></Link>
      </form>
+     <Button name="login-button" fullWidth onClick={handleClick}> Login </Button>
     </div>
   );
 

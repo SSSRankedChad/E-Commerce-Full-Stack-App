@@ -11,6 +11,7 @@ import { stripeContainer } from '../src/components/stripe/stripe.js';
 import { Routes, Route} from 'react-router-dom';
 import {useSelector, useDispatch} from 'react-redux';
 import {session, selectUserId, clearUserStatusUpdates, selectSessionSuccess } from '../src/store/User/userSlice.js';
+import Loader from './components/Loader/loader.js';
 
 
 

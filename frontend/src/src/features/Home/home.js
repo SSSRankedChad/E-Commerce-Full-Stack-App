@@ -9,7 +9,6 @@ const Home = () => {
     <section className="home__container">
       <Navbar />
       <Header />
-      <Product />
     </section>
   );
 }
