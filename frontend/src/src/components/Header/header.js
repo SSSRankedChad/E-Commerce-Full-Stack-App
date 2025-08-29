@@ -31,8 +31,7 @@ const Header = () => {
       showArrows={false}
       showIndicators={false}
       showStatus={false}
-      infiniteLoop={true}
-      currentIndex={(currentIndex) => console.log(currentIndex)} />
+      infiniteLoop={true} />
     </div>
   </>
   )
