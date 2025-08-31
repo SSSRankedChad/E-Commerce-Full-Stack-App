@@ -1,6 +1,6 @@
 import React from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { AutoPlay, EffectFade } from 'swiper/modules';
+import { Autoplay, EffectFade } from 'swiper/modules';
 import './swiper.css'
 
 import img1 from '../../public/resources/black-bag-over-the-shoulder.jpg';
