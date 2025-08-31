@@ -1,0 +1,19 @@
+{
+  "files": {
+    "main.css": "/static/css/main.5f445c00.css",
+    "main.js": "/static/js/main.35069039.js",
+    "static/media/axios.cjs": "/static/media/axios.bd91d4005236f3ccd56e.cjs",
+    "static/media/black-bag-over-the-shoulder.jpg": "/static/media/black-bag-over-the-shoulder.524ed3014738c48ed685.jpg",
+    "static/media/DIY-beard-balm.jpg": "/static/media/DIY-beard-balm.c7adb2a3a66beaa91a43.jpg",
+    "static/media/blue-t-shirt.jpg": "/static/media/blue-t-shirt.e4c8740c50c587baa07f.jpg",
+    "static/media/gold-zipper-on-black-fashion-backpack.jpg": "/static/media/gold-zipper-on-black-fashion-backpack.c99cdc4cd72f38b37a4a.jpg",
+    "static/media/stacked-bracelets.jpg": "/static/media/stacked-bracelets.706ee2ad43a62b97b447.jpg",
+    "index.html": "/index.html",
+    "main.5f445c00.css.map": "/static/css/main.5f445c00.css.map",
+    "main.35069039.js.map": "/static/js/main.35069039.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.5f445c00.css",
+    "static/js/main.35069039.js"
+  ]
+}
