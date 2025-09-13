@@ -36,8 +36,8 @@ module.exports = class userModel {
      
      const results = db.query(statement);
     
-       if(results.rows?.length) {
-	return results.rows[0];
+     if(results.rows?.length) {
+	      return results.rows[0];
      }
      return null; 
    } catch(err) {
