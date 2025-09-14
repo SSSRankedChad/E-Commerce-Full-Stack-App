@@ -19,7 +19,7 @@ module.exports = class userModel {
 
   async findUserById(id) {
    try {
-     const statement = `SELECT FROM user where ID = $1`;
+     const statement = `SELECT FROM user where id = $1`;
      const results = db.query(statement);
      if(results.rows?.length) {
        return results.rows[0];
@@ -43,4 +43,16 @@ module.exports = class userModel {
    } catch(err) {
      throw new Error(err);
    }
+ 
+ async findUserByEmail(id) {
+    try {
+      const statement = `SELECT email FROM user WHERE email = $1`;
+      const results = db.query(statement);
+      if(results.rows?.length) {
+        return results.rows[0];
+      }
+      return null;
+    } catch(err) {
+	throw new Error(err);
+    }
 }
