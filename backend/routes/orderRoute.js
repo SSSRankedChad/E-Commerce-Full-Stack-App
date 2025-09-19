@@ -16,6 +16,7 @@ module.exports = (app) => {
 	res.status(200).send(response);
      } catch(err) {
 	throw new Error(err);
+     }
    
   });
 	
@@ -26,6 +27,7 @@ module.exports = (app) => {
 	 res.status(200).send(response);
 	} catch(err) {
 	 throw new Error(err);
+	}
   });
 
  router.get('/orders/:userId', async(req, res, next, err) => {
@@ -35,6 +37,7 @@ module.exports = (app) => {
 	  res.status(200).send(response);
 	} catch(err) {
 	  throw new Error(err);
+	}
  }); 
 
  router.put('/orders/:orderId', async(req, res, next, err) => {
@@ -46,7 +49,7 @@ module.exports = (app) => {
     } catch(err) {
        throw new Error(err);
     }
- });
+  });
 
 }
 

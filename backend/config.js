@@ -1,10 +1,10 @@
 const dotenv = require('dotenv');
 
-dotenv.config():
+dotenv.config();
 
 
-module.exports => {
-  PORT: process.env.PORT,
+module.exports = {
+  PORT: process.env.PORT || 4000,
   DB: {
    PGHOST: process.env.PGHOST,
    PGUSER: process.env.PGUSER,

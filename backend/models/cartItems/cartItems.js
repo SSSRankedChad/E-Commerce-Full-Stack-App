@@ -1,5 +1,5 @@
 const pgp = require('pg-promise')({capSQL: true});
-const db = require('../db');
+const db = require('../../db');
 
 
 module.exports = class CartItemModel {
@@ -15,6 +15,7 @@ module.exports = class CartItemModel {
      } catch(err) {
       throw new Error(err);
      }
+  }
 	
  async update(data) {
     try {
@@ -28,6 +29,7 @@ module.exports = class CartItemModel {
     } catch(err) {
        throw new Error(err);
     }
+ }
 
  async findItemById(id) {
     try {
@@ -46,6 +48,7 @@ module.exports = class CartItemModel {
     } catch(err) {
       throw new Error(err);
    }
+ }
 
  async deleteItem(id) {
     try {
@@ -60,6 +63,8 @@ module.exports = class CartItemModel {
     } catch(err) {
      throw new Error(err);
     }
+   }
+
  } 
     
 

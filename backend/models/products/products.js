@@ -1,12 +1,12 @@
 const pgp = require('pg-promise')({capSQL: true});
-const db = require('../db'); 
+const db = require('../../db'); 
 
 
 module.exports = class ProductModel {
   
 async findProducts(product = {}) {
  try {
-  const statement = 'SELECT * FROM product`;
+  const statement = `SELECT * FROM product`;
   const values = [product];
   const results = db.query(statement, values);
   
@@ -29,10 +29,13 @@ async findProductById(id) {
   if(results.rows?.length) {
     return results.rows[0];
   }
-  return null;
- } catch(err) {
+   return null;
+  } catch(err) {
    throw new Error(err);
- };
+  };
+ }
+
+}
 
 
 	

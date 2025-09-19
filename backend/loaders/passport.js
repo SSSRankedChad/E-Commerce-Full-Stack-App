@@ -11,25 +11,28 @@ module.exports = (app) => {
 
  passport.serializeUser((user, done) => {
    done(null, user.id)
- );
+ });
  
  passport.deserializeUser((id, done) => {
    done(null, {id})
-);
+ });
 
 
-passport.use(LocalStrategy( 
+passport.use(new LocalStrategy( 
  async(username, password, email) => {
   try {
    const user = AuthServiceInstance.login({email: username, password}); 
-   return done(null, err);
+   return done(null, user);
   } catch(err) {
     return done(err);
+  }
 }
+));
 
 
 return passport;
 
+}
 
 
    

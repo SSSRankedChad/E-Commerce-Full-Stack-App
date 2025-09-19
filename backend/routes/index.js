@@ -1,4 +1,5 @@
 const express = require('express');
+const passport = require('passport');
 const router = express.Router();
 const userRouter = require('./userRoute.js');
 const productRouter = require('./productRoute.js');
@@ -9,9 +10,9 @@ const authRouter = require('./AuthRoute.js');
 
 
 module.exports = (app) => {
-  app.use(userRouter(app))
-  app.use(productRouter(app))
-  app.use(orderRouter(app)); 
-  app.use(cartRouter(app));
-  app.use(authRouter(app));
+  userRouter(app);
+  productRouter(app);
+  orderRouter(app);
+  cartRouter(app);
+  authRouter(app, passport);
 }

@@ -1,4 +1,4 @@
-const db = require('../db');
+const db = require('../../db');
 const pgp = require('pg-promise')({capSQL: true});
 const moment = require('moment');
 
@@ -34,14 +34,15 @@ async findOrderById(orderId) {
 		      p.* FROM orderItems oi
 		      INNER JOIN products p on p.id = oi."productId"
 		      WHERE orderId = $1 `
-  const values = [orderId];
-  const results = db.query(statement, values);
-  if(results.rows?.length) {
+   const values = [orderId];
+   const results = db.query(statement, values);
+   if(results.rows?.length) {
     return results.rows[0];
-  }
-  return null;
-
-  } catch(err) {
+   }
+   return null;
+   } catch(err) {
    throw new Error(err);
+  }
  }
+
 }

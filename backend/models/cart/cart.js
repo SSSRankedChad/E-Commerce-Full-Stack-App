@@ -1,7 +1,7 @@
 const pgp = require('pg-promise')({capSQL: true});
-const db = require('../db');
+const db = require('../../db');
 const moment = require('moment');
-const cartItem = require('../cartItem/cartItem.js');
+const cartItem = require('../cartItems/cartItems.js');
 
 
 module.exports = class CartModel {
@@ -14,7 +14,7 @@ module.exports = class CartModel {
 
   async create(userId) {
    try {
-     const {userId, ...this} = data;
+     const data = { userId, ...this };
      const statement = pgp.helpers.insert(data, null, 'cart') + 'RETURNING *';
      const results = db.query(statement);
 

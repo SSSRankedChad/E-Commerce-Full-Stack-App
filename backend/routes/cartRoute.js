@@ -62,5 +62,7 @@ module.exports = (app) => {
 	} catch(err) {
 	  throw new Error(err);
 	}
-});
+ });
+
+}
 

@@ -79,7 +79,7 @@ try {
      host: DB.PGHOST,
      database: DB.PGDATABASE,
      port: DB.PGPORT,
-   )};
+  });
 
    await db.connect();
 
@@ -90,11 +90,10 @@ try {
    await db.query(cartTableStmt);
    await db.query(cartItemsTableStmt);
    
-   await db.end():
+   await db.end();
 
 } catch(err) {
   console.log("Error creating one or more tables: ", err);
  }
-
 });
   

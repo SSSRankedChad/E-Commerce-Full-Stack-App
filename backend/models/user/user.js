@@ -1,4 +1,4 @@
-const db = require('../db);
+const db = require('../../db');
 const pgp = require('pg-promise')({capSQL: true });
 
 
@@ -28,6 +28,7 @@ module.exports = class userModel {
    } catch(err) {
      throw new Error(err);
    }
+ }
 
   async updateUser(data, id) {
    try {
@@ -43,6 +44,7 @@ module.exports = class userModel {
    } catch(err) {
      throw new Error(err);
    }
+ }
  
  async findUserByEmail(id) {
     try {
@@ -55,4 +57,5 @@ module.exports = class userModel {
     } catch(err) {
 	throw new Error(err);
     }
+  }
 }

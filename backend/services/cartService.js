@@ -1,7 +1,7 @@
 const createError = require('http-errors');
 const cartModel = require('../models/cart/cart.js');
 const cartModelInstance = new cartModel();
-const cartItemModel = require('../models/cartItem/cartItem.js');
+const cartItemModel = require('../models/cartItems/cartItems.js');
 const cartItemModelInstance = new cartItemModel();
 const orderModel = require('../models/orders/orders.js');
 const orderModelInstance = new orderModel();
@@ -31,10 +31,10 @@ module.exports = class cartService {
     } catch(err) {
 	throw err;
     }
+ }
 
 async deleteCartItem(cartItemId) {
  try {
-
   const cartItem = await cartItemModelInstance.deleteCartId(cartItemId);
   return cartItem;
  } catch(err) {
@@ -49,6 +49,7 @@ async updateItem(cartItemId, data) {
    } catch(err) {
     throw err;
    }
+ }
 
 
 async checkout(cartItem, data, payment) {
@@ -70,7 +71,7 @@ async checkout(cartItem, data, payment) {
 
   const charge = await stripe.charges.create({
 	  amount: total,
-	  currency: 'usd'
+	  currency: 'usd',
 	  source: payment.id,
 	  description: "E_Commerce_App"
   }); 
