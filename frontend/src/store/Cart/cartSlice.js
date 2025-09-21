@@ -3,7 +3,7 @@ const axios = require('axios');
 
 export const loadCart = createAsyncThunk('/cart/loadCart', async({userId, cartId}, {reject}) => {
   try {
-    const response = await axios.get('/user/{userId}/cart/{cartId}');
+    const response = await axios.get('/cart/{cartId}');
     return response.data;
   } catch(err) {
     return reject(err.response.data);
@@ -12,7 +12,7 @@ export const loadCart = createAsyncThunk('/cart/loadCart', async({userId, cartId
 
 export const updateCart = createAsyncThunk('/cart/updateCart', async({userId, cartId}, {reject}) => {
   try {
-    const response = await axios.put('/user/{userId}/cart/{cartId}');
+    const response = await axios.put('/cart/{cartId}');
     return response.data;
   } catch(err) {
     return reject(err.response.data);
@@ -21,7 +21,7 @@ export const updateCart = createAsyncThunk('/cart/updateCart', async({userId, ca
 
 export const checkout = createAsyncThunk('/cart/checkout', async({userId, cartId, cartQuantity, productId}, {reject}) => {
   try {
-    const response = await axios.post('/user/{userId}/cart/{cartId}', {cartQuantity, productId});
+    const response = await axios.post('/cart/{cartId}', {cartQuantity, productId});
     return response.data;
   } catch(err) {
     return reject(err.response.data);
