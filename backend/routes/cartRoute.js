@@ -10,7 +10,7 @@ module.exports = (app) => {
   app.use('/cart', router);
 
 
-  router.post('/cart', async(req, res, next, err) => {
+  router.post('/cart', async(err, req, res, next) => {
      try {
        const data = req.body;
        const response = await cartServiceInstance.create(data);
@@ -20,7 +20,7 @@ module.exports = (app) => {
     }
    });
 
-  router.post('/cart', async(req, res, next, err) => {
+  router.post('/cart', async(err, req, res, next) => {
 	try {
 	  const data = req.body;
 	  const response = await cartServiceInstance.checkout(data);
@@ -31,7 +31,7 @@ module.exports = (app) => {
   });
 
 
- router.put('/cart/:cartItemId', async(req, res, next, err) => {
+ router.put('/cart/:cartItemId', async(err, req, res, next) => {
 	try {
 	  const { cartItemId } = req.params;
 	  const data = req.body;
@@ -53,7 +53,7 @@ module.exports = (app) => {
 	}
  });
 
- router.delete('/cart/:cartItemId', async(req, res, next, err) => {
+ router.delete('/cart/:cartItemId', async(err, req, res, next) => {
 	try {
 	  const { cartItemId } = req.params;
 	  const data = req.body;
