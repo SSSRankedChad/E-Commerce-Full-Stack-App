@@ -11,9 +11,9 @@ module.exports = async(app) => {
  await routeLoader(app, passport);
 
  
- app.use((req, res, next, err) => {
+ app.use((err, req, res, next) => {
   const {message, status} = err;
-  return res.status(status).send( {message });
+  return res.status(status || 500).send( {message });
  });
 
 }
