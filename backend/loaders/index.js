@@ -1,4 +1,3 @@
-const express = require('express');
 const passportLoader = require('./passport.js');
 const expressLoader = require('./express.js');
 const routeLoader = require('../routes');
@@ -14,7 +13,7 @@ module.exports = async(app) => {
  
  app.use((req, res, next, err) => {
   const {message, status} = err;
-  res.status(status).send(message);
+  return res.status(status).send( {message });
  });
 
 }
