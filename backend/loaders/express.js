@@ -13,7 +13,7 @@ module.exports = (app) => {
 
   app.use(
     session({
-      session: SESSION_SECRET,
+      secret: SESSION_SECRET,
       resave: false,
       saveUninitialized: false,
       cookie: {
