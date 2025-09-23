@@ -2,7 +2,7 @@ import { createSlice, createAsyncThink, createAsyncThunk } from '@reduxjs/toolki
 const axios = require('axios');
 
 
-export const loadUserById = createAsyncThunk('/users/loadUserById', async({userId}, {reject}) => {
+export const loadUserById = createAsyncThunk('/user/loadUserById', async({userId}, {reject}) => {
   try {
     const response = await axios.get('/users/{userId}', {userId});
     return response.data;
@@ -11,7 +11,7 @@ export const loadUserById = createAsyncThunk('/users/loadUserById', async({userI
   }
 });
 
-export const registerUser = createAsyncThunk('/users/registerUser', async({firstname, lastname, email, password, username}, {reject}) => {
+export const registerUser = createAsyncThunk('/user/registerUser', async({firstname, lastname, email, password, username}, {reject}) => {
   try {
    const response = await axios.post('/users/register', {firstname, lastname, username, email, password});
    return response.data;
@@ -20,7 +20,7 @@ export const registerUser = createAsyncThunk('/users/registerUser', async({first
   }
 });
 
-export const updateUser = createAsyncThunk('/users/updateUser', async({userId, userProfile}, {reject}) => {
+export const updateUser = createAsyncThunk('/user/updateUser', async({userId, userProfile}, {reject}) => {
   try {
    const resposne = await axios.put('/users/updateUser', {userId, userProfile});
    return response.data;
@@ -29,7 +29,7 @@ export const updateUser = createAsyncThunk('/users/updateUser', async({userId, u
   }
 });
 
-export const changePassword = createAsyncThunk('/users/changePassword', async({userId, password}, {reject}) => {
+export const changePassword = createAsyncThunk('/user/changePassword', async({userId, password}, {reject}) => {
   try {
     const response = await axios.put('/users/changePassword', {userId, password});
     return response.data;
@@ -47,7 +47,7 @@ export const login = createAsyncThunk('/auth/login', async({username, password},
   }
 });
 
-export const logout = createAsyncThunk('/users/logout', async() => {
+export const logout = createAsyncThunk('/user/logout', async() => {
     const response = await axios.get('/users/logout');
     return response.data;
 });
