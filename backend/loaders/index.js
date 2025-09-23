@@ -1,3 +1,4 @@
+const express = require('express');
 const passportLoader = require('./passport.js');
 const expressLoader = require('./express.js');
 const routeLoader = require('../routes');
