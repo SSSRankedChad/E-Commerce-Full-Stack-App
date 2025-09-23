@@ -13,11 +13,11 @@ module.exports = (app) => {
 
   app.use(
     session({
-      session: process.env.SESSION_SECRET,
+      session: SESSION_SECRET,
       resave: false,
       saveUninitialized: false,
       cookie: {
-	secure: false,
+	secure: true,
 	maxAge: 24 * 24 * 60 * 1200,
 	}
      }));
