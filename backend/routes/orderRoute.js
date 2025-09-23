@@ -9,7 +9,7 @@ module.exports = (app) => {
   
   app.use('/orders', router);
 
-  router.post('/orders', async(req, res, next, err) => {
+  router.post('/orders', async(err, req, res, next) => {
      try {
 	const data = req.body;
 	const response = await orderServiceInstance.create(data);
@@ -20,7 +20,7 @@ module.exports = (app) => {
    
   });
 	
-  router.get('/orders/:orderId', async(req, res, next, err) => {
+  router.get('/orders/:orderId', async(err, req, res, next) => {
        try {
 	 const { orderId } = req.params;
 	 const response = await orderServiceInstance.get({ orderId });
@@ -30,7 +30,7 @@ module.exports = (app) => {
 	}
   });
 
- router.get('/orders/:userId', async(req, res, next, err) => {
+ router.get('/orders/:userId', async(err, req, res, next) => {
         try {
 	  const { userId } = req.params;
 	  const response = await orderServiceInstance.find({userId});
@@ -40,7 +40,7 @@ module.exports = (app) => {
 	}
  }); 
 
- router.put('/orders/:orderId', async(req, res, next, err) => {
+ router.put('/orders/:orderId', async(err, req, res, next) => {
      try {
         const { orderId } = req.params;
 	const data = req.body;
