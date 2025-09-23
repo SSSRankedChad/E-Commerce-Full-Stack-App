@@ -8,7 +8,7 @@ const userServiceInstance = new userService();
 module.exports = (app) => {
    app.use('/user', router);
    
-   router.put('/:userId', async(req, res, next, err) => {
+   router.put('/:userId', async(err, req, res, next) => {
      try {
 	const { userId } = req.params;
 	const data = req.body;
@@ -20,7 +20,7 @@ module.exports = (app) => {
     });
 
 
-    router.get('/userId', async(req, res, next, err) => {
+    router.get('/userId', async(err, req, res, next) => {
 	 try {
 	    const { userId } = req.params;
 	    const response = await userServiceInstance.get({userId});
