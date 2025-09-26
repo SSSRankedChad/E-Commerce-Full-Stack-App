@@ -8,7 +8,7 @@ module.exports = (app) => {
  
   app.use('/products', router);
   
-  router.get('/:productId', async(req, res, next, err) => {
+  router.get('/:productId', async(err, req, res, next) => {
       try { 
 	const { productId } = req.params;
 	const response = await productServiceInstance.findProductById({productId});
@@ -19,7 +19,7 @@ module.exports = (app) => {
    });
 
 
-  router.get('/products', async(req, res, next, err) => {
+  router.get('/products', async(err, req, res, next) => {
 	 try {
 	    const data = req.body;
 	    const response = await productServiceInstance.get(data);

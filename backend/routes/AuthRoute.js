@@ -8,7 +8,7 @@ module.exports = (app) => {
 
    app.use('/register', router);
   
-   router.post('/register', async(req, res, next, err) => {
+   router.post('/register', async(err, req, res, next) => {
       try {
 	 const data = req.body;
 	 const response = await authServiceInstance.register(data);
@@ -19,7 +19,7 @@ module.exports = (app) => {
     });
 
     
-    router.post('/login', async(req, res, next, err) => {
+    router.post('/login', async(err, req, res, next) => {
 	try {
 	   const {email, passsword} = req.body;
 	   const response = await authServiceInstance.login({email, password});

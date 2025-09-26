@@ -1,7 +1,8 @@
 const session = require('express-session');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const SESSION_SECRET = require('../config.env');
+const dotenv = require('dotenv').config();
+const { SESSION_SECRET } = require('../config.js');
 
 
 module.exports = (app) => {
@@ -12,11 +13,11 @@ module.exports = (app) => {
 
   app.use(
     session({
-      session: SESSION_SECRET,
+      secret: SESSION_SECRET,
       resave: false,
       saveUninitialized: false,
       cookie: {
-	secure: false,
+	secure: true,
 	maxAge: 24 * 24 * 60 * 1200,
 	}
      }));
