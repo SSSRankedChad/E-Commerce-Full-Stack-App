@@ -4,7 +4,7 @@ dotenv.config();
 
 
 module.exports = {
-  PORT: process.env.PORT || 4000,
+  PORT: process.env.PORT || 3000,
   DB: {
    PGHOST: process.env.PGHOST,
    PGUSER: process.env.PGUSER,
