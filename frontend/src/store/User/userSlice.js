@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThink, createAsyncThunk } from '@reduxjs/toolkit';
-import { isLoggedIn, login, register } from '../../../apis/auth.js';
-import { getUser, userUpdate } from '../../../apis/user.js';
+import { isLoggedIn, userLogin, register } from '../../apis/auth.js';
+import { getUser, userUpdate } from '../../apis/user.js';
 
 
 export const loadUserById = createAsyncThunk('/user/loadUserById', async(param, thunkAPI) => {
@@ -41,20 +41,20 @@ export const changePassword = createAsyncThunk('/user/changePassword', async({us
 
 export const login = createAsyncThunk('/auth/login', async(param, thunkAPI) => {
   try {
-    const resposne = await login();
+    const resposne = await userLogin();
     return response.data;
   } catch(err) {
     throw err.response.data;
   }
 });
 
-export const logout = createAsyncThunk('/user/logout', async() => {
-    const response = await axios.get('/users/logout');
+export const logout = createAsyncThunk('/user/:userId', async() => {
+    const response = await axios.post('/users/:userId');
     return response.data;
 });
 
-export const session = createAsyncThunk('/auth/session', async() => {
-    const response = await axios.get('/auth/session');
+export const session = createAsyncThunk('/auth', async() => {
+    const response = await axios.get('/auth');
     return response.data;
 });
 

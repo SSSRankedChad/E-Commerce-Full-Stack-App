@@ -1,10 +1,10 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { loadCart, updateItem, checkout } from '../../../apis/cart.js';
+import { getCart, updateItem, cartCheckout } from '../../apis/cart.js';
 const axios = require('axios');
 
 export const loadCart = createAsyncThunk('/cart/:cartId', async(param, thunkAPI) => {
   try {
-    const response = await loadCart();
+    const response = await getCart();
     return response.data;
   } catch(err) {
     throw err.response.data;
@@ -22,7 +22,7 @@ export const updateCart = createAsyncThunk('/cart/:cartId', async(param, thunkAP
 
 export const checkout = createAsyncThunk('/cart/checkout', async(param, thunkAPI) => {
   try {
-    const response = await checkout();
+    const response = await cartCheckout();
     return response.data;
   } catch(err) {
     throw err.response.data;
@@ -64,54 +64,54 @@ const cartSlice = createSlice({
       state.cartId = null;
       return state;
     },
-    extraReducers = (builder) => {
+    extraReducers: (builder) => {
      builder
       .addCase(loadCart.pending, (state, action) => {
         state.loadCartPending = true;
         state.loadCartError = false;
-      }),
+      })
       .addCase(loadCart.fulfilled, (state, action) => {
         state.loadCartPending = false;
         state.loadCartError = false;
         state.loadCartSuccess = true;
         state.cart = action.payload;
-      }),
+      })
       .addCase(loadCart.rejected, (state, action) => {
         state.loadCartPending = false;
         state.loadCartSuccess = false;
         state.loadCartError = action.payload;
         state.cart = {};
-      }),
+      })
       .addCase(updateCart.pending, (state, action) => {
         state.updateCartPending = true;
         state.updateCartError = false;
-      }),
+      })
       .addCase(updateCart.fulfilled, (state, action) => {
         state.updateCartPending = false;
         state.updateCartError = false;
         state.updateCartSuccess = true;
         state.cart = action.payload;
-      }),
+      })
       .addCase(updateCart.rejected, (state, action) => {
         state.updateCartPending = false;
         state.updateCartSuccess = false;
         state.updateCartError = action.payload;
         state.cart = {};
-      }),
+      })
       .addCase(checkout.pending, (state, action) => {
         state.checkoutPending = true;
         state.checkoutError = false;
-      }),
+      })
       .addCase(checkout.fulfilled, (state, action) => {
         state.checkoutPending = false;
         state.checkoutError = false;
         state.checkoutSuccess = true;
-      }),
+      })
       .addCase(checkout.rejected, (state, action) => {
         state.checkoutPending = false;
         state.checkoutSuccess = false;
         state.checkoutError = action.payload;
-      }),
+      })
      }
    }
 });

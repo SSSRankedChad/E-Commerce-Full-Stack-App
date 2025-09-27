@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { findProductById, findProducts } from '../../../apis/products.js';
+import { findProductById, findProducts } from '../../apis/products.js';
 const axios = require('axios');
 
 export const getProductById = createAsyncThunk('/products/:productId', async(param, thunkAPI) => {
@@ -62,34 +62,35 @@ const productSlice = createSlice({
       return state;
     },
     extraReducers: (builder) => {
-     buidder	
-      .addCase(getProductById.pending, (state, action) => {
-        state.productPending = true;
-        state.productLoadError = false;
-      }),
-      .addCase(getProductById.fulfilled, (state, action) => {
-        state.productLoadSuccess = true;
-        state.productLoadError = false;
-        state.product = action.payload;
-      }),
-      .addCase(getProductById.rejected, (state, action) => {
-        state.productPending = false;
-        state.productLoadError = action.payload;
-      }),
-      .addCase(loadProducts.pending, (state, action) => {
-        state.productsPending = true;
-        state.productsLoadError = false;
-      }),
-      .addCase(loadProducts.fulfilled, (state, action) => {
-        state.productsLoadSuccess = true;
-        state.productsLoadError = false;
-        state.products = action.payload;
-      }),
-      .addCase(loadProducts.rejected, (state, action) => {
+      builder	
+       .addCase(getProductById.pending, (state, action) => {
+         state.productPending = true;
+         state.productLoadError = false;
+       })
+       .addCase(getProductById.fulfilled, (state, action) => {
+         state.productLoadSuccess = true;
+         state.productLoadError = false;
+         state.product = action.payload;
+       })
+       .addCase(getProductById.rejected, (state, action) => {
+         state.productPending = false;
+         state.productLoadError = action.payload;
+        })
+       .addCase(loadProducts.pending, (state, action) => {
+         state.productsPending = true;
+         state.productsLoadError = false;
+       })
+       .addCase(loadProducts.fulfilled, (state, action) => {
+         state.productsLoadSuccess = true;
+         state.productsLoadError = false;
+         state.products = action.payload;
+       })
+       .addCase(loadProducts.rejected, (state, action) => {
         state.productsPending = false;
         state.productsLoadError = action.payload;
-      }),
+       })
     }
+  }
 });
 
 export default productSlice.reducer;
