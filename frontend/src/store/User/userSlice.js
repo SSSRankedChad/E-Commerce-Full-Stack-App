@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThink, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { isLoggedIn, userLogin, register } from '../../apis/auth.js';
 import { getUser, userUpdate } from '../../apis/user.js';
 
@@ -12,7 +12,7 @@ export const loadUserById = createAsyncThunk('/user/loadUserById', async(param, 
   }
 });
 
-export const registerUser = createAsyncThunk('/auth/register', async(param, thunkAPI) => {
+export const registerUser = createAsyncThunk('/register/registerUser', async(param, thunkAPI) => {
   try {
     const response = await register();
     return response.data;
@@ -48,7 +48,7 @@ export const login = createAsyncThunk('/auth/login', async(param, thunkAPI) => {
   }
 });
 
-export const logout = createAsyncThunk('/user/:userId', async() => {
+export const logout = createAsyncThunk('/auth/logout', async() => {
     const response = await axios.post('/users/:userId');
     return response.data;
 });
@@ -66,6 +66,7 @@ const initialState = {
   loadingUser: false,
   loadingUserSuccess: false,
   loadingUserError: false,
+  logginIn: false,
   loginSuccess: false,
   loginError: false,
   loginPending: false,
@@ -193,7 +194,7 @@ const userSlice = createSlice({
       })
 
       .addCase(login.pending, (state, action) => {
-        state.loggin = true;
+        state.logginIn = true;
         state.loginError = true;
       })
 

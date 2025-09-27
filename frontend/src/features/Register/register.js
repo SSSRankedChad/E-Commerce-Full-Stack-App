@@ -39,12 +39,10 @@ const Register = () => {
     }
   };
 
-  const handleClick = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    if(e.target.id === 'register-button') {
-      dispatch(registerUser( {firstname, lastname, email, username, password} ));
-    }
-  };
+    dispatch(registerUser({firstname, lastname, email, username, password}));
+  }
 
 
   useEffect(() => {
@@ -77,17 +75,17 @@ const Register = () => {
 
   return (
    <div className="register__user__container">
-    <form className="register__form" method="post" action="">
-     <h2 title="Register__user__title"> New User Registeration </h2>
-     {registerUserError && <Alert severity="error" msg={registerUserError} onClose={()=>dispatch(clearUserStatusUpdates())}/>}
-     <Link to='/login'><p>Already registered? Login here!</p></Link>
-     <p> First Name: </p><TextInput className="firstname" name="firstname" value={firstname} onChange={handleChange} placeholder="Enter first name"/>
-     <p> Last Name: </p><TextInput className="lastname" name="lastname" value={lastname} onChange={handleChange} placeholder="Enter last name"/>
-     <p> Email: </p><TextInput className="email" name="email" value={email} type="email" onChange={handleChange} placeholder ="Enter email"/>
-     <p> Username: </p><TextInput className="username" name="username" value={username} onChange={handleChange} placeholder= "Enter username"/>
-     <p> Password: </p><TextInput className="password" name="password" value={password} type="password" onChange={handleChange} placeholder= "Enter password"/>
+     <form className="register__form" onSubmit={handleSubmit}>
+      <h2 title="Register__user__title"> New User Registeration </h2>
+      {registerUserError && <Alert severity="error" msg={registerUserError} onClose={()=>dispatch(clearUserStatusUpdates())}/>}
+      <Link to='/login'><p>Already registered? Login here!</p></Link>
+      <p> First Name: </p><TextInput className="firstname" name="firstname" value={firstname} onChange={handleChange} placeholder="Enter first name"/>
+      <p> Last Name: </p><TextInput className="lastname" name="lastname" value={lastname} onChange={handleChange} placeholder="Enter last name"/>
+      <p> Email: </p><TextInput className="email" name="email" value={email} type="email" onChange={handleChange} placeholder ="Enter email"/>
+      <p> Username: </p><TextInput className="username" name="username" value={username} onChange={handleChange} placeholder= "Enter username"/>
+      <p> Password: </p><TextInput className="password" name="password" value={password} type="password" onChange={handleChange} placeholder= "Enter password"/>
+      <Button type="submit" id="register-button" name="register-button"> Register </Button>
     </form>
-    <Button name="register-button" onClick={handleClick} fullWidth> Register</Button>
    </div>
   );
 

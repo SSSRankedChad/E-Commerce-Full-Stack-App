@@ -38,7 +38,7 @@ export const updateItem = async(cartItemId, data) => {
   }
 };
 
-export const cartCeckout = async(cartItem, data, payment) => {
+export const cartCheckout = async(cartItem, data, payment) => {
   try {
     const response = await API.post('/cart/checkout', {cartItem, data, payment});
     return response.data;

@@ -13,13 +13,13 @@ import { RemoveCircle } from '@mui/icons-material';
 
 
 const Product = () => {
-
+  const products = useSelector(selectProducts);
+  const product = useSelector(selectProduct);
   const [cartQuantity, setCartQuantity] = useState(product?.cart_quantity);
   const [quantity, setQuantity] = useState(product?.cart_quantity);
-  const products = useSelector(selectProducts);
   const cartId = useSelector(selectCartId);
   const userId = useSelector(selectUserId);
-  const product = product?.product_id;
+  const productId = product?.product_id;
   const dispatch = useDispatch();
   let navigate = useNavigate();
 
@@ -76,11 +76,12 @@ const Product = () => {
   return (
     <div className="Product__container">
       <div className="Product__name__container">
-       <h2 className="Product__name__header">{product.name}</h3>
+       <h2 className="Product__name__header">{product.name}</h2>
       </div>
       <div className="Product__category__container">
        <h3 className="Product__category__label"> Category: </h3>
        <p className="Product__category__header"> {product.category} </p>
+      </div>
       <div className="Product__image__container">
        <img src={product.url}/>
       </div>
@@ -96,7 +97,7 @@ const Product = () => {
        <Button name="Add item" onClick={handleAddClick}></Button>
        <Button name="Remove item" onClick={handleRemoveClick}></Button>
        <Button name="Add to cart" onClick={handleCartClick}></Button>
-      </div>
+     </div>
     </div>
   );
 }

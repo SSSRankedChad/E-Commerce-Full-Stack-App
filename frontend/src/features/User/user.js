@@ -146,7 +146,7 @@ const User = () => {
         {changePasswordSuccess && <Alert severity="error" msg={changePasswordError} onClose={(() => dispatch(clearUserStatusUpdates()))}/>}
         <TextInput name="New Password" value={password} onChange={handleChange}/>
         {password && <TextInput name="password_match" value={passMatch} type="password" onChange={handleChange} placeholder="Please enter a new password"/>}
-        {passMatch && <Button name="Change Password" onClick={handleClick}/>}
+        {passMatch && <Button id="changepassword-buttton" name="Change Password" onClick={handleClick}>Submit</Button>}
        </section>
 
        <Link to='/orders'><p className="order__link"> View order history</p></Link>

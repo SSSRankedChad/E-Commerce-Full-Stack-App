@@ -30,11 +30,9 @@ const Login = () => {
     }
   };
 
-  const handleClick = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    if(e.target.id === 'login-button') {
       dispatch(login({username, password}));
-    }
   }
 
 
@@ -67,14 +65,14 @@ const Login = () => {
 
   return (
     <div className="login__container">
-     <form className="login__form" method="post" action="">
-      <h3 className="login__form__title"> Login </h3>
-      {loginError && <Alert msg={loginError} onClose={() => dispatch(clearStatusUserUpdates())}/>}
-      <Link to='/register'><p className="Login__registerLink"> New User? Please Register! </p></Link>
-      <p> Enter Username: </p><TextInput name="Username" name="username" value={username} onChange={handleChange}/>
-      <p> Enter Password: </p><TextInput name="Password" name="password" type="password" value={password} onChange={handleChange}/>
+      <form className="login__form" onSubmit={handleSubmit}>
+       <h3 className="login__form__title"> Login </h3>
+       {loginError && <Alert msg={loginError} onClose={() => dispatch(clearStatusUserUpdates())}/>}
+       <Link to='/register'><p className="Login__registerLink"> New User? Please Register! </p></Link>
+       <p> Enter Username: </p><TextInput name="Username" name="username" value={username} onChange={handleChange}/>
+       <p> Enter Password: </p><TextInput name="Password" name="password" type="password" value={password} onChange={handleChange}/>
+       <Button type="submit" id="login-button" name="login-button" fullWidth> Login </Button>
      </form>
-     <Button name="login-button" fullWidth onClick={handleClick}> Login </Button>
     </div>
   );
 
