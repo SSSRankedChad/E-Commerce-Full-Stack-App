@@ -17,11 +17,11 @@ module.exports = (app) => {
       resave: false,
       saveUninitialized: false,
       cookie: {
-	secure: true,
-	maxAge: 24 * 24 * 60 * 1200,
-	}
-     }));
+	      secure: true,
+	      maxAge: 24 * 24 * 60 * 1200,
+	    }
+  }));
     
-   return app;
+  return app;
 
 };
