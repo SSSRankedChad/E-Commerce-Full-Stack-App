@@ -10,7 +10,7 @@ export const getUser = async(data) => {
 }
 
 
-export const updateUser = async(data) => {
+export const userUpdate = async(data) => {
   try {
     const response = await API.put('/user/:userId', data);
     return response.data;

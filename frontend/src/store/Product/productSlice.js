@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { findProductById, findProducts } from '../../../apis/products.js';
 const axios = require('axios');
 
-export const getProductById = createAsyncThunk('/products/getProductById}', async(param, thunkAPI) => {
+export const getProductById = createAsyncThunk('/products/:productId', async(param, thunkAPI) => {
   try {
     const response = await findProductById();
     return response.data;
@@ -13,12 +13,12 @@ export const getProductById = createAsyncThunk('/products/getProductById}', asyn
 
 
 
-export const loadProducts = createAsyncThunk('/products/loadProducts', async(param, thunkAPI) => {
+export const loadProducts = createAsyncThunk('/products', async(param, thunkAPI) => {
   try {
     const response = await findProducts();
    return response.data;
   } catch(err) {
-    return reject(err.response.data);
+    throw err.response.data;
   }
  });
 
@@ -36,7 +36,7 @@ const initialState = {
 };
 
 const productSlice = createSlice({
-  name: 'product',
+  name: 'products',
   initialState,
   reducers: {
     setProductId: (state) => {
@@ -61,32 +61,34 @@ const productSlice = createSlice({
       state.productsLoadError = false;
       return state;
     },
-      [getProductById.pending]: (state, action) => {
+    extraReducers: (builder) => {
+     buidder	
+      .addCase(getProductById.pending, (state, action) => {
         state.productPending = true;
         state.productLoadError = false;
-      },
-      [getProductById.fulfilled]: (state, action) => {
+      }),
+      .addCase(getProductById.fulfilled, (state, action) => {
         state.productLoadSuccess = true;
         state.productLoadError = false;
         state.product = action.payload;
-      },
-      [getProductById.rejected]: (state, action) => {
+      }),
+      .addCase(getProductById.rejected, (state, action) => {
         state.productPending = false;
         state.productLoadError = action.payload;
-      },
-      [loadProducts.pending]: (state, action) => {
+      }),
+      .addCase(loadProducts.pending, (state, action) => {
         state.productsPending = true;
         state.productsLoadError = false;
-      },
-      [loadProducts.fulfilled]: (state, action) => {
+      }),
+      .addCase(loadProducts.fulfilled, (state, action) => {
         state.productsLoadSuccess = true;
         state.productsLoadError = false;
         state.products = action.payload;
-      },
-      [loadProducts.rejected]: (state, action) => {
+      }),
+      .addCase(loadProducts.rejected, (state, action) => {
         state.productsPending = false;
         state.productsLoadError = action.payload;
-      },
+      }),
     }
 });
 

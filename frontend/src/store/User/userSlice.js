@@ -1,10 +1,11 @@
 import { createSlice, createAsyncThink, createAsyncThunk } from '@reduxjs/toolkit';
 import { isLoggedIn, login, register } from '../../../apis/auth.js';
+import { getUser, userUpdate } from '../../../apis/user.js';
 
 
 export const loadUserById = createAsyncThunk('/user/loadUserById', async(param, thunkAPI) => {
   try {
-    const response = await
+    const response = await getUser();
     return response.data;
   } catch(err) {
     throw err.response.data;
@@ -20,12 +21,12 @@ export const registerUser = createAsyncThunk('/auth/register', async(param, thun
   }
 });
 
-export const updateUser = createAsyncThunk('/user/updateUser', async({userId, userProfile}, {reject}) => {
+export const updateUser = createAsyncThunk('/user/updateUser', async(param, thunkAPI) => {
   try {
-   const resposne = await axios.put('/users/updateUser', {userId, userProfile});
+   const resposne = await userUpdate();
    return response.data;
   } catch (err) {
-    return reject(err.response.data);
+    throw err.response.data;
   }
 });
 

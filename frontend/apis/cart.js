@@ -1,5 +1,15 @@
 import API from './client.js';
 
+
+export const getCart = async(data) => {
+  try {
+   const response = await API.get('/cart/:cartId', {data});
+   return response.data;
+  } catch(err) {
+   throw err.response.data;
+  }
+};
+
 export const addItem = async(userId, data) => {
   try {
     const response = await API.post('/cart/:userId', {userId, data});

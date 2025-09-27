@@ -1,30 +1,31 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { loadCart, updateItem, checkout } from '../../../apis/cart.js';
 const axios = require('axios');
 
-export const loadCart = createAsyncThunk('/cart/loadCart', async({userId, cartId}, {reject}) => {
+export const loadCart = createAsyncThunk('/cart/:cartId', async(param, thunkAPI) => {
   try {
-    const response = await axios.get('/cart/{cartId}');
+    const response = await loadCart();
     return response.data;
   } catch(err) {
-    return reject(err.response.data);
+    throw err.response.data;
   }
 });
 
-export const updateCart = createAsyncThunk('/cart/updateCart', async({userId, cartId}, {reject}) => {
+export const updateCart = createAsyncThunk('/cart/:cartId', async(param, thunkAPI) => {
   try {
-    const response = await axios.put('/cart/{cartId}');
+    const response = await updateItem();
     return response.data;
   } catch(err) {
-    return reject(err.response.data);
+    throw err.response.data;
   }
 });
 
-export const checkout = createAsyncThunk('/cart/checkout', async({userId, cartId, cartQuantity, productId}, {reject}) => {
+export const checkout = createAsyncThunk('/cart/checkout', async(param, thunkAPI) => {
   try {
-    const response = await axios.post('/cart/{cartId}', {cartQuantity, productId});
+    const response = await checkout();
     return response.data;
   } catch(err) {
-    return reject(err.response.data);
+    throw err.response.data;
   }
 });
 
@@ -63,53 +64,56 @@ const cartSlice = createSlice({
       state.cartId = null;
       return state;
     },
-      [loadCart.pending]: (state, action) => {
+    extraReducers = (builder) => {
+     builder
+      .addCase(loadCart.pending, (state, action) => {
         state.loadCartPending = true;
         state.loadCartError = false;
-      },
-      [loadCart.fulfilled]: (state, action) => {
+      }),
+      .addCase(loadCart.fulfilled, (state, action) => {
         state.loadCartPending = false;
         state.loadCartError = false;
         state.loadCartSuccess = true;
         state.cart = action.payload;
-      },
-      [loadCart.rejected]: (state, action) => {
+      }),
+      .addCase(loadCart.rejected, (state, action) => {
         state.loadCartPending = false;
         state.loadCartSuccess = false;
         state.loadCartError = action.payload;
         state.cart = {};
-      },
-      [updateCart.pending]: (state, action) => {
+      }),
+      .addCase(updateCart.pending, (state, action) => {
         state.updateCartPending = true;
         state.updateCartError = false;
-      },
-      [updateCart.fulfilled]: (state, action) => {
+      }),
+      .addCase(updateCart.fulfilled, (state, action) => {
         state.updateCartPending = false;
         state.updateCartError = false;
         state.updateCartSuccess = true;
         state.cart = action.payload;
-      },
-      [updateCart.rejected]: (state, action) => {
+      }),
+      .addCase(updateCart.rejected, (state, action) => {
         state.updateCartPending = false;
         state.updateCartSuccess = false;
         state.updateCartError = action.payload;
         state.cart = {};
-      },
-      [checkout.pending]: (state, action) => {
+      }),
+      .addCase(checkout.pending, (state, action) => {
         state.checkoutPending = true;
         state.checkoutError = false;
-      },
-      [checkout.fulfilled]: (state, action) => {
+      }),
+      .addCase(checkout.fulfilled, (state, action) => {
         state.checkoutPending = false;
         state.checkoutError = false;
         state.checkoutSuccess = true;
-      },
-      [checkout.rejected]: (state, action) => {
+      }),
+      .addCase(checkout.rejected, (state, action) => {
         state.checkoutPending = false;
         state.checkoutSuccess = false;
         state.checkoutError = action.payload;
-      }
-    }
+      }),
+     }
+   }
 });
 
 export const { clearCart, clearCartStatusUpdates, setCartId } = cartSlice.actions;
