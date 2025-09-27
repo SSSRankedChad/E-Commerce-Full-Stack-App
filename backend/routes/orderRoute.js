@@ -10,28 +10,27 @@ module.exports = (app) => {
   app.use('/orders', router);
 
   router.post('/orders', async(err, req, res, next) => {
-     try {
-	const data = req.body;
-	const response = await orderServiceInstance.create(data);
-	res.status(200).send(response);
-     } catch(err) {
-	throw new Error(err);
-     }
-   
+    try {
+	    const data = req.body;
+	    const response = await orderServiceInstance.create(data);
+	    res.status(200).send(response);
+    } catch(err) {
+	    throw new Error(err);
+    }
   });
 	
   router.get('/orders/:orderId', async(err, req, res, next) => {
-       try {
-	 const { orderId } = req.params;
-	 const response = await orderServiceInstance.get({ orderId });
-	 res.status(200).send(response);
+    try {
+	    const { orderId } = req.params;
+	    const response = await orderServiceInstance.get({ orderId });
+	    res.status(200).send(response);
 	} catch(err) {
-	 throw new Error(err);
-	}
+	  throw new Error(err);
+	 }
   });
 
  router.get('/orders/:userId', async(err, req, res, next) => {
-        try {
+  try {
 	  const { userId } = req.params;
 	  const response = await orderServiceInstance.find({userId});
 	  res.status(200).send(response);
@@ -41,13 +40,13 @@ module.exports = (app) => {
  }); 
 
  router.put('/orders/:orderId', async(err, req, res, next) => {
-     try {
-        const { orderId } = req.params;
-	const data = req.body;
-	const response = await orderServiceInstance.update({orderId, data});
-	res.status(200).send(response);
+   try {
+      const { orderId } = req.params;
+	    const data = req.body;
+	    const response = await orderServiceInstance.update({orderId, data});
+	    res.status(200).send(response);
     } catch(err) {
-       throw new Error(err);
+      throw new Error(err);
     }
   });
 

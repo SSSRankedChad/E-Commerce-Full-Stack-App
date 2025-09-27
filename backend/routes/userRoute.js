@@ -9,18 +9,18 @@ module.exports = (app) => {
    app.use('/user', router);
    
    router.put('/:userId', async(err, req, res, next) => {
-     try {
-	const { userId } = req.params;
-	const data = req.body;
-	const response = await userServiceInstance.update({id: userId, data});
-	res.status(200).send(response);
+    try {
+	   const { userId } = req.params;
+	   const data = req.body;
+	   const response = await userServiceInstance.update({id: userId, data});
+	   res.status(200).send(response);
     } catch(err) {
-	throw new Error(err);
-     }
-    });
+	    throw new Error(err);
+    }
+   });
 
 
-    router.get('/userId', async(err, req, res, next) => {
+  router.get('/userId', async(err, req, res, next) => {
 	 try {
 	    const { userId } = req.params;
 	    const response = await userServiceInstance.get({userId});
@@ -28,6 +28,6 @@ module.exports = (app) => {
 	  } catch(err) {
 	    throw new Error(err);
 	 }
-     });
+  });
 }
 

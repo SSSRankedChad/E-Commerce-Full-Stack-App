@@ -9,24 +9,24 @@ module.exports = (app) => {
    app.use('/register', router);
   
    router.post('/register', async(err, req, res, next) => {
-      try {
-	 const data = req.body;
-	 const response = await authServiceInstance.register(data);
-	 res.status(200).send(response);
-      } catch(err) {
-	 throw new Error(err);
-       }
-    });
+    try {
+	   const data = req.body;
+	   const response = await authServiceInstance.register(data);
+	   res.status(200).send(response);
+    } catch(err) {
+	   throw new Error(err);
+    }
+   });
 
     
-    router.post('/login', async(err, req, res, next) => {
-	try {
+  router.post('/login', async(err, req, res, next) => {
+	 try {
 	   const {email, passsword} = req.body;
 	   const response = await authServiceInstance.login({email, password});
-	    res.status(200).send(response);
-	} catch(err) {
+	   res.status(200).send(response);
+	  } catch(err) {
 	   throw new Error(err);
-	}
-    }); 
+	  }
+   }); 
 
  }

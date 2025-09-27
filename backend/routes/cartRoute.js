@@ -11,36 +11,36 @@ module.exports = (app) => {
 
 
   router.post('/cart', async(err, req, res, next) => {
-     try {
+    try {
        const data = req.body;
        const response = await cartServiceInstance.create(data);
        res.status(200).send(response);
     } catch(err) {
-	throw new Error(err);
+	     throw new Error(err);
     }
    });
 
   router.post('/cart', async(err, req, res, next) => {
-	try {
-	  const data = req.body;
-	  const response = await cartServiceInstance.checkout(data);
-	  res.status(200).send(response);
-	 } catch(err) {
+	  try {
+	    const data = req.body;
+	    const response = await cartServiceInstance.checkout(data);
+	    res.status(200).send(response);
+	  } catch(err) {
 	   throw new Error(err);
-	 }
+	  }
   });
 
 
  router.put('/cart/:cartItemId', async(err, req, res, next) => {
-	try {
-	  const { cartItemId } = req.params;
-	  const data = req.body;
-	  const response = await cartServiceInstance.updateItem({cartItemId, data});
-	  res.status(200).send(response);
+	 try {
+	   const { cartItemId } = req.params;
+	   const data = req.body;
+	   const response = await cartServiceInstance.updateItem({cartItemId, data});
+	   res.status(200).send(response);
 	} catch(err) {
 	  throw new Error(err);
 	}
-  });
+ });
 
  router.post('/cart/:userId', async(req, res, next, err) => {
 	try {

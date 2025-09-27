@@ -9,14 +9,14 @@ module.exports = (app) => {
   app.use('/products', router);
   
   router.get('/:productId', async(err, req, res, next) => {
-      try { 
-	const { productId } = req.params;
-	const response = await productServiceInstance.findProductById({productId});
-	res.status(200).send(response);
-      } catch(err) {
-	throw new Error(err);
-      }
-   });
+   try { 
+	   const { productId } = req.params;
+	   const response = await productServiceInstance.findProductById({productId});
+	   res.status(200).send(response);
+   } catch(err) {
+	  throw new Error(err);
+   }
+  });
 
 
   router.get('/products', async(err, req, res, next) => {
@@ -26,7 +26,7 @@ module.exports = (app) => {
 	    res.status(200).send(response);
 	  } catch(err) {
 	    throw new Error(err);
-	 }
+	  }
    });
 
 }
