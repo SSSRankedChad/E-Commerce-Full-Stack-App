@@ -21,7 +21,7 @@ module.exports = (app) => {
    });
 
 
-  router.get('/userId', async(req, res, next) => {
+  router.get('/:userId', async(req, res, next) => {
 	 try {
 	    const { userId } = req.params;
 	    const response = await userServiceInstance.get({userId});

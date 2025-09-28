@@ -1,3 +1,4 @@
+const express = require('express');
 const session = require('express-session');
 const bodyParser = require('body-parser');
 const cors = require('cors');
@@ -17,11 +18,11 @@ module.exports = (app) => {
 
   app.use(
     session({
-      secret: SESSION_SECRET,
+      secret: SESSION_SECRET || "session_secret",
       resave: false,
       saveUninitialized: false,
       cookie: {
-	      secure: true,
+	      secure: false,
 	      maxAge: 24 * 24 * 60 * 1200,
 	    }
   }));

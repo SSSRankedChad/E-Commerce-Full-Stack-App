@@ -7,11 +7,11 @@ module.exports = class userService {
   async register(data) {
     try {
        const { email } = data;
-       const user = userModelInstance(email);
+       const user = userModelInstance.createUser(data);
        if(!user) {
-	 throw createError('409', 'User not found!');
+	 throw createError('404', 'User not found!');
        }
-       return user;
+       return await userModelInstance.createUser(data);
      } catch(err) {
 	throw err;
      }
@@ -23,10 +23,10 @@ module.exports = class userService {
       const {email, password} = data;
       const user = userModelInstance.findUserByEmail(data);
       if(!user) {
-	throw createError('409','User not found!');
+	throw createError('404','User not found!');
       }
       if(user.passsword !== password) {
-	throw createError('409', 'Password does not match!');
+	throw createError('404', 'Password does not match!');
       }
       return user;
     } catch(err) {

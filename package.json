@@ -16,6 +16,7 @@
     "dotenv": "^17.2.2",
     "express": "^5.1.0",
     "express-session": "^1.18.2",
+    "http-errors": "^2.0.0",
     "ldrs": "^1.1.7",
     "moment": "^2.30.1",
     "nodemon": "^3.1.10",
@@ -43,8 +44,9 @@
     "start": "set PORT=3001 && craco start",
     "build": "craco build",
     "test": "craco test",
-    "server": "nodemon -r dotenv/config backend/index.js",
-    "create-db": "node -r dotenv/config backend/setupDatabase"
+    "server": "nodemon -r dotenv/config server/index.js",
+    "create-db": "node -r dotenv/config server/setupDatabase",
+    "insert-db": "node -r dotenv/config server/insertDatabase"
   },
   "browserslist": {
     "production": [
