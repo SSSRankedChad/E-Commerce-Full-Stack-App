@@ -1,10 +1,8 @@
 const db = require('../../db');
 const pgp = require('pg-promise')({capSQL: true});
 const moment = require('moment');
-const OrderItem = require('../orderItems/orderItems.js');
 
-
-module.exports = class OrderModel {
+module.exports = class orderModel {
   constructor(data = {}) {
    this.created = data.created || moment.utc().toString();
    this.modified = data.modified || moment.utc().toString();

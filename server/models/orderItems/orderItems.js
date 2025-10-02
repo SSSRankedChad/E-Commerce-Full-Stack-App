@@ -3,7 +3,7 @@ const pgp = require('pg-promise')({capSQL: true});
 const moment = require('moment');
 
 
-module.exports = class OrderItemModel {
+module.exports = class orderItemModel {
    constructor(data = {}) {
     this.created = data.created || moment.utc().toString();
     this.modified = moment.utc().toString();

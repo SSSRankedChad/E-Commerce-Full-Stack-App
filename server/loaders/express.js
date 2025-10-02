@@ -7,14 +7,14 @@ const { SESSION_SECRET } = require('../config.js');
 
 
 module.exports = (app) => {
-  app.use(cors({
-    origin: "http://localhost:3000/api",
-    credentials: true
-  }));
+  app.use(cors());
   app.use(bodyParser.json());
   app.use(express.json());
 
   app.use(bodyParser.urlencoded({extended: true}));
+  app.use(express.urlencoded({extended: true}));
+
+  app.set('trust proxy', 1); 
 
   app.use(
     session({

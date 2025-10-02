@@ -1,7 +1,7 @@
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
-const AuthService = require('../services/AuthService');
-const AuthServiceInstance = new AuthService();
+const authService = require('../services/authService');
+const authServiceInstance = new authService();
 
 
 module.exports = (app) => {
@@ -21,7 +21,7 @@ module.exports = (app) => {
 passport.use(new LocalStrategy( 
  async(username, password, email) => {
   try {
-   const user = AuthServiceInstance.login({email: username, password}); 
+   const user = authServiceInstance.login({email: username, password}); 
    return done(null, user);
   } catch(err) {
     return done(err);

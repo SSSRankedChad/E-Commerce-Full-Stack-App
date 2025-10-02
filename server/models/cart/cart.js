@@ -1,10 +1,9 @@
 const pgp = require('pg-promise')({capSQL: true});
 const db = require('../../db');
 const moment = require('moment');
-const cartItem = require('../cartItems/cartItems.js');
 
 
-module.exports = class CartModel {
+module.exports = class cartModel {
    constructor(data = {}) {
     this.created = data.date || moment.utc().toString();
     this.modified = data.modified || moment.utc().toString();

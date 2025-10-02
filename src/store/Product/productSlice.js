@@ -2,23 +2,23 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { findProductById, findProducts } from '../../apis/products.js';
 const axios = require('axios');
 
-export const getProductById = createAsyncThunk('/products/:productId', async(param, thunkAPI) => {
+export const getProductById = createAsyncThunk('/products/:productId', async(id, thunkAPI) => {
   try {
-    const response = await findProductById();
+    const response = await findProductById(id);
     return response.data;
   } catch(err) {
-    throw err.response.data;
+    return thunkAPI.rejectWithValue(err);
   }
 });
 
 
 
-export const loadProducts = createAsyncThunk('/products', async(param, thunkAPI) => {
+export const loadProducts = createAsyncThunk('/products', async(data, thunkAPI) => {
   try {
-    const response = await findProducts();
+    const response = await findProducts(data);
    return response.data;
   } catch(err) {
-    throw err.response.data;
+    return thunkAPI.rejectWithValue(err);
   }
  });
 
@@ -70,7 +70,7 @@ const productSlice = createSlice({
        .addCase(getProductById.fulfilled, (state, action) => {
          state.productLoadSuccess = true;
          state.productLoadError = false;
-         state.product = action.payload;
+         state.product = action.payload.product;
        })
        .addCase(getProductById.rejected, (state, action) => {
          state.productPending = false;
@@ -83,7 +83,7 @@ const productSlice = createSlice({
        .addCase(loadProducts.fulfilled, (state, action) => {
          state.productsLoadSuccess = true;
          state.productsLoadError = false;
-         state.products = action.payload;
+         state.products = action.payload.products;
        })
        .addCase(loadProducts.rejected, (state, action) => {
         state.productsPending = false;
@@ -95,7 +95,6 @@ const productSlice = createSlice({
 
 export default productSlice.reducer;
 export const {setProductId, clearProduct, clearProdStatusUpdates} = productSlice.actions;
-export const selectSearchTerm = (state) => state.product.searchTerm;
 
 export const selectProductId = state => state.product.productId;
 export const selectProduct = state => state.product.product;
@@ -105,13 +104,3 @@ export const selectProductPendError = state => state.product.productLoadError;
 export const selectProductLoadSuccess = state => state.product.productLoadSuccess;
 export const selectProductsPending = state => state.product.productsPending;
 export const selectProductsLoadError = state => state.product.productsLoadError;
-
-
-export const selectFilteredProducts = state => {
-  const searchTerm = selectSearchTerm;
-  let products = selectProducts(state);
-  if(searchTerm) {
-    products = products.filter(product => product.name.toLowerCase().includes(searchTerm.toLowerCase()));
-  }
-  return product;
-};

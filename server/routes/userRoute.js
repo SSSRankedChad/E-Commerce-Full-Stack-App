@@ -7,7 +7,7 @@ const userServiceInstance = new userService();
 
 module.exports = (app) => {
 
-   const router = express.Router();
+   app.use('/api/user', router);
 
    router.put('/:userId', async(req, res, next) => {
     try {
@@ -31,6 +31,5 @@ module.exports = (app) => {
 	 }
   });
 
-  app.use('/api/user', router);
 }
 

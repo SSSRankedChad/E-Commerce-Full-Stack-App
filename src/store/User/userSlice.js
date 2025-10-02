@@ -3,30 +3,30 @@ import { isLoggedIn, userLogin, register } from '../../apis/auth.js';
 import { getUser, userUpdate } from '../../apis/user.js';
 
 
-export const loadUserById = createAsyncThunk('/user/loadUserById', async(param, thunkAPI) => {
+export const loadUserById = createAsyncThunk('/user/loadUserById', async(userId, thunkAPI) => {
   try {
-    const response = await getUser();
+    const response = await getUser(userId);
     return response.data;
   } catch(err) {
-    throw err.response.data;
+    return thunkAPI.rejectWithValue(err.response.data);
   }
 });
 
-export const registerUser = createAsyncThunk('/register/registerUser', async(param, thunkAPI) => {
+export const registerUser = createAsyncThunk('/register/registerUser', async(userData, thunkAPI) => {
   try {
-    const response = await register();
+    const response = await register(userData);
     return response.data;
   } catch(err) {
-    throw err.response.data;
+    return thunkAPI.rejectWithValue(err.response.data);
   }
 });
 
-export const updateUser = createAsyncThunk('/user/updateUser', async(param, thunkAPI) => {
+export const updateUser = createAsyncThunk('/user/updateUser', async(data, thunkAPI) => {
   try {
-   const resposne = await userUpdate();
+   const resposne = await userUpdate(data);
    return response.data;
   } catch (err) {
-    throw err.response.data;
+    return thunkAPI.rejectWithValue(err.response.data);
   }
 });
 
@@ -35,16 +35,16 @@ export const changePassword = createAsyncThunk('/user/changePassword', async({us
     const response = await axios.put('/users/changePassword', {userId, password});
     return response.data;
   } catch(err) {
-    return reject(err.response.data);
+    return rejectWithValue(err.response.data);
   }
 });
 
-export const login = createAsyncThunk('/auth/login', async(param, thunkAPI) => {
+export const login = createAsyncThunk('/auth/login', async(data, thunkAPI) => {
   try {
-    const resposne = await userLogin();
+    const resposne = await userLogin(data);
     return response.data;
   } catch(err) {
-    throw err.response.data;
+    return rejectWithValue(err.response.data);
   }
 });
 
@@ -120,7 +120,7 @@ const userSlice = createSlice({
        state.loadingUser = false;
        state.loadingUserError = false;
        state.loadingUserSuccess = true;
-       state.user = action.payload;
+       state.user = action.payload.user;
       })
 
       .addCase(loadUserById.rejected, (state, action) => {
@@ -138,8 +138,8 @@ const userSlice = createSlice({
        state.registerUserSuccess = true;
        state.registerUserError = false;
        state.registeringUser = false;
-       state.user = action.payload;
-       state.userId = action.payload.user_id;
+       state.user = action.payload.user;
+       state.userId = action.payload.user.id;
       })
 
       .addCase(registerUser.rejected, (state, action) => {
@@ -158,7 +158,7 @@ const userSlice = createSlice({
         state.updatingUser = false;
         state.updateUserSuccess = true;
         state.updatingUserError = false;
-        state.user = action.payload;
+        state.user = action.payload.user;
       })
 
       .addCase(updateUser.rejected, (state, action) => {
@@ -190,7 +190,7 @@ const userSlice = createSlice({
         state.logginIn = false;
         state.loginError = false;
         state.loginSuccess = true;
-        state.user = action.payload;
+        state.user = action.payload.user;
       })
 
       .addCase(login.pending, (state, action) => {
