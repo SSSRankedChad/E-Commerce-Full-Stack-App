@@ -14,7 +14,6 @@ import { RemoveCircle } from '@mui/icons-material';
 
 const Product = ({product, page}) => {
   const products = useSelector(selectProducts);
-  const product = useSelector(selectProduct);
   const [cartQuantity, setCartQuantity] = useState(product?.cart_quantity);
   const [quantity, setQuantity] = useState(product?.cart_quantity);
   const cartId = useSelector(selectCartId);
@@ -72,49 +71,43 @@ const Product = ({product, page}) => {
     );
   }
 
-
-  return (
-
-     if(page == 'cart') {
-	
+   if(page == 'cart') {
 	return (
 	   <div className="Product__cart__container">
 	      <div className="Product__image__container">
 	        <img src={product.url} alt=""/>
 	       </div>
 	       <div className="Product__cart__name__container">
-	        <p className="Product__cart__label">Name: </p>
-		<Link to={`product/{productId}`}
-		   <h2 className="product__cart__name" id={`products.productId`} onClick={handleProductClick}>{product.name}</h2>
-	        </Link>
+	         <p className="Product__cart__label">Name: </p>
+		     <Link to={`product/{productId}`}>
+		      <h2 className="product__cart__name" id={products.productId} onClick={handleProductClick}>{product.name}</h2>
+	         </Link>
 	       </div>
 	       <div className="Product__cart__price">
-		 <p className="Product__price__label"> Price: </p>
-		 <p className="Product__price__value">{product.sell_price} </p>
+		    <p className="Product__price__label"> Price: </p>
+		    <p className="Product__price__value">{product.sell_price} </p>
 	       </div>
 	       <div className="Product__category__container">
-		<p className="Product__category__label"> Category: </p>
-		<p className="Product__category__value"> {product.category} </p>
-	       </div>   
-
+	 	    <p className="Product__category__label"> Category: </p>
+		    <p className="Product__category__value"> {product.category} </p>
+	       </div>
 	       <div className="Product__quantity__container">
-		<p className="Product__cart__label"> Quantity: </p>
+		    <p className="Product__cart__label"> Quantity: </p>
 	        <IconButton onClick={handleAddClick}><AddCircle /></IconButton>
-		<input className="Product__cart__quantity" type="number" id="quantity" min="0" max="100" value={cartQuantity} readOnly /> 
-	        <IconButton onClick={handleRemoveClick}RemoveCircle /></IconButton>
+		     <input className="Product__cart__quantity" type="number" id="quantity" min="0" max="100" value={cartQuantity} readOnly/>
+	        <IconButton onClick={handleRemoveClick}><RemoveCircle /></IconButton>
 	       </div>
 	       <div className="Product__button__container">
-		<Button id="cart-button" className="Product__cart__button" onClick={handleCartClick} Add to Cart </Button>
-	       </div> 
-	      </div>   
-	   </div>
+		    <Button id="cart-button" className="Product__cart__button" onClick={handleCartClick}></Button>
+	       </div>
+	    </div>
 	  );
-	}
+   }
 
-    else if(page == 'details') {
+  if(page == 'details') {
 	return (
 	  <div className="Product__details__container">
-	    <iv className="Product__details__category">
+	    <div className="Product__details__category">
 	     <p className="Product__details__category__label"> Category: </p>
 	     <p className="Product__details__category__value"> {product.category} </p>
 	    </div>
@@ -129,21 +122,23 @@ const Product = ({product, page}) => {
 	    <div className="Product__details__description">
 	       <p className="Product__details__description__label"> Description: </p>
 	       <p className="Product__details__description__value"> {product.description} </p>
-	    </div>
+	   </div>
+     </div>
 	);
-       }
+  }
 
-      else {
+  else {
+
 	return (
 	   <div className="Product__default__container">
 	    <div className="Product__default__image">
 	      <img src={product.url} /> 
 	    </div>
 	     <div className="Product__default__name__container">
-	        <p className="Product__default__name__label">Name: </p>
-		<Link to={`product/{productId}`}
-		   <h2 className="product__cart__name" id={`products.productId`} onClick={handleProductClick}>{product.name}</h2>
-	        </Link>
+	       <p className="Product__default__name__label">Name: </p>
+		   <Link to={`product/{productId}`}>
+		     <h2 className="product__cart__name" id={`products.productId`} onClick={handleProductClick}>{product.name}</h2>
+	       </Link>
 	     </div>
 	    <div className="Product__default__description">
 	      <p className="Product__default__description__label"> Description: </p>
@@ -151,11 +146,12 @@ const Product = ({product, page}) => {
 	    </div>
 	    <div className="Product__default__button">
 		<IconButton className="Product__default__add" onClick={handleAddClick}><AddCircle /></IconButton>
-	        <Button className="Product__default__cart" onClick={handleCartClick}></Button>
+	     <Button className="Product__default__cart" onClick={handleCartClick}></Button>
 	    </div>
-	);
-      }
-  }
+      </div>
+	  );
+   }
+}
 	    
 
 export default Product;

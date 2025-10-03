@@ -3,7 +3,7 @@ import Navbar from './components/Navbar/navbar.js';
 import Orders  from './features/Orders/orders.js';
 import Order  from './features/ Order/order.js';
 import User  from './features/User/user.js';
-import Product  from './components/Product/product.js';
+import Products  from './features/Products/products.js';
 import Login  from './features/Login/login.js';
 import Home from './features/Home/home.js';
 import Register from './features/Register/register.js';

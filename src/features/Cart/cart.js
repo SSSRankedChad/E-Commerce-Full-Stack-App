@@ -8,7 +8,7 @@ import { selectCartId, selectCart, selectloadCart, selectCheckoutSuccess, select
          clearCartStatusUpdates, selectCheckoutError} from '../../store/Cart/cartSlice.js';
 import { selectUserId, selectUser } from '../../store/User/userSlice.js';
 import Loader from '../../components/Loader/loader.js';
-import Product from '../../components/Product/product.js';
+import Product from '../../features/Product/product.js';
 
 
 
