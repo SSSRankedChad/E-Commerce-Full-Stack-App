@@ -5,7 +5,10 @@ const axios = require('axios');
 export const getProductById = createAsyncThunk('/products/:productId', async(id, thunkAPI) => {
   try {
     const response = await findProductById(id);
-    return response.data;
+    return {
+      product: response.data,
+      productId: response.data.id
+    };
   } catch(err) {
     return thunkAPI.rejectWithValue(err);
   }
@@ -16,7 +19,9 @@ export const getProductById = createAsyncThunk('/products/:productId', async(id,
 export const loadProducts = createAsyncThunk('/products', async(data, thunkAPI) => {
   try {
     const response = await findProducts(data);
-   return response.data;
+    return {
+      products: response.data
+    };
   } catch(err) {
     return thunkAPI.rejectWithValue(err);
   }
@@ -71,6 +76,7 @@ const productSlice = createSlice({
          state.productLoadSuccess = true;
          state.productLoadError = false;
          state.product = action.payload.product;
+         state.productId = action.payload.id;
        })
        .addCase(getProductById.rejected, (state, action) => {
          state.productPending = false;

@@ -1,22 +1,23 @@
-import React, {useState, useEffect} from 'React';
+import React, {useState, useEffect} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Product from '../Product/product.js';
-import { loadProducts, clearProdStatusUpdates, selectProductLoadSuccess, selectProductPending, selectProducts, selectProduct, getProductById } from '../../store/Product/productSlice.js';
-import { selectSearchTerm } from '../../store/SearchTerm';
-import Alert from '@mui/material/Alert/Alert.js';
+import { loadProducts, clearProdStatusUpdates, selectProductLoadSuccess, selectProductsLoadError, selectProductPending, selectProducts, selectProduct, getProductById } from '../../store/Product/productSlice.js';
+import { selectSearchTerm } from '../../store/SearchTerm/searchTerm.js';
 import Loader from '../../components/Loader/loader.js';
+import Alert from '@mui/material/Alert';
 
 
 const Products = () => {
-  const [categories, setCategories] = useState('');
+  const [category, setCategory] = useState('');
   const [sort, setSort] = useState('');
   const listCategories = ['', 'Electronic', 'Beauty', 'Accessories', 'Automotive', 'Hardware', 'Gardening'];
   const sortOptions = ['', 'lowest', 'highest'];
   const arr = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   const products = useSelector(selectProducts);
+  const searchTerm = useSelector(selectSearchTerm);
   const product = useSelector(selectProduct);
   const productSuccess = useSelector(selectProductLoadSuccess);
-  const loadProductError = useSelector(selectProductLoadError);
+  const loadProductError = useSelector(selectProductsLoadError);
   const productId = product?.productId;
   const productLoading = useSelector(selectProductPending);
   const dispatch = useDispatch();
@@ -37,7 +38,7 @@ const Products = () => {
     if(productSuccess) {
       dispatch(clearProdStatusUpdates());
     }
-  }, []);
+  });
 
   useEffect(() => {
     dispatch(loadProducts({category, sort}))
@@ -49,16 +50,19 @@ const Products = () => {
       <div className="Products__container">
         <span className="Products__category__label">Categories: </span>
         <select className="Products__category" name="category" value={category}>
-         {categories.map((category, i) => <option key={`${category}__${i}`} value={category}></option>)}
+         {listCategories.map((category, i) => <option key={`${category}__${i}`} value={category}></option>)}
         </select>
         <span className="Products__options__label"> Options: </span>
         <select className="Products__option" name="option" value={sort}>
-         {sortOptions.map((sort, i) => <option key={`${sort}__${i}`} value={category}></option>)}
+         {sortOptions.map((sort, i) => <option key={`${sort}__${i}`} value={sort}></option>)}
         </select>
       </div>
        <ul className="Products__list">
-         {loadProductError && <Alert severity="error" msg={loadProductError} onClose=(() => dispatch(clearProdStatusUpdates()))}
-         {products.map((product) => <li key={product.productId}></li><Product product={product}/>)}
+         {loadProductError && <Alert severity="error" msg={loadProductError} onClose={() => dispatch(clearProdStatusUpdates())}/>}
+         {products.map((product) => <li key={product.productId}><Product product={product} page="details"/></li>)}
        </ul>
     </div>
   );
+}
+
+export default Products;

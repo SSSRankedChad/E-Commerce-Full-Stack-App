@@ -6,7 +6,10 @@ import { getUser, userUpdate } from '../../apis/user.js';
 export const loadUserById = createAsyncThunk('/user/loadUserById', async(userId, thunkAPI) => {
   try {
     const response = await getUser(userId);
-    return response.data;
+    return {
+      user: response.data,
+      userId: response.data.id
+    };
   } catch(err) {
     return thunkAPI.rejectWithValue(err.response.data);
   }
@@ -15,7 +18,10 @@ export const loadUserById = createAsyncThunk('/user/loadUserById', async(userId,
 export const registerUser = createAsyncThunk('/register/registerUser', async(userData, thunkAPI) => {
   try {
     const response = await register(userData);
-    return response.data;
+    return {
+      user: response.data,
+      userId: response.data.id
+    };
   } catch(err) {
     return thunkAPI.rejectWithValue(err.response.data);
   }
@@ -24,7 +30,10 @@ export const registerUser = createAsyncThunk('/register/registerUser', async(use
 export const updateUser = createAsyncThunk('/user/updateUser', async(data, thunkAPI) => {
   try {
    const resposne = await userUpdate(data);
-   return response.data;
+    return  {
+      user: response.data,
+      userId: response.data.id
+    };
   } catch (err) {
     return thunkAPI.rejectWithValue(err.response.data);
   }
@@ -33,7 +42,10 @@ export const updateUser = createAsyncThunk('/user/updateUser', async(data, thunk
 export const changePassword = createAsyncThunk('/user/changePassword', async({userId, password}, {reject}) => {
   try {
     const response = await axios.put('/users/changePassword', {userId, password});
-    return response.data;
+    return {
+      user: response.data,
+      userId: response.data.id
+    };
   } catch(err) {
     return rejectWithValue(err.response.data);
   }
@@ -42,7 +54,10 @@ export const changePassword = createAsyncThunk('/user/changePassword', async({us
 export const login = createAsyncThunk('/auth/login', async(data, thunkAPI) => {
   try {
     const resposne = await userLogin(data);
-    return response.data;
+    return {
+      user: response.data,
+      userId: response.data.id
+    };
   } catch(err) {
     return rejectWithValue(err.response.data);
   }
@@ -50,7 +65,10 @@ export const login = createAsyncThunk('/auth/login', async(data, thunkAPI) => {
 
 export const logout = createAsyncThunk('/auth/logout', async() => {
     const response = await axios.post('/users/:userId');
-    return response.data;
+  return {
+    user: response.data,
+    userId: response.data.id
+  };
 });
 
 export const session = createAsyncThunk('/auth', async() => {
@@ -121,6 +139,7 @@ const userSlice = createSlice({
        state.loadingUserError = false;
        state.loadingUserSuccess = true;
        state.user = action.payload.user;
+       state.userId = action.payload.id;
       })
 
       .addCase(loadUserById.rejected, (state, action) => {
@@ -191,6 +210,7 @@ const userSlice = createSlice({
         state.loginError = false;
         state.loginSuccess = true;
         state.user = action.payload.user;
+        state.userId = action.payload.id;
       })
 
       .addCase(login.pending, (state, action) => {

@@ -23,14 +23,14 @@ module.exports = class authService {
       const {email, password} = data;
       const user = userModelInstance.findUserByEmail(data);
       if(!user) {
-	throw createError('404','User not found!');
+	    throw createError('404','User not found!');
       }
-      if(user.passsword !== password) {
-	throw createError('404', 'Password does not match!');
+      if(user.password !== password) {
+        throw createError('404', "Password does not match!")
       }
       return user;
     } catch(err) {
-	throw err;
+	 throw err;
     }
   }
 }

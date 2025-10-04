@@ -34,7 +34,7 @@ const App = () => {
     <div className="App__main__container">
       <Routes>
        <Route path="login" element={<Login />} />
-       <Route path="products" element={<Product />}/>
+       <Route path="products" element={<Products />}/>
        <Route path="user" elemnent={<User />}/>
        <Route path="orders" element={<Orders />}/>
        <Route path="/orders/:orderId" element={<Order />}/>

@@ -1,6 +1,6 @@
 import React , { useState, useEffect } from 'react';
 import "./product.css";
-import Loader from '../Loader/loader.js';
+import Loader from '../../components/Loader/loader.js';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import IconButton from '@mui/material/IconButton';

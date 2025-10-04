@@ -24,7 +24,7 @@ passport.use(new LocalStrategy(
    const user = authServiceInstance.login({email: username, password}); 
    return done(null, user);
   } catch(err) {
-    return done(err);
+   return done(null, err);
   }
 }
 ));
