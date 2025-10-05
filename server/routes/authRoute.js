@@ -1,4 +1,5 @@
 const express = require('express');
+const passport = require('passport');
 const router = express.Router();
 const authService = require('../services/authService.js');
 const authServiceInstance = new authService();

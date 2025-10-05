@@ -8,12 +8,9 @@ module.exports = class authService {
     try {
        const { email } = data;
        const user = userModelInstance.createUser(data);
-       if(!user) {
-	 throw createError('404', 'User not found!');
-       }
        return await userModelInstance.createUser(data);
      } catch(err) {
-	throw err;
+	      throw err;
      }
 
    }
