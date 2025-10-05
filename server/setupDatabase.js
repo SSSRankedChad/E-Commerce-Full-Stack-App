@@ -3,7 +3,7 @@ const { DB } = require('./config.js');
 
 (async() => {
   
- const userTableStmt = `
+ const usersTableStmt = `
   CREATE TABLE IF NOT EXIST users (
     id  INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY NOT NULL,
     email varchar(50),
@@ -11,16 +11,16 @@ const { DB } = require('./config.js');
     firstname varchar(50),
     lastname varchar(50),
     google JSON,
-    facebook JSON,
+    facebook JSON
  );
 `
 
-const productTableStmt = `
-  CREATE TABLE IF NOT EXIST product (
+const productsTableStmt = `
+  CREATE TABLE IF NOT EXIST products (
    id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY NOT NULL,
    name varchar(50) NOT NULL,
    price INT NOT NULL, 
-   description varchar(50) NOT NULL,
+   description varchar(50) NOT NULL
  );
 `
 
@@ -32,7 +32,7 @@ const ordersTableStmt = `
    modified DATE NOT NULL,
    status varchar(50) NOT NULL,
    userId INT NOT NULL,
-   FOREIGN KEY (userId) reference users(id)
+   FOREIGN KEY (userId) REFERENCES users(id)
  );
 `
 
@@ -47,7 +47,7 @@ const orderItemsTableStmt = `
     price INT NOT NULL,
     name TEXT NOT NULL,
     productId INT NOT NULL,
-    FOREIGN KEY (orderId) reference orders(id)
+    FOREIGN KEY (orderId) REFERENCES orders(id)
  );
 `
 
@@ -57,7 +57,7 @@ const cartsTableStmt = `
     userId INT NOT NULL,
     modified DATE NOT NULL,
     created DATE NOT NULL,
-    FOREIGN KEY (userId) reference users(id)
+    FOREIGN KEY (userId) REFERENCES users(id)
    );
 `
 
@@ -67,8 +67,9 @@ const cartItemsTableStmt = `
     qty INT NOT NULL,
     cartId INT NOT NULL,
     productId INT NOT NULL,
-    FOREIGN KEY (cartId) references cart(id),
-    FOREIGN KEY (productId) references product(id),
+    FOREIGN KEY (cartId) REFERENCES cart(id),
+    FOREIGN KEY (productId) REFERENCES products(id)
+
   );
 `
 
@@ -83,11 +84,11 @@ try {
 
    await db.connect();
 
-   await db.query(userTableStmt);
-   await db.query(productTableStmt);
+   await db.query(usersTableStmt);
+   await db.query(productsTableStmt);
    await db.query(ordersTableStmt);
    await db.query(orderItemsTableStmt);
-   await db.query(cartTableStmt);
+   await db.query(cartsTableStmt);
    await db.query(cartItemsTableStmt);
    
    await db.end();
