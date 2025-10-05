@@ -17,7 +17,7 @@ module.exports = class orderItemModel {
  async create(data) {
    try {
     const statement = pgp.helpers.insert(data, null, 'orderItems') + 'RETURNING *';
-    const results = db.query(statement);
+    const results = await db.query(statement);
     if(results.rows?.length) {
 	 return results.rows[0];
    }
@@ -35,7 +35,7 @@ async findOrderById(orderId) {
 		      INNER JOIN products p on p.id = oi."productId"
 		      WHERE orderId = $1 `
    const values = [orderId];
-   const results = db.query(statement, values);
+   const results = await db.query(statement, values);
    if(results.rows?.length) {
     return results.rows[0];
    }

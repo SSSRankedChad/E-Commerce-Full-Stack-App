@@ -16,7 +16,7 @@ module.exports = class orderModel {
   try {
     const {items, ...orders} = this;
     const statement = pgp.helpers.insert(data, null, 'orders') + 'RETURNING *';
-    const results = db.query(statement);
+    const results = await db.query(statement);
     if(results.rows?.length) {
       Object.assign(this, result.rows[0]);
       return results.rows[0];
@@ -31,7 +31,7 @@ module.exports = class orderModel {
    try {
     const condition = pgp.as.format(`WHERE ID = ${id}` + 'RETURNING *', {id: this.id});
     const statement = pgp.helpers.insert(data, null, 'orders') + condition;
-    const results = db.query(statement);
+    const results = await db.query(statement);
     if (results.rows?.length) {
 	Object.assign(this, result.rows[0]);
 	return results.rows[0];
@@ -46,7 +46,7 @@ module.exports = class orderModel {
    try {
     const statement = `SELECT * FROM orders WHERE userId = $1`;
     const values = [userId];
-    const results = db.query(statement, values); 
+    const results = await db.query(statement, values);
     if (results.rows?.length) {
 	Object.assign(this, results.rows[0]);
 	return results.rows[0];
@@ -61,7 +61,7 @@ async findOneById(orderId) {
  try {
   const statement = `SELECT * FROM orders WHERE orderId = $1`
   const values = [orderId];
-  const results = db.query(statement, values);
+  const results = await db.query(statement, values);
   if (results.rows?.length) {
      Object.assign(this, results.rows[0]);
      return results.rows[0];

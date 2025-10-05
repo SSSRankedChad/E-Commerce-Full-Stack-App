@@ -5,8 +5,8 @@ const db = require('../../db');
 module.exports = class cartItemModel {
  async create(data) {
    try {
-     const statement = pgp.helpers.insert(data, null, 'cartItem') + 'RETURNING *';
-     const results = db.query(statement);
+     const statement = pgp.helpers.insert(data, null, 'cartItems') + 'RETURNING *';
+     const results = await db.query(statement);
    
      if(results.rows?.length) {
          return results.rows[0];
@@ -20,14 +20,15 @@ module.exports = class cartItemModel {
  async update(data) {
     try {
      const condition = pgp.as.format('WHERE id = $1') + 'RETURNING *';
-     const statement = pgp.helpers.insert(data, null, 'cartItem') + condition;
-     
+     const statement = pgp.helpers.insert(data, null, 'cartItems') + condition;
+     const results = await db.query(statement);
+
      if(results.rows?.length) {
-	return results.rows[0];
+	   return results.rows[0];
      }
      return null;
     } catch(err) {
-       throw new Error(err);
+     throw new Error(err);
     }
  }
 
@@ -39,7 +40,7 @@ module.exports = class cartItemModel {
 	                INNER JOIN product p
 	                ON p.id = cartItem.id WHERE cartItem = $1`;
      const values = [id];
-     const results = db.query(statement, values);
+     const results = await db.query(statement, values);
      
      if(results.rows?.length) {
 	return results.rows[0];
@@ -52,9 +53,9 @@ module.exports = class cartItemModel {
 
  async deleteItem(id) {
     try {
-     const statement = `DELETE cartItem FROM cartItem WHERE id = $1`;
+     const statement = `DELETE cartItem FROM cartItems WHERE id = $1`;
      const values = [id];
-     const results = db.query(statement, values);
+     const results = await db.query(statement, values);
     
      if(results.rows?.length) {
 	return results.rows[0];
