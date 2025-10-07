@@ -18,12 +18,12 @@ module.exports = class authService {
   async login(data) {
     try {
       const {email, password} = data;
-      const user = userModelInstance.findUserByEmail(data);
+      const user = await userModelInstance.findUserByEmail(data);
       if(!user) {
-	    throw createError('404','User not found!');
+	createError('409','User not found');
       }
-      if(user.password !== password) {
-        throw createError('404', "Password does not match!")
+      else if(user.password !== password) {
+	 createError('409', 'Password does not match');
       }
       return user;
     } catch(err) {

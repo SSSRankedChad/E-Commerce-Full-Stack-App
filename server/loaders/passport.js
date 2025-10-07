@@ -13,18 +13,26 @@ module.exports = (app) => {
    done(null, user.id)
  });
  
- passport.deserializeUser((id, done) => {
-   done(null, {id})
+ passport.deserializeUser(async(id, done) => {
+  try {
+   const user = await authServiceInstance.findUserById(id);
+   if(!user) {
+    return done(null, false);
+   } 
+   return done(null, user);
+  } catch(err) {
+    return done(err);
+  }
  });
 
 
 passport.use(new LocalStrategy( 
- async(username, password, email) => {
+ async(username, password, done) => {
   try {
-   const user = authServiceInstance.login({email: username, password}); 
+   const user = await authServiceInstance.login({email: username, password}); 
    return done(null, user);
   } catch(err) {
-   return done(null, err);
+   return done(err);
   }
 }
 ));

@@ -3,7 +3,7 @@ import { isLoggedIn, userLogin, register } from '../../apis/auth.js';
 import { getUser, userUpdate } from '../../apis/user.js';
 
 
-export const loadUserById = createAsyncThunk('/user/loadUserById', async(userId, thunkAPI) => {
+export const loadUserById = createAsyncThunk('user/loadUserById', async(userId, thunkAPI) => {
   try {
     const response = await getUser(userId);
     return {
@@ -15,65 +15,64 @@ export const loadUserById = createAsyncThunk('/user/loadUserById', async(userId,
   }
 });
 
-export const registerUser = createAsyncThunk('/register/registerUser', async(userData, thunkAPI) => {
+export const registerUser = createAsyncThunk('register/registerUser', async(userData, thunkAPI) => {
   try {
     const response = await register(userData);
     return {
-      user: response.data,
-      userId: response.data.id
+      user: response.data
     };
   } catch(err) {
     return thunkAPI.rejectWithValue(err.response.data);
   }
 });
 
-export const updateUser = createAsyncThunk('/user/updateUser', async(data, thunkAPI) => {
+export const updateUser = createAsyncThunk('user/updateUser', async(data, thunkAPI) => {
   try {
-   const resposne = await userUpdate(data);
+   const response = await userUpdate(data);
     return  {
-      user: response.data,
-      userId: response.data.id
+      user: response.data
     };
   } catch (err) {
     return thunkAPI.rejectWithValue(err.response.data);
   }
 });
 
-export const changePassword = createAsyncThunk('/user/changePassword', async({userId, password}, {reject}) => {
+export const changePassword = createAsyncThunk('user/changePassword', async({userId, password}, {reject}) => {
   try {
     const response = await axios.put('/users/changePassword', {userId, password});
     return {
-      user: response.data,
-      userId: response.data.id
+      user: response.data
     };
   } catch(err) {
     return rejectWithValue(err.response.data);
   }
 });
 
-export const login = createAsyncThunk('/auth/login', async(data, thunkAPI) => {
+export const login = createAsyncThunk('auth/login', async(data, thunkAPI) => {
   try {
-    const resposne = await userLogin(data);
-    return {
-      user: response.data,
-      userId: response.data.id
-    };
+    const response = await userLogin(data);
+    return response.data; 
   } catch(err) {
-    return rejectWithValue(err.response.data);
+    return thunkAPI.rejectWithValue(err?.response.data);
   }
 });
 
-export const logout = createAsyncThunk('/auth/logout', async() => {
-    const response = await axios.post('/users/:userId');
-  return {
-    user: response.data,
-    userId: response.data.id
-  };
+export const logout = createAsyncThunk('auth/logout', async(thunkAPI) => {
+    try {
+       const response = await axios.post('/auth/logout');
+       return response.data;
+    } catch(err) {
+    return thunkAPI.rejectWithValue(err.response.data);
+   }
 });
 
-export const session = createAsyncThunk('/auth', async() => {
-    const response = await axios.get('/auth');
-    return response.data;
+export const session = createAsyncThunk('auth', async(thunkAPI) => {
+    try {
+      const response = await axios.get('/auth');
+      return response.data;
+    } catch(err) {
+      return thunkAPI.rejectWithValue(err.response.data);
+   }
 });
 
 
