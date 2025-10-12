@@ -9,7 +9,7 @@ module.exports = class userService {
    try {
     const {id} = data;
 
-    const user = userModelInstance.findUserById(id);
+    const user = await userModelInstance.findUserById(id);
 
      if(!user) {
        createError('409', 'User not found!');
@@ -25,7 +25,7 @@ module.exports = class userService {
     try {
       const { id } = data;
 
-      const user = userModelInstance.updateUser(id);
+      const user = await userModelInstance.updateUser(id);
 
       if(!user) {
         createError('409', 'User not found!');

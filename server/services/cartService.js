@@ -64,8 +64,8 @@ async checkout(cartItem, data, payment) {
     return total + Number(item.price);
   }, 0);
 
-  const Order = orderModelInstance({total, cartId});
-  Order.addItems(cartItems);
+  const Order = await orderModelInstance({total, cartId});
+  await Order.addItems(cartItems);
   await Order.create();
 
 
