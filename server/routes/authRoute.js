@@ -12,7 +12,6 @@ module.exports = (app, passport) => {
    router.post('/register', async(req, res, next) => {
     try {
 	   const data = req.body;
-	   console.log("Register route hit!", req.body);
 	   const response = await authServiceInstance.register(data);
 	   res.status(200).send(response);
     } catch(err) {
@@ -23,9 +22,8 @@ module.exports = (app, passport) => {
     
   router.post('/login', passport.authenticate('local'), async(req, res, next) => {
 	 try {
-	   const {email, password} = req.body;
-	   console.log("Login route hit!", req.body);
-	   const response = await authServiceInstance.login({email, password});
+	   const {username, password} = req.body;
+	   const response = await authServiceInstance.login({email: username, password});
 	   res.status(200).send(response);
 	  } catch(err) {
 	   next(err);

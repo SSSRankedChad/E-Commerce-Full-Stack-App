@@ -1,4 +1,5 @@
 const passport = require('passport');
+const bcrypt = require('bcrypt');
 const LocalStrategy = require('passport-local');
 const authService = require('../services/authService');
 const authServiceInstance = new authService();
@@ -29,7 +30,13 @@ module.exports = (app) => {
 passport.use(new LocalStrategy( 
  async(username, password, done) => {
   try {
-   const user = await authServiceInstance.login({email: username, password}); 
+   const user = await authServiceInstance.login({email: username, password});
+
+   const isValidPassword = await bcrypt.compare(password, user.password);
+
+   if(!isValidPassword) {
+      return done(null, false, { message: "Password does not match!"});
+    }
    return done(null, user);
   } catch(err) {
    return done(err);

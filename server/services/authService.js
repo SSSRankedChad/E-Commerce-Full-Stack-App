@@ -7,23 +7,23 @@ module.exports = class authService {
   async register(data) {
     try {
        const { email } = data;
-       const user = userModelInstance.createUser(data);
-       return await userModelInstance.createUser(data);
+       const user = await userModelInstance.createUser(data);
+       if(user) {
+         throw createError(401, 'User already exists!');
+      }
+       return user;
      } catch(err) {
-	      throw err;
+	    throw err;
      }
 
    }
 
   async login(data) {
     try {
-      const {email, password} = data;
-      const user = await userModelInstance.findUserByEmail(data);
+      const { email } = data;
+      const user = await userModelInstance.findUserByEmail(email);
       if(!user) {
-	createError('409','User not found');
-      }
-      else if(user.password !== password) {
-	 createError('409', 'Password does not match');
+	    throw createError(401, 'User not found');
       }
       return user;
     } catch(err) {
