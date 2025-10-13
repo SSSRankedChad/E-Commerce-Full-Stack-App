@@ -11,7 +11,7 @@ import { useSelector, useDispatch } from 'react-redux';
 
 
 const Login = () => {
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const logginIn = useSelector(selectLogginIn);
   const loginSuccess = useSelector(selectLoginSuccess);
@@ -22,8 +22,8 @@ const Login = () => {
 
 
   const handleChange = ({target}) => {
-    if(target.name === 'username') {
-      setUsername(target.value);
+    if(target.name === 'email') {
+      setEmail(target.value);
     }
     else if (target.name === 'password') {
       setPassword(target.value);
@@ -32,7 +32,7 @@ const Login = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-      dispatch(login({username, password}));
+      dispatch(login({email, password}));
   }
 
 
@@ -56,10 +56,10 @@ const Login = () => {
 
   useEffect(() => {
     if(loginSuccess) {
-      setUsername('');
+      setEmail('');
       setPassword('');
       navigate('/');
-      dispatch(clearStatusUserUpdates());
+      dispatch(clearUserStatusUpdates());
     }
   }, [loginSuccess, navigate, dispatch]);
 
@@ -69,8 +69,8 @@ const Login = () => {
        <h3 className="login__form__title"> Login </h3>
        {loginError && <Alert msg={loginError} onClose={() => dispatch(clearStatusUserUpdates())}/>}
        <Link to='/register'><p className="Login__registerLink"> New User? Please Register! </p></Link>
-       <p> Enter Username: </p><TextInput name="Username" name="username" value={username} onChange={handleChange}/>
-       <p> Enter Password: </p><TextInput name="Password" name="password" type="password" value={password} onChange={handleChange}/>
+       <p> Enter Email: </p><TextInput name="email" value={email} onChange={handleChange}/>
+       <p> Enter Password: </p><TextInput name="password" type="password" value={password} onChange={handleChange}/>
        <Button type="submit" id="login-button" name="login-button" fullWidth> Login </Button>
      </form>
     </div>

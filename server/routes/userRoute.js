@@ -13,7 +13,7 @@ module.exports = (app) => {
     try {
 	   const { userId } = req.params;
 	   const data = req.body;
-	   const response = await userServiceInstance.update({id: userId, data});
+	   const response = await userServiceInstance.update({id: userId, ...data});
 	   res.status(200).send(response);
     } catch(err) {
 	    next(err);

@@ -1,4 +1,5 @@
 const express = require('express');
+const router = express.Router();
 const orderService = require('../services/orderService.js');
 const orderServiceInstance = new orderService();
 
@@ -6,7 +7,7 @@ const orderServiceInstance = new orderService();
 
 module.exports = (app) => {
 
-  const router = express.Router();
+  app.use('/api/orders', router);
 
   router.post('/', async(err, req, res, next) => {
     try {
@@ -42,13 +43,11 @@ module.exports = (app) => {
    try {
       const { orderId } = req.params;
 	    const data = req.body;
-	    const response = await orderServiceInstance.update({orderId, data});
+	    const response = await orderServiceInstance.update({orderId, ...data});
 	    res.status(200).send(response);
     } catch(err) {
       throw new Error(err);
     }
   });
 
-  app.use('/api/orders', router);
 }
-

@@ -22,9 +22,7 @@ module.exports = class authService {
     try {
       const { email } = data;
       const user = await userModelInstance.findUserByEmail(email);
-      if(!user) {
-	    throw createError(401, 'User not found');
-      }
+      console.log(user);
       return user;
     } catch(err) {
 	 throw err;
