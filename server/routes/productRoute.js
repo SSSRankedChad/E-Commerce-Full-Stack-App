@@ -1,12 +1,14 @@
 const express = require('express');
+const router = express.Router();
 const productService = require('../services/productsService.js');
 const prodcutServiceInstance = new productService();
 
 
 module.exports = (app) => {
 
-  const router = express.Router();
+ app.use('/api/products', router);
 
+	
   router.get('/:productId', async(req, res, next) => {
    try { 
 	   const { productId } = req.params;
@@ -28,5 +30,4 @@ module.exports = (app) => {
 	  }
    });
 
-  app.use('/api/products', router);
 }
