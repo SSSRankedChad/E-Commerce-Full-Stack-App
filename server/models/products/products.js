@@ -7,8 +7,7 @@ module.exports = class ProductModel {
 async findProducts(product = {}) {
  try {
   const statement = `SELECT * FROM products`;
-  const values = [product];
-  const results = await db.query(statement, values);
+  const results = await db.query(statement);
   
   if(results.rows?.length) {
      return results.rows[0];
@@ -22,9 +21,9 @@ async findProducts(product = {}) {
 
 async findProductById(id) {
  try {
-  const statement = `SELECT * FROM product WHERE id = $1`;
+  const statement = `SELECT * FROM products WHERE id = $1`;
   const values = [id];
-  const results = await db.query(statement);
+  const results = await db.query(statement, values);
   
   if(results.rows?.length) {
     return results.rows[0];
