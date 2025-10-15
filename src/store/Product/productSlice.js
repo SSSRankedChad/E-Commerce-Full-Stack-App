@@ -2,13 +2,10 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { findProductById, findProducts } from '../../apis/products.js';
 const axios = require('axios');
 
-export const getProductById = createAsyncThunk('/products/:productId', async(id, thunkAPI) => {
+export const getProductById = createAsyncThunk('/products/getPRoductById', async(id, thunkAPI) => {
   try {
     const response = await findProductById(id);
-    return {
-      product: response.data,
-      productId: response.data.id
-    };
+    return response.data;
   } catch(err) {
     return thunkAPI.rejectWithValue(err);
   }
@@ -19,9 +16,7 @@ export const getProductById = createAsyncThunk('/products/:productId', async(id,
 export const loadProducts = createAsyncThunk('/products', async(data, thunkAPI) => {
   try {
     const response = await findProducts(data);
-    return {
-      products: response.data
-    };
+    return response.data;
   } catch(err) {
     return thunkAPI.rejectWithValue(err);
   }
@@ -75,7 +70,7 @@ const productSlice = createSlice({
        .addCase(getProductById.fulfilled, (state, action) => {
          state.productLoadSuccess = true;
          state.productLoadError = false;
-         state.product = action.payload.product;
+         state.product = action.payload;
          state.productId = action.payload.id;
        })
        .addCase(getProductById.rejected, (state, action) => {
@@ -89,7 +84,7 @@ const productSlice = createSlice({
        .addCase(loadProducts.fulfilled, (state, action) => {
          state.productsLoadSuccess = true;
          state.productsLoadError = false;
-         state.products = action.payload.products;
+         state.products = action.payload;
        })
        .addCase(loadProducts.rejected, (state, action) => {
         state.productsPending = false;

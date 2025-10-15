@@ -66,17 +66,6 @@ export const logout = createAsyncThunk('auth/logout', async((), thunkAPI) => {
    }
 });
 
-export const session = createAsyncThunk('auth', async((), thunkAPI) => {
-    try {
-      const response = await axios.get('/auth');
-      return response.data;
-    } catch(err) {
-      return thunkAPI.rejectWithValue(err.response.data);
-   }
-});
-
-
-
 const initialState = {
   user: {},
   userId: null,
@@ -253,8 +242,6 @@ const userSlice = createSlice({
 export const {clearUserStatusUpdates} = userSlice.actions;
 export default userSlice.reducer;
 
-export const selectUser = state => state.user.user;
-export const selectUserId = state => state.user.userId;
 export const selectUserLoading = state => state.user.loadingUser;
 export const selectUserLoadingError = state => state.user.loadingUserError;
 export const selectRegisterUserError = state => state.user.registerUserError;
@@ -271,6 +258,3 @@ export const selectLoginError = state => state.user.loginError;
 export const selectLoginSuccess = state => state.user.loginSuccess;
 export const selectLogoutError = state => state.user.logoutError;
 export const selectLogoutSuccess = state => state.user.logoutSuccess;
-export const selectSession = state => state.user.gettingSession;
-export const selectSessionError = state => state.user.sessionError;
-export const selectSessionSuccess = state => state.user.sessionSuccess;
