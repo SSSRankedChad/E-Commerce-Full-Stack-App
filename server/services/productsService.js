@@ -7,7 +7,7 @@ module.exports = class productService {
 
   async get(data) {
     try {
-     const products = productModelInstance.findProducts(data);
+     const products = await productModelInstance.findProducts(data);
 
      if(!products) {
        throw createError('409', 'Products not found!');
@@ -23,7 +23,7 @@ module.exports = class productService {
 
   async find(id) {
     try {
-      const product = productModelInstance.findProductById(id);
+      const product = await productModelInstance.findProductById(id);
 
       if(!product) {
         throw createError('409', 'Products not found!');
