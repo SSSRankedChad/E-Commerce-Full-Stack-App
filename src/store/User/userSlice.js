@@ -57,7 +57,7 @@ export const login = createAsyncThunk('auth/login', async(data, thunkAPI) => {
   }
 });
 
-export const logout = createAsyncThunk('auth/logout', async(thunkAPI) => {
+export const logout = createAsyncThunk('auth/logout', async((), thunkAPI) => {
     try {
        const response = await axios.post('/auth/logout');
        return response.data;
@@ -66,7 +66,7 @@ export const logout = createAsyncThunk('auth/logout', async(thunkAPI) => {
    }
 });
 
-export const session = createAsyncThunk('auth', async(thunkAPI) => {
+export const session = createAsyncThunk('auth', async((), thunkAPI) => {
     try {
       const response = await axios.get('/auth');
       return response.data;
