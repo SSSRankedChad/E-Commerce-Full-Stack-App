@@ -68,11 +68,10 @@ const Navbar = () => {
         value={searchTerm}
         onChange={handleChange}
         size="small"
-        placeholder="Searching..."
+        placeholder="Searching..."/>
       <IconButton type="submit" id="submit-button">
 	   <SearchIcon />
       </IconButton> 
-	   />
       </form>
      </div>
   )
