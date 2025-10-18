@@ -43,7 +43,7 @@ module.exports = class cartItemModel {
      const results = await db.query(statement, values);
      
      if(results.rows?.length) {
-	return results.rows[0];
+	     return results.rows[0];
      }
      return null;
     } catch(err) {
@@ -58,7 +58,7 @@ module.exports = class cartItemModel {
      const results = await db.query(statement, values);
     
      if(results.rows?.length) {
-	return results.rows[0];
+	     return results.rows[0];
      }
      return null;
     } catch(err) {

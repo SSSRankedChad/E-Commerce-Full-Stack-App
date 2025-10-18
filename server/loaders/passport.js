@@ -1,5 +1,4 @@
 const passport = require('passport');
-const bcrypt = require('bcrypt');
 const LocalStrategy = require('passport-local');
 const authService = require('../services/authService');
 const authServiceInstance = new authService();
@@ -27,7 +26,6 @@ passport.use(new LocalStrategy(
  async(email, password, done) => {
   try {
     const user = await authServiceInstance.login({email});
-    console.log(user);
 
     if(!user) {
       return done(null, false, { message: "User does not exist!" });

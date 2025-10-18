@@ -22,7 +22,7 @@ module.exports = (app) => {
 
   router.get('/', async(req, res, next) => {
 	 try {
-	    const data = req.body;
+	    const data = req.query;
 	    const response = await productServiceInstance.get(data);
 	    res.status(200).send(response);
 	  } catch(err) {

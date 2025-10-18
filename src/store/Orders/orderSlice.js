@@ -1,41 +1,51 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createOrder, findOrder, findOrderById } from '../../apis/orders.js';
+
 const axios = require('axios');
 
 
-export const loadOrderById = createAsyncThunk('/orders/loadOrderById', async({orderId}, {reject}) => {
-    const response = await axios.get('/orders/{orderId}', orderId);
-    return response.data;
-});
-
-export const loadOrders = createAsyncThunk('/orders', async({}) => {
-    const response = await axios.get('/orders');
-    return response.data;
-});
-
-export const createOrder = createAsyncThunk('/orders/createOrder', async({orderId}, {reject}) => {
+export const loadOrderById = createAsyncThunk('/orders/loadOrderById', async((data), thunkAPI) => {
   try {
-    const response = await axios.post('/orders/{orderId}', orderId);
+    const response = await findOrderById(data);
     return response.data;
   } catch(err) {
-    return reject(err.response.data);
+    return thunkAPI.rejectWithValue(err);
   }
 });
 
-export const cancelOrder = createAsyncThunk('/orders/cancelOrder', async({orderId}, {reject}) => {
+export const loadOrders = createAsyncThunk('/orders/loadOrders', async((data), thunkAPI) => {
+  try {
+    const response = await axios.get('/orders');
+    return response.data;
+   } catch(err) {
+    return thunkAPI.rejectWithValue(err);
+  }
+});
+
+export const createOrder = createAsyncThunk('/orders/createOrder', async((data), thunkAPI) => {
+  try {
+    const response = await createOrder(data);
+    return response.data;
+  } catch(err) {
+    return thuunkAPI.rejectWithValue(err);
+  }
+});
+
+export const cancelOrder = createAsyncThunk('/orders/cancelOrder', async((data), thunkAPI) => {
   try {
     const response = await axios.delete('/orders/{orderId}', orderId);
     return response.data;
   } catch(err) {
-    return reject(err.response.data);
+    return thunkAPI.rejectWIthValue(err);
   }
 });
 
-export const updateOrder = createAsyncThunk('/orders/updateOrder', async({orderId}, {reject}) => {
+export const updateOrder = createAsyncThunk('/orders/updateOrder', async((data), thunkAPI) => {
   try {
     const response = await axios.put('/orders/{orderId}', orderId);
     return response.data;
   } catch(err) {
-    return reject(err.response.data);
+    return thunkAPI.rejectWithValue(err);
   }
 });
 

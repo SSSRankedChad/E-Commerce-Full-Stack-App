@@ -32,7 +32,6 @@ const initialState = {
   productsPending: false,
   productsLoadSuccess: false,
   productsLoadError: false,
-  searchTerm: null,
 };
 
 const productSlice = createSlice({

@@ -28,7 +28,7 @@ module.exports = class cartModel {
 
   async findOneById(userId) {
     try {
-      const condition = `SELECT * FROM cart WHERE userId = $1`;
+      const condition = `SELECT * FROM carts WHERE userId = $1`;
       const statement = pgp.helpers.insert(data, null, 'carts') + condition;
       const results = await db.query(statement);
 

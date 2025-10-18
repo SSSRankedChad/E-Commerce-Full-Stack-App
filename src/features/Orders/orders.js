@@ -70,7 +70,7 @@ const Orders = () => {
         {setTimeout(() => {
           navigate("/")
         }, 3000)}
-        <Loader />
+        <Loader /> 
       </div>
     );
   }

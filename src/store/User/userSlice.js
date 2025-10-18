@@ -40,9 +40,7 @@ export const updateUser = createAsyncThunk('user/updateUser', async(data, thunkA
 export const changePassword = createAsyncThunk('user/changePassword', async({userId, password}, {reject}) => {
   try {
     const response = await axios.put('/users/changePassword', {userId, password});
-    return {
-      user: response.data
-    };
+    return response.data;
   } catch(err) {
     return rejectWithValue(err.response.data);
   }

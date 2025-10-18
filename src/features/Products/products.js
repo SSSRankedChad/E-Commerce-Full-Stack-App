@@ -10,7 +10,7 @@ import Alert from '@mui/material/Alert';
 const Products = () => {
   const [category, setCategory] = useState('');
   const [sort, setSort] = useState('');
-  const listCategories = ['', 'Electronic', 'Beauty', 'Accessories', 'Automotive', 'Hardware', 'Gardening'];
+  const listCategories = ['Electronic', 'Beauty', 'Accessories', 'Automotive', 'Hardware', 'Gardening'];
   const sortOptions = ['', 'lowest', 'highest'];
   const arr = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   const products = useSelector(selectProducts);

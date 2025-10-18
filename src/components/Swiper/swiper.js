@@ -10,7 +10,7 @@ import img4 from '../../public/resources/gold-zipper-on-black-fashion-backpack.j
 import img5 from '../../public/resources/stacked-bracelets.jpg';
 
 
-import 'swiper/css'
+import 'swiper/css';
 
 const SlideShow = () => {
   return (

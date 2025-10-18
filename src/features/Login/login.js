@@ -55,7 +55,7 @@ const Login = () => {
   }, [logoutSuccess, navigate, dispatch]);
 
 
-  if(logginIn) {
+  if(logginIn || logginOut) {
       return (
        <div className="login__loader">
         <Loader />
@@ -86,7 +86,7 @@ const Login = () => {
     <div className="login__container">
       <form className="login__form" onSubmit={handleSubmit}>
        <h3 className="login__form__title"> Login </h3>
-       {loginError && <Alert msg={loginError} onClose={() => dispatch(clearStatusUserUpdates())}/>}
+       {loginError && <Alert msg={loginError} onClose={() => dispatch(clearUserStatusUpdates())}/>}
        <Link to='/register'><p className="Login__registerLink"> New User? Please Register! </p></Link>
        <p> Enter Email: </p><TextInput name="email" value={email} onChange={handleChange}/>
        <p> Enter Password: </p><TextInput name="password" type="password" value={password} onChange={handleChange}/>

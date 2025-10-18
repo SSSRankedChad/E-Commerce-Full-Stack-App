@@ -12,8 +12,8 @@ module.exports = class cartService {
 
      const { userId } = data;
      try {
-	const cart = await cartModelInstance.creata(data);
-	return cart;
+    	const cart = await cartModelInstance.creata(data);
+    	return cart;
     } catch(err) {
 	throw err;
    }

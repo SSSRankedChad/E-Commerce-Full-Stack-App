@@ -98,8 +98,8 @@ const User = () => {
 
 
     useEffect(() => {
-        return () => dispatch(clearUsersStatusUpdates())
-    }, []);
+       dispatch(clearUsersStatusUpdates())
+    }, [dispatch]);
 
     useEffect(() => {
         dispatch(loadUserById({userId}))
@@ -148,7 +148,7 @@ const User = () => {
         {password && <TextInput name="password_match" value={passMatch} type="password" onChange={handleChange} placeholder="Please enter a new password"/>}
         {passMatch && <Button id="changepassword-buttton" name="Change Password" onClick={handleClick}>Submit</Button>}
        </section>
-
+       <Button id="updateuser-button" name="Update User" onClick={handleClick}> Update Account </Button>
        <Link to='/orders'><p className="order__link"> View order history</p></Link>
       </section>
     )

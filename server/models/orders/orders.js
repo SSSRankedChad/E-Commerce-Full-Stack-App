@@ -29,12 +29,12 @@ module.exports = class orderModel {
 
  async updateOrder(data, id) {
    try {
-    const condition = pgp.as.format(`WHERE ID = ${id}` + 'RETURNING *', {id: this.id});
+    const condition = pgp.as.format(`WHERE id = ${id}` + 'RETURNING *', {id: this.id});
     const statement = pgp.helpers.insert(data, null, 'orders') + condition;
     const results = await db.query(statement);
     if (results.rows?.length) {
-	Object.assign(this, result.rows[0]);
-	return results.rows[0];
+	     Object.assign(this, result.rows[0]);
+	     return results.rows[0];
     }
     return null 
   } catch(err) {

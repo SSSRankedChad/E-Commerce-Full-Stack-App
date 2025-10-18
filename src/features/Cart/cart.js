@@ -12,7 +12,7 @@ import Product from '../../features/Product/product.js';
 
 
 
-export const Cart = () => {
+const Cart = () => {
   const cart = useSelector(selectCart);
   const cartId = useSelector(selectCartId);
   const cartLoading = useSelector(selectLoadCart);
@@ -114,7 +114,7 @@ export const Cart = () => {
 
 
   useEffect(() => {
-    dispatch(clearCartStatusUpdates)
+    dispatch(clearCartStatusUpdates())
   }, [dispatch]);
 
   useEffect(() => {
@@ -156,6 +156,7 @@ export const Cart = () => {
       </div>
     )
   }
+}
 
  return (
       <section className="Cart">
@@ -202,5 +203,7 @@ export const Cart = () => {
                 Your cart is empty.
             </section>}
       </section>
-    );
-  }
+  );
+
+
+  export default Cart;

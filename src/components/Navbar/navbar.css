@@ -4,7 +4,7 @@
   position: fixed;
   border-radius: 0.55rem;
   width: 100%;
-  z-index: 100;
+  z-index: 1;
 }
 
 .orderButton, .cartButtton, .productButton, .userButtton, .homeButton {
