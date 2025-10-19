@@ -2,30 +2,30 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { getCart, updateItem, cartCheckout } from '../../apis/cart.js';
 const axios = require('axios');
 
-export const loadCart = createAsyncThunk('/cart/:cartId', async(param, thunkAPI) => {
+export const loadCart = createAsyncThunk('/cart/:cartId', async(data, thunkAPI) => {
   try {
-    const response = await getCart();
+    const response = await getCart(data);
     return response.data;
   } catch(err) {
-    throw err.response.data;
+    return thunkAPI.rejectWithValue(err.response.data);
   }
 });
 
-export const updateCart = createAsyncThunk('/cart/:cartId', async(param, thunkAPI) => {
+export const updateCart = createAsyncThunk('/cart/:cartId', async(data, thunkAPI) => {
   try {
-    const response = await updateItem();
+    const response = await updateItem(data);
     return response.data;
   } catch(err) {
-    throw err.response.data;
+    return thunkAPI.rejectWithValue(err.response.data);
   }
 });
 
-export const checkout = createAsyncThunk('/cart/checkout', async(param, thunkAPI) => {
+export const checkout = createAsyncThunk('/cart/checkout', async(data, thunkAPI) => {
   try {
-    const response = await cartCheckout();
+    const response = await cartCheckout(data);
     return response.data;
   } catch(err) {
-    throw err.response.data;
+    return thunkAPI.rejectWithValue(err.response.data);
   }
 });
 

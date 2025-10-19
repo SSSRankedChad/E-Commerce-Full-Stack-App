@@ -240,6 +240,9 @@ const userSlice = createSlice({
 export const {clearUserStatusUpdates} = userSlice.actions;
 export default userSlice.reducer;
 
+
+export const selectUser = state => state.user.user;
+export const selectUserId = state => state.user.user_id;
 export const selectUserLoading = state => state.user.loadingUser;
 export const selectUserLoadingError = state => state.user.loadingUserError;
 export const selectRegisterUserError = state => state.user.registerUserError;

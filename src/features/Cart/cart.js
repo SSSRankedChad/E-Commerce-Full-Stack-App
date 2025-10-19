@@ -47,13 +47,11 @@ const Cart = () => {
   };
 
 
-  useEffect(() => {
-    if(checkingOut || cartLoading ) {
-      return (
+  if(checkingOut || cartLoading ) {
+    return (
         <Loader />
       );
-    }
-  });
+  }
 
   const handleChange = ({target}) => {
     if(target.name === 'fullname') {
@@ -180,7 +178,7 @@ const Cart = () => {
                 </div>
                 {checkoutError && <Alert severity='error' msg={checkoutError} onClose={() => dispatch(clearCartStatusUpdates())}/>}
             </form>}
-            {cart.items ? <section className="Cart__items">
+            {cart.items && <section className="Cart__items">
                 <h2 className="Cart__items__heading">Items in Cart</h2>
                 {loadCartError && <Alert severity='error' msg={loadCartError} onClose={() => dispatch(clearCartStatusUpdates())}/>}
                 {cart.items.map((cartItem, i) => <Product product={cartItem} display='inCart' key={cart.items[i].product_id}/>)}
@@ -195,7 +193,7 @@ const Cart = () => {
                         <p className="Cart__total">{`Total: $${(cart.subtotal + (cart.subtotal * 0.0825) + 9.99).toFixed(2)}`}</p>
                     </div> :
                     <p className="Cart__subtotal">{`Subtotal: $${cart.subtotal.toFixed(2)}`}</p>}
-                    {button}
+                    <Button /> 
                 </div>
              </section> :
             <section className="Cart__items">

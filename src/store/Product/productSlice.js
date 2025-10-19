@@ -7,7 +7,7 @@ export const getProductById = createAsyncThunk('/products/getPRoductById', async
     const response = await findProductById(id);
     return response.data;
   } catch(err) {
-    return thunkAPI.rejectWithValue(err);
+    return thunkAPI.rejectWithValue(err.response.data);
   }
 });
 
@@ -18,7 +18,7 @@ export const loadProducts = createAsyncThunk('/products', async(data, thunkAPI) 
     const response = await findProducts(data);
     return response.data;
   } catch(err) {
-    return thunkAPI.rejectWithValue(err);
+    return thunkAPI.rejectWithValue(err.response.data);
   }
  });
 
