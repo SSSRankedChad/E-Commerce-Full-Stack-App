@@ -4,7 +4,7 @@ const db = require('../../db');
 
 module.exports = class ProductModel {
   
-async findProducts(product = {}) {
+async findProducts(products = []) {
  try {
   const statement = `SELECT * FROM products`;
   const results = await db.query(statement);

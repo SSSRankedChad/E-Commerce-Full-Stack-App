@@ -1,6 +1,7 @@
 import React, {useEffect} from 'react';
 import Moment from 'moment';
 import Button from '@mui/material/Button';
+import Loader from '../Loader/loader.js';
 import Alert from '@mui/material/Alert';
 import { Link } from 'react-router-dom';
 import { setOrderId, selectOrders, clearOrders, cancelOrder, clearOrderStatusUpdates} from '../../store/Orders/orderSlice.js';
@@ -38,17 +39,31 @@ const Order = ( {order} ) => {
   if(Object.entries(order).length === 0) return null;
 
 
+  if(!order) {
+    return (
+     <section className="Order__empty__container">
+        <h1 className="Order__empty__label"> No orders crrently in list</h1>
+        <p className="Order__empty__message"> Redirecting </p>
+        <Loader />
+        {setTimeout(() => {
+          navigate("/")
+        }, 3000)}
+     </section>
+    );
+  }
+
+
   return (
     <section className="Order">
      <div className="order__info__container">
-     {cancelOrderError && <Alert severity="error" msg={cancelOrderError}/>}
+     {cancelOrderError && <Alert severity="error" msg={cancelOrderError} onClose={(() => dispatch(cearOrderStatusUpdates()))}/>}
       <Link to={'/orders/{orderId}'}>
-       <h3 className="order__id" onClick={handleOrderClick}>Order Id: {orderId}</h3>
+       <h3 className="order__id" onClick={handleOrderClick}>Order Id: {order.orderId}</h3>
       </Link>
-     <p className="order__date"> Date: {data} </p>
+     <p className="order__date"> Date: {order.date} </p>
      <p className="order__status"> Status: {order.status} </p>
      <div/>
-    {order.status === 'pending' && <Button name="Cancel Order" onClick={handleButtonClick}/>}
+     {order.status === 'pending' && <Button name="Cancel Order" onClick={handleButtonClick}/>}
      <div className="order__container"/>
       <img className="order__image" src={order.url} alt=""/>
        <div className="Order__address">

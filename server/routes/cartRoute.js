@@ -1,4 +1,5 @@
 const express = require('express');
+const router = express.Router();
 const cartService = require('../services/cartService.js');
 const cartServiceInstance = new cartService();
 
@@ -6,8 +7,7 @@ const cartServiceInstance = new cartService();
 
 module.exports = (app) => {
 
-  const router = express.Router();
-
+  app.use('/api/cart', router);
 
   router.post('/mine', async(req, res, next) => {
     try {
@@ -62,8 +62,6 @@ module.exports = (app) => {
 	  next(err);
 	}
  });
-
-  app.use('/api/cart', router);
 
 }
 

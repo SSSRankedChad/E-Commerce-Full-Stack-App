@@ -19,17 +19,17 @@ module.exports = class orderItemModel {
     const statement = pgp.helpers.insert(data, null, 'orderItems') + 'RETURNING *';
     const results = await db.query(statement);
     if(results.rows?.length) {
-	 return results.rows[0];
-   }
+	    return results.rows[0];
+    }
    return null;
- } catch(err) {
-  throw new Error(err);
+  } catch(err) {
+    throw new Error(err);
   }
 }
 
-async findOrderById(orderId) {
+ async findOrderById(orderId) {
   try {
-   const statement = `SELECT FROM oi.qty
+  const statement = `SELECT FROM oi.qty
 	              oi.id as "cartItemId
 		      p.* FROM orderItems oi
 		      INNER JOIN products p on p.id = oi."productId"

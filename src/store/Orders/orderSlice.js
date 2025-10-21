@@ -77,7 +77,7 @@ const orderSlice = createSlice({
   initialState,
   reducers: {
     setOrderId: (state) => {
-      state.orderId = action.payload;
+      state.orderId = action.payload.order_id;
       return state;
     },
 
@@ -98,103 +98,107 @@ const orderSlice = createSlice({
       state.updatingOrder = false;
       state.updateOrderError = false;
     },
-      [loadOrderById.pending]: (state, action) => {
+    extraReducers: (builder) =>  {
+      builder
+      .addCase(loadOrderById.pending, (state, action) => {
         state.orderPending = true;
         state.orderLoadError = false;
-      },
-      [loadOrderById.fulfilled]: (state, action) => {
+      }),
+      .addCase(loadOrderById.fulfilled, (state, action) => {
         state.orderPending = false;
         state.orderLoadError =  false;
         state.orderLoadSuccess = true;
         state.order = action.payload;
-      },
-      [loadOrderById.rejected]: (state, action) => {
+        state.orderId = action.payload.order_id;
+      }),
+      .addCase(loadOrderById.rejected, (state, action) => {
         state.orderPending = false;
         state.orderLoadError = action.payload;
         state.order = {};
         state.orderId = null;
-      },
-      [loadOrders.pending]: (state, action) => {
+      }),
+      .addCase(loadOrders.pending, (state, action) => {
         state.ordersPending = true;
         state.ordersLoadError = false;
-      },
-      [loadOrders.fulfilled]: (state, action) => {
+      }),
+      .addCase(loadOrders.fulfilled, (state, action) => {
         state.ordersPending = false;
         state.ordersLoadError = false;
         state.ordersLoadSuccess = true;
         state.orders = action.payload;
-      },
-      [loadOrders.rejected]: (state, action) => {
+      }),
+      .addCase(loadOrders.rejected, (state, action) => {
         state.ordersPending = false;
         state.ordersLoadError = action.payload;
         state.orders = [];
         state.orderId = null;
-      },
-      [createOrder.pending]: (state, action) => {
+      }),
+      .addCase(createOrder.pending, (state, action) => {
         state.creatingOrder = true;
         state.createOrderError = false;
-      },
-      [createOrder.fulfilled]: (state, action) => {
+      }),
+      .addCase(createOrder.fulfilled, (state, action) => {
         state.creatingOrder = false;
         state.createOrderError = false;
         state.creatOrderSuccess = true;
         state.order = action.payload;
         state.orderId = action.payload.order_id;
-      },
-      [createOrder.rejected]: (state, action) => {
+      }),
+      .addCase(createOrder.rejected, (state, action) => {
         state.creatingOrder = false;
         state.createOrderError = action.payload;
         state.order = {};
         state.orderId = null;
-      },
-      [cancelOrder.pending]: (state, action) => {
+      }),
+      .addCase(cancelOrder.pending, (state, action) => {
         state.cancelingOrder = true;
         state.cancelOrderError = false;
-      },
-      [cancelOrder.fulfilled]: (state, action) => {
+      }),
+      .addCase(cancelOrder.fulfilled, (state, action) => {
         state.cancelingOrder = false;
         state.cancelOrderError = false;
         state.cancelOrderSuccess = action.payload;
         state.order = {};
         state.orderId = null;
-      },
-      [cancelOrder.rejected]: (state, action) => {
+      }),
+      .addCase(cancelOrder.rejected, (state, action) => {
         state.cancelingOrder = false;
         state.cancelOrderError = action.payload;
-      },
-      [updateOrder.pending]: (state, action) => {
+      }),
+      .addCase(updateOrder.pending, (state, action) => {
         state.updatingOrder = false;
         state.updateOrderError = false;
-      },
-      [updateOrder.fulfilled]: (state, action) => {
+      }),
+      .addCase(updateOrder.fulfilled, (state, action) => {
         state.updatingOrder = false;
         state.updateOrderError = false;
         state.updateOrderSuccess = true;
         state.order = action.payload;
-      },
-      [updateOrder.rejected]: (state, action) => {
+      }),
+      .addCase(updateOrder.rejected, (state, action) => {
         state.updatingOrder = false;
-        state.updateOrderError = true;
+        state.updateOrderError = action.payload;
         state.order = {};
         state.orderId = null;
-      }
+      })
     }
+  }
 });
   export const {setOrderId, clearOrderStatusUpdates, clearOrders} = orderSlice.actions;
   export default orderSlice.reducer;
 
-  export const selectOrder = state => state.order.order;
-  export const selectOrders = state => state.order.orders;
-  export const selectOrderId = state => state.order.orderId;
-  export const selectOrderPending = state => state.order.orderPending;
-  export const selectOrdersPending = state => state.order.orderPending;
-  export const selectOrderLoadError = state => state.order.orderLoadError;
-  export const selectOrdersLoadError = state => state.order.ordersLoadError;
-  export const selectOrdersLoadSuccess = state => state.order.ordersLoadSuccess;
-  export const selectCancelingOrder = state => state.order.cancelingOrder;
-  export const selectCancelOrderSuccess = state => state.order.cancelOrderSuccess;
-  export const selectCancelingOrderError = state => state.order.cancelOrderError;
-  export const selectCreatingOrder = state => state.order.creatingOrder;
-  export const selectCreatingOrderError = state => state.order.creatingOrderError;
-  export const selectUpdatingOrder = state => state.order.updateOrder;
-  export const selectUpdatingOrderErorr = state => state.order.updateOrderError;
+  export const selectOrder = state => state.orders.order;
+  export const selectOrders = state => state.orders.orders;
+  export const selectOrderId = state => state.orders.orderId;
+  export const selectOrderPending = state => state.orders.orderPending;
+  export const selectOrdersPending = state => state.orders.orderPending;
+  export const selectOrderLoadError = state => state.orders.orderLoadError;
+  export const selectOrdersLoadError = state => state.orders.ordersLoadError;
+  export const selectOrdersLoadSuccess = state => state.orders.ordersLoadSuccess;
+  export const selectCancelingOrder = state => state.orders.cancelingOrder;
+  export const selectCancelOrderSuccess = state => state.orders.cancelOrderSuccess;
+  export const selectCancelingOrderError = state => state.orders.cancelOrderError;
+  export const selectCreatingOrder = state => state.orders.creatingOrder;
+  export const selectCreatingOrderError = state => state.orders.creatingOrderError;
+  export const selectUpdatingOrder = state => state.orders.updateOrder;
+  export const selectUpdatingOrderErorr = state => state.orders.updateOrderError;

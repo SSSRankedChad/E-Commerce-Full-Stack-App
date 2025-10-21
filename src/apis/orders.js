@@ -22,7 +22,7 @@ export const findOrder = async(data) => {
 
 export const findOrderById = async(data) => {
   try {
-    const response = await API.get('/:orderId', data);
+    const response = await API.get('orders/:orderId', data);
     return response.data;
   } catch(err) {
     throw err.response.data;

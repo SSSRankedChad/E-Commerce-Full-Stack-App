@@ -6,10 +6,7 @@ import { getUser, userUpdate } from '../../apis/user.js';
 export const loadUserById = createAsyncThunk('user/loadUserById', async(userId, thunkAPI) => {
   try {
     const response = await getUser(userId);
-    return {
-      user: response.data,
-      userId: response.data.id
-    };
+    return response.data;
   } catch(err) {
     return thunkAPI.rejectWithValue(err.response.data);
   }
@@ -18,9 +15,7 @@ export const loadUserById = createAsyncThunk('user/loadUserById', async(userId, 
 export const registerUser = createAsyncThunk('register/registerUser', async(userData, thunkAPI) => {
   try {
     const response = await register(userData);
-    return {
-      user: response.data
-    };
+    return response.data
   } catch(err) {
     return thunkAPI.rejectWithValue(err.response.data);
   }
@@ -28,21 +23,19 @@ export const registerUser = createAsyncThunk('register/registerUser', async(user
 
 export const updateUser = createAsyncThunk('user/updateUser', async(data, thunkAPI) => {
   try {
-   const response = await userUpdate(data);
-    return  {
-      user: response.data
-    };
+    const response = await userUpdate(data);
+    return response.data;
   } catch (err) {
     return thunkAPI.rejectWithValue(err.response.data);
   }
 });
 
-export const changePassword = createAsyncThunk('user/changePassword', async({userId, password}, {reject}) => {
+export const changePassword = createAsyncThunk('user/changePassword', async({userId, password}, thunkAPI) => {
   try {
     const response = await axios.put('/users/changePassword', {userId, password});
     return response.data;
   } catch(err) {
-    return rejectWithValue(err.response.data);
+    return thunkAPI.rejectWithValue(err.response.data);
   }
 });
 
@@ -51,7 +44,7 @@ export const login = createAsyncThunk('auth/login', async(data, thunkAPI) => {
     const response = await userLogin(data);
     return response.data; 
   } catch(err) {
-    return thunkAPI.rejectWithValue(err?.response.data);
+    return thunkAPI.rejectWithValue(err.response.data);
   }
 });
 
@@ -63,6 +56,15 @@ export const logout = createAsyncThunk('auth/logout', async((), thunkAPI) => {
     return thunkAPI.rejectWithValue(err.response.data);
    }
 });
+
+export const session = createAsyncThunk('auth/session', async((), thunkAPI) => {
+  try {
+    const response = await isLoggedIn();
+    return response.data;
+  } catch(err) {
+    retutn thunkAPI.rejectWithValue(err.response.data);
+  }
+})  
 
 const initialState = {
   user: {},
@@ -212,9 +214,10 @@ const userSlice = createSlice({
       })
 
       .addCase(logout.fulfilled, (state, action) => {
-        state.logoutSuccess = true;
+        state.logoutSuccess = action.payload;
         state.logoutError = false;
-        state.user = {};
+        state.user = {}
+        state.userId = null;
       })
 
       .addCase(logout.rejected, (state, action) => {
@@ -228,9 +231,10 @@ const userSlice = createSlice({
       })
 
       .addCase(session.fulfilled, (state, action) => {
-        state.sessionSuccess = action.payload;
+        state.sessionSuccess = true;
         state.sessionError = false;
         state.gettingSession = false;
+        state.session = action.payload;
       })
 
   }

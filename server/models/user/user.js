@@ -47,10 +47,10 @@ module.exports = class userModel {
    }
  }
  
- async findUserByEmail(email) {
+ async findUserByEmail(email, password) {
     try {
-      const statement = `SELECT * FROM users WHERE email = $1`;
-      const values = [email];
+      const statement = `SELECT * FROM users WHERE email = $1 AND WHERE password = $1`;
+      const values = [email, password];
       const results = await db.query(statement, values);
       if(results.rows?.length) {
         return results.rows[0];

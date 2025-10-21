@@ -136,8 +136,8 @@ const Product = ({product, page}) => {
 	    </div>
 	     <div className="Product__default__name__container">
 	       <p className="Product__default__name__label">Name: </p>
-		   <Link to={`product/{productId}`}>
-		     <h2 className="product__cart__name" id={`products.productId`} onClick={handleProductClick}>{product.name}</h2>
+		     <Link to={`product/{productId}`}>
+		      <h2 className="product__cart__name" id={`products.productId`} onClick={handleProductClick}>{product.name}</h2>
 	       </Link>
 	     </div>
 	    <div className="Product__default__description">
@@ -145,7 +145,7 @@ const Product = ({product, page}) => {
 	      <p className="Product__default__description__value"> {product.description} </p>
 	    </div>
 	    <div className="Product__default__button">
-		<IconButton className="Product__default__add" onClick={handleAddClick}><AddCircle /></IconButton>
+		   <IconButton className="Product__default__add" onClick={handleAddClick}><AddCircle /></IconButton>
 	     <Button className="Product__default__cart" onClick={handleCartClick}></Button>
 	    </div>
       </div>

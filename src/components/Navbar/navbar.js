@@ -19,13 +19,20 @@ const Navbar = () => {
   const dispatch = useDispatch();
 
   const handleChange = ({target}) => {
-    dispatch(setSearchTerm(target.value));
+    dispatch(setSearchTermLocal(target.value));
   }
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(clearSearchTerm());
+    dispatch(setSearchTerm());
   }
+
+
+  useEffect(() => {
+    if(handleSubmit) {
+      dispatch(clearSearchTerm())
+    }
+  }, [dispatch]);
 
   return (
 
@@ -37,28 +44,28 @@ const Navbar = () => {
       </div>
       <div className="homeButton">
        <IconButton>
-        <Link to="/home" alt="Go to homepage">
+        <Link to="/home">
          <HomeOutlined />
         </Link>
        </IconButton>
       </div>
       <div className="productButton">
         <IconButton>
-         <Link to="/products" alt="View products">
+         <Link to="/products">
           <ShoppingBagIcon />
          </Link>
         </IconButton>
       </div>
       <div className='cartButton'>
         <IconButton>
-        <Link to="/cart" alt="View cart">
+        <Link to="/cart">
          <ShoppingCartIcon />
         </Link>
         </IconButton>
       </div>
       <div className='orderButton'>
           <IconButton>
-           <Link to="/orders" alt="View past orders">
+           <Link to="/orders">
             <HistoryIcon />
            </Link>
           </IconButton>
@@ -70,7 +77,7 @@ const Navbar = () => {
         size="small"
         placeholder="Searching..."/>
       <IconButton type="submit" id="submit-button">
-	   <SearchIcon />
+	    <SearchIcon />
       </IconButton> 
       </form>
      </div>
