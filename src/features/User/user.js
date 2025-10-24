@@ -38,15 +38,15 @@ const User = () => {
     const dispatch = useDispatch();
 
   const handleChange = ({target}) => {
-    if(target.name === "username") {
-      setUsername(target.value);
-    }
-    else if(target.name === "password") {
+      if(target.name === "username") {
+        setUsername(target.value);
+      }
+      else if(target.name === "password") {
         setPassword(target.value);
-    }
-    else if (target.name === 'gender') {
+      }
+      else if (target.name === 'gender') {
           setGender(target.value);
-    }
+      }
       else if (target.name === 'phonenumber') {
           setPhone(target.value);
       }
@@ -68,8 +68,8 @@ const User = () => {
       else if (target.name === 'zip') {
           setZip(target.value);
       }
-    else if (target.name === 'passwordmatch') {
-      setPassMatch(target.value);
+      else if (target.name === 'passwordmatch') {
+       setPassMatch(target.value);
      }
   };
 
@@ -103,7 +103,7 @@ const User = () => {
 
     useEffect(() => {
         dispatch(loadUserById({userId}))
-    }, [])
+    }, [dispatch])
 
     useEffect(() => {
         if(registerUserSuccess || loginSuccess || updateUserSuccess) {
@@ -120,10 +120,10 @@ const User = () => {
 
     if(userLoading || updatingUser) {
       return (
-        <>
-        <Loader />
-        </>
-      )
+        <div className="Loading__container">
+         <Loader />
+        </div>
+      );
     };
 
     return (
