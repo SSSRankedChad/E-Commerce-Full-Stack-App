@@ -105,7 +105,8 @@ const cartSlice = createSlice({
       .addCase(checkout.fulfilled, (state, action) => {
         state.checkoutPending = false;
         state.checkoutError = false;
-        state.checkoutSuccess = true;
+        state.checkoutSuccess = action.payload;
+        state.cart = {};
       })
       .addCase(checkout.rejected, (state, action) => {
         state.checkoutPending = false;
