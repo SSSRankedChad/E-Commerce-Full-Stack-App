@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { createOrder, findOrder, findOrderById } from '../../apis/orders.js';
+import { createOrder, findOrder, findOrderById, updateOrder } from '../../apis/orders.js';
 
 const axios = require('axios');
 
@@ -42,7 +42,7 @@ export const cancelOrder = createAsyncThunk('/orders/cancelOrder', async((data),
 
 export const updateOrder = createAsyncThunk('/orders/updateOrder', async((data), thunkAPI) => {
   try {
-    const response = await axios.put('/orders/{orderId}', orderId);
+    const response = await orderUpdate(data);
     return response.data;
   } catch(err) {
     return thunkAPI.rejectWithValue(err);
