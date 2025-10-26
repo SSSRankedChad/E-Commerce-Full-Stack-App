@@ -1,6 +1,5 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect} from 'react';
 import "./navbar.css";
-import { selectSearchTerm, clearSearchTerm, setSearchTerm } from '../../store/SearchTerm/searchTerm.js';
 import {useSelector, useDispatch} from 'react-redux';
 import { Link } from 'react-router-dom';
 import IconButton from '@mui/material/IconButton';
@@ -11,26 +10,23 @@ import TextField from '@mui/material/TextField';
 import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
 import SearchIcon from '@mui/icons-material/Search';
 import { HomeOutlined } from '@mui/icons-material';
+import { logout, clearUserStatusUpdates } from '../../store/User/userSlice.js';
 
 const Navbar = () => {
 
-  const [searchTermLocal, setSearchTermLocal] = useState('');
-  const searchTerm = useSelector(selectSearchTerm);
   const dispatch = useDispatch();
 
-  const handleChange = ({target}) => {
-    dispatch(setSearchTermLocal(target.value));
-  }
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(setSearchTerm());
+    dispatch(logout());
   }
 
 
   useEffect(() => {
     if(handleSubmit) {
-      dispatch(clearSearchTerm())
+      dispatch(clearUserStatusUpdates());
     }
   }, [dispatch]);
 
@@ -70,16 +66,9 @@ const Navbar = () => {
            </Link>
           </IconButton>
       </div>
-     <form className="searchBar" onSubmit={handleSubmit}>
-      <TextField className="searchBar"
-        value={searchTerm}
-        onChange={handleChange}
-        size="small"
-        placeholder="Searching..."/>
-      <IconButton type="submit" id="submit-button">
-	    <SearchIcon />
-      </IconButton> 
-      </form>
+      <div className="logoutButton">
+       <Button className="logout-button" name="logout-button" onClick={handleSubmit}>Log Out</Button>
+      </div> 
      </div>
   )
 }

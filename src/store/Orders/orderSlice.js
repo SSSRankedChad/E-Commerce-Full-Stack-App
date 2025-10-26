@@ -103,78 +103,78 @@ const orderSlice = createSlice({
       .addCase(loadOrderById.pending, (state, action) => {
         state.orderPending = true;
         state.orderLoadError = false;
-      }),
+      })
       .addCase(loadOrderById.fulfilled, (state, action) => {
         state.orderPending = false;
         state.orderLoadError =  false;
         state.orderLoadSuccess = true;
         state.order = action.payload;
         state.orderId = action.payload.order_id;
-      }),
+      })
       .addCase(loadOrderById.rejected, (state, action) => {
         state.orderPending = false;
         state.orderLoadError = action.payload;
         state.order = {};
         state.orderId = null;
-      }),
+      })
       .addCase(loadOrders.pending, (state, action) => {
         state.ordersPending = true;
         state.ordersLoadError = false;
-      }),
+      })
       .addCase(loadOrders.fulfilled, (state, action) => {
         state.ordersPending = false;
         state.ordersLoadError = false;
         state.ordersLoadSuccess = true;
         state.orders = action.payload;
-      }),
+      })
       .addCase(loadOrders.rejected, (state, action) => {
         state.ordersPending = false;
         state.ordersLoadError = action.payload;
         state.orders = [];
         state.orderId = null;
-      }),
+      })
       .addCase(createOrder.pending, (state, action) => {
         state.creatingOrder = true;
         state.createOrderError = false;
-      }),
+      })
       .addCase(createOrder.fulfilled, (state, action) => {
         state.creatingOrder = false;
         state.createOrderError = false;
         state.creatOrderSuccess = true;
         state.order = action.payload;
         state.orderId = action.payload.order_id;
-      }),
+      })
       .addCase(createOrder.rejected, (state, action) => {
         state.creatingOrder = false;
         state.createOrderError = action.payload;
         state.order = {};
         state.orderId = null;
-      }),
+      })
       .addCase(cancelOrder.pending, (state, action) => {
         state.cancelingOrder = true;
         state.cancelOrderError = false;
-      }),
+      })
       .addCase(cancelOrder.fulfilled, (state, action) => {
         state.cancelingOrder = false;
         state.cancelOrderError = false;
         state.cancelOrderSuccess = action.payload;
         state.order = {};
         state.orderId = null;
-      }),
+      })
       .addCase(cancelOrder.rejected, (state, action) => {
         state.cancelingOrder = false;
         state.cancelOrderError = action.payload;
-      }),
+      })
       .addCase(updateOrder.pending, (state, action) => {
         state.updatingOrder = false;
         state.updateOrderError = false;
-      }),
+      })
       .addCase(updateOrder.fulfilled, (state, action) => {
         state.updatingOrder = false;
         state.updateOrderError = false;
         state.updateOrderSuccess = true;
         state.order = action.payload;
-      }),
+      })
       .addCase(updateOrder.rejected, (state, action) => {
         state.updatingOrder = false;
         state.updateOrderError = action.payload;

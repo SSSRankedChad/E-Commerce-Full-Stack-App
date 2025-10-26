@@ -61,7 +61,7 @@ const productSlice = createSlice({
       return state;
     },
     extraReducers: (builder) => {
-      builder	
+      builder
        .addCase(getProductById.pending, (state, action) => {
          state.productPending = true;
          state.productLoadError = false;
