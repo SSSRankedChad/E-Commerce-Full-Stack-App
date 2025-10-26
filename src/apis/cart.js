@@ -3,7 +3,7 @@ import API from './client.js';
 
 export const getCart = async(data) => {
   try {
-   const response = await API.get('/cart/:cartId', {data});
+   const response = await API.get('/cart/:cartId', data);
    return response.data;
   } catch(err) {
    throw err.response.data;
@@ -12,7 +12,7 @@ export const getCart = async(data) => {
 
 export const addItem = async(userId, data) => {
   try {
-    const response = await API.post('/cart/:userId', {userId, data});
+    const response = await API.post('/cart/:userId', (userId, data));
     return response.data;
   } catch(err) {
     throw err.response.data;
@@ -31,7 +31,7 @@ export const deleteItem = async(cartItemId) => {
 
 export const updateItem = async(cartItemId, data) => {
   try {
-    const response = await API.put('/cart/:cartItemId', {cartItemId, data});
+    const response = await API.put('/cart/:cartItemId', (cartItemId, data));
     return response.data;
   } catch(err) {
     throw err.response.data;
@@ -40,7 +40,7 @@ export const updateItem = async(cartItemId, data) => {
 
 export const cartCheckout = async(cartItem, data, payment) => {
   try {
-    const response = await API.post('/cart/checkout', {cartItem, data, payment});
+    const response = await API.post('/cart/checkout', (cartItem, data, payment));
     return response.data;
   } catch(err) {
     throw err.response.data;
