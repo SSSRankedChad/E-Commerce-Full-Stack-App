@@ -91,7 +91,7 @@ const Login = () => {
        <p> Enter Email: </p><TextInput name="email" value={email} onChange={handleChange}/>
        <p> Enter Password: </p><TextInput name="password" type="password" value={password} onChange={handleChange}/>
        <Button type="submit" id="login-button" name="login-button" fullWidth> Login </Button>
-     </form>
+      </form>
       <Button id="logout-button" name="logout-button" onClick={handleLogout}>Logout</Button>
     </div>
   );
