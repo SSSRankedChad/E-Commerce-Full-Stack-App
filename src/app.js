@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import Navbar from './components/Navbar/navbar.js';
 import Orders  from './features/Orders/orders.js';
-import Order  from './features/ Order/order.js';
+import Order  from './components/Order/order.js';
 import User  from './features/User/user.js';
 import Products  from './features/Products/products.js';
 import Login  from './features/Login/login.js';

@@ -1,8 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import Product from '../Product/product.js';
-import { loadProducts, clearProdStatusUpdates, selectProductLoadSuccess, selectProductsLoadError, selectProductPending, selectProducts, selectProduct, getProductById } from '../../store/Product/productSlice.js';
-import { selectSearchTerm } from '../../store/SearchTerm/searchTerm.js';
+import Product from '../../components/Product/product.js';
+import { loadProducts, selectSearchTerm, clearProdStatusUpdates, selectProductLoadSuccess, selectProductsLoadError, selectProductPending, selectProducts, selectProduct, getProductById } from '../../store/Product/productSlice.js';
 import Loader from '../../components/Loader/loader.js';
 import Alert from '@mui/material/Alert';
 

@@ -11,6 +11,7 @@ import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
 import SearchIcon from '@mui/icons-material/Search';
 import { HomeOutlined } from '@mui/icons-material';
 import { logout, clearUserStatusUpdates } from '../../store/User/userSlice.js';
+import Button from '@mui/material/Button';
 
 const Navbar = () => {
 

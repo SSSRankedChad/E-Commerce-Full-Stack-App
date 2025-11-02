@@ -8,7 +8,7 @@ import { selectCartId, selectCart, selectloadCart, selectCheckoutSuccess, select
          clearCartStatusUpdates, selectCheckoutError} from '../../store/Cart/cartSlice.js';
 import { selectUserId, selectUser } from '../../store/User/userSlice.js';
 import Loader from '../../components/Loader/loader.js';
-import Product from '../../features/Product/product.js';
+import Product from '../../components/Product/product.js';
 
 
 
@@ -104,7 +104,7 @@ const Cart = () => {
     return (
       <Button name="Submit Order" size="large" disabled={!stripe} onClick={handleClick} />
     )
-  } else  {
+   } else  {
     return (
        <Link to="/cart/checkout"><Button name="Go to checkout" size="large" onClick={() => setInCheckout(true)}/></Link>
     )
@@ -154,7 +154,16 @@ const Cart = () => {
       </div>
     )
   }
-}
+
+  if(!cart.items) {
+    return (
+      <section className="cart__items">
+        <h2 className="cart__items__label"> Items in Cart </h2>
+        Your cart is empty.
+      </section>
+    )
+  }
+
 
  return (
       <section className="Cart">
@@ -195,13 +204,9 @@ const Cart = () => {
                     <p className="Cart__subtotal">{`Subtotal: $${cart.subtotal.toFixed(2)}`}</p>}
                     <Button /> 
                 </div>
-             </section> :
-            <section className="Cart__items">
-                <h2 className="Cart__items__heading">Items in Cart</h2>
-                Your cart is empty.
-            </section>}
-      </section>
+             </section>}
+    </section>
   );
+}
 
-
-  export default Cart;
+export default Cart;

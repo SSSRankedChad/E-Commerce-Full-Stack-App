@@ -32,6 +32,7 @@ const initialState = {
   productsPending: false,
   productsLoadSuccess: false,
   productsLoadError: false,
+  searchTerm: "",
 };
 
 const productSlice = createSlice({
@@ -94,7 +95,7 @@ const productSlice = createSlice({
 });
 
 export default productSlice.reducer;
-export const {setProductId, clearProduct, clearProdStatusUpdates} = productSlice.actions;
+export const {setSearchTerm, setProductId, clearProduct, clearProdStatusUpdates} = productSlice.actions;
 
 export const selectProductId = state => state.product.productId;
 export const selectProduct = state => state.product.product;
@@ -104,3 +105,4 @@ export const selectProductPendError = state => state.product.productLoadError;
 export const selectProductLoadSuccess = state => state.product.productLoadSuccess;
 export const selectProductsPending = state => state.product.productsPending;
 export const selectProductsLoadError = state => state.product.productsLoadError;
+export const selectSearchTerm = state => state.product.searchTerm;

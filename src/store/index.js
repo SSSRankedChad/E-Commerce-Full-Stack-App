@@ -3,15 +3,12 @@ import productReducer from './Product/productSlice.js';
 import cartReducer from './Cart/cartSlice.js';
 import userReducer from './User/userSlice.js';
 import orderReducer from './Orders/orderSlice.js';
-import searchTermReducer from './SearchTerm/searchTerm.js';
-
 
 export const store = configureStore({
    reducer: {
     product: productReducer,
     cart: cartReducer,
     user: userReducer,
-    order: orderReducer,
-    searchTerm: searchTermReducer
+    orders: orderReducer
   }
 });

@@ -6,7 +6,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import Alert from '@mui/material/Alert';
 import { Link, useNavigate } from 'react-router-dom';
 import TextInput from '@mui/material/TextField';
-import { login, logout, selectLogoutSuccess, selectLogginIn, selectLoginSuccess, selectLoginError, selectSessionSuccess, clearUserStatusUpdates } from '../../store/User/userSlice.js';
+import { login, logout, selectLogoutSuccess, selectLogginIn, selectLogginOut, selectLoginSuccess, selectLoginError, selectSessionSuccess, clearUserStatusUpdates } from '../../store/User/userSlice.js';
 import { useSelector, useDispatch } from 'react-redux';
 
 
@@ -14,6 +14,7 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const logginIn = useSelector(selectLogginIn);
+  const logginOut = useSelector(selectLogginOut);
   const logoutSuccess = useSelector(selectLogoutSuccess);
   const loginSuccess = useSelector(selectLoginSuccess);
   const loginError = useSelector(selectLoginError);
@@ -55,13 +56,11 @@ const Login = () => {
   }, [logoutSuccess, navigate, dispatch]);
 
 
-  if(logginIn || logginOut) {
-      return (
-       <div className="login__loader">
-        <Loader />
-       </div>
-      );
-  };
+  useEffect(() => {
+    if(logginIn || logginOut) {
+      <Loader />
+    }
+  }, [logginIn, logginOut]);
 
   useEffect(() => {
     dispatch((clearUserStatusUpdates()))

@@ -1,10 +1,10 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { createOrder, findOrder, findOrderById, updateOrder } from '../../apis/orders.js';
+import { createOrder, findOrder, findOrderById, orderUpdate } from '../../apis/orders.js';
 
 const axios = require('axios');
 
 
-export const loadOrderById = createAsyncThunk('/orders/loadOrderById', async((data), thunkAPI) => {
+export const loadOrderById = createAsyncThunk('/orders/loadOrderById', async(data, thunkAPI) => {
   try {
     const response = await findOrderById(data);
     return response.data;
@@ -13,7 +13,7 @@ export const loadOrderById = createAsyncThunk('/orders/loadOrderById', async((da
   }
 });
 
-export const loadOrders = createAsyncThunk('/orders/loadOrders', async((data), thunkAPI) => {
+export const loadOrders = createAsyncThunk('/orders/loadOrders', async(data, thunkAPI) => {
   try {
     const response = await axios.get('/orders');
     return response.data;
@@ -22,7 +22,7 @@ export const loadOrders = createAsyncThunk('/orders/loadOrders', async((data), t
   }
 });
 
-export const createOrder = createAsyncThunk('/orders/createOrder', async((data), thunkAPI) => {
+export const makeOrder = createAsyncThunk('/orders/createOrder', async(data, thunkAPI) => {
   try {
     const response = await createOrder(data);
     return response.data;
@@ -31,7 +31,7 @@ export const createOrder = createAsyncThunk('/orders/createOrder', async((data),
   }
 });
 
-export const cancelOrder = createAsyncThunk('/orders/cancelOrder', async((data), thunkAPI) => {
+export const cancelOrder = createAsyncThunk('/orders/cancelOrder', async(data, thunkAPI) => {
   try {
     const response = await axios.delete('/orders/{orderId}', orderId);
     return response.data;
@@ -40,7 +40,7 @@ export const cancelOrder = createAsyncThunk('/orders/cancelOrder', async((data),
   }
 });
 
-export const updateOrder = createAsyncThunk('/orders/updateOrder', async((data), thunkAPI) => {
+export const updateOrder = createAsyncThunk('/orders/updateOrder', async(data, thunkAPI) => {
   try {
     const response = await orderUpdate(data);
     return response.data;
@@ -133,18 +133,18 @@ const orderSlice = createSlice({
         state.orders = [];
         state.orderId = null;
       })
-      .addCase(createOrder.pending, (state, action) => {
+      .addCase(makeOrder.pending, (state, action) => {
         state.creatingOrder = true;
         state.createOrderError = false;
       })
-      .addCase(createOrder.fulfilled, (state, action) => {
+      .addCase(makeOrder.fulfilled, (state, action) => {
         state.creatingOrder = false;
         state.createOrderError = false;
         state.creatOrderSuccess = true;
         state.order = action.payload;
         state.orderId = action.payload.order_id;
       })
-      .addCase(createOrder.rejected, (state, action) => {
+      .addCase(makeOrder.rejected, (state, action) => {
         state.creatingOrder = false;
         state.createOrderError = action.payload;
         state.order = {};
@@ -187,9 +187,7 @@ const orderSlice = createSlice({
   export const {setOrderId, clearOrderStatusUpdates, clearOrders} = orderSlice.actions;
   export default orderSlice.reducer;
 
-  export const selectOrder = state => state.orders.order;
-  export const selectOrders = state => state.orders.orders;
-  export const selectOrderId = state => state.orders.orderId;
+
   export const selectOrderPending = state => state.orders.orderPending;
   export const selectOrdersPending = state => state.orders.orderPending;
   export const selectOrderLoadError = state => state.orders.orderLoadError;

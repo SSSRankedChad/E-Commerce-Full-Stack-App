@@ -48,7 +48,7 @@ export const login = createAsyncThunk('auth/login', async(data, thunkAPI) => {
   }
 });
 
-export const logout = createAsyncThunk('auth/logout', async((), thunkAPI) => {
+export const logout = createAsyncThunk('auth/logout', async(thunkAPI) => {
     try {
        const response = await axios.post('/auth/logout');
        return response.data;
@@ -57,12 +57,12 @@ export const logout = createAsyncThunk('auth/logout', async((), thunkAPI) => {
    }
 });
 
-export const session = createAsyncThunk('auth/session', async((), thunkAPI) => {
+export const session = createAsyncThunk('auth/session', async(data, thunkAPI) => {
   try {
-    const response = await isLoggedIn();
+    const response = await isLoggedIn(data);
     return response.data;
   } catch(err) {
-    retutn thunkAPI.rejectWithValue(err.response.data);
+    return thunkAPI.rejectWithValue(err.response.data);
   }
 })  
 
@@ -87,7 +87,7 @@ const initialState = {
   changePasswordError: false,
   changePasswordSuccess: false,
   changingPassword: false,
-  loggingOut: false,
+  logginOut: false,
   logoutSuccess: false,
   logoutError: false,
   sessionSuccess: false,
@@ -257,9 +257,10 @@ export const selectUpdateUserError = state => state.user.updateUserError;
 export const selectUpdateUserSuccess = state => state.user.updateUserSuccess;
 export const selectChangePasswordError = state => state.user.changePasswordError;
 export const selectChangePasswordSuccess = state => state.user.changePasswordSuccess;
-export const selectLogginIn = state => state.user.loggingIn;
-export const selectLogginOut = state => state.user.loggingOut;
+export const selectLogginIn = state => state.user.logginIn;
+export const selectLogginOut = state => state.user.logginOut;
 export const selectLoginError = state => state.user.loginError;
 export const selectLoginSuccess = state => state.user.loginSuccess;
 export const selectLogoutError = state => state.user.logoutError;
 export const selectLogoutSuccess = state => state.user.logoutSuccess;
+export const selectSessionSuccess = state => state.user.sessionSuccess;

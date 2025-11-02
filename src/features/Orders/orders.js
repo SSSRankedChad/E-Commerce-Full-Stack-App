@@ -11,10 +11,9 @@ import { selectCheckoutSuccess } from '../../store/Cart/cartSlice.js';
 
 
 
-const Orders = () => {
+const Orders = ({orders}) => {
   const sortingOptions = ['', 'newest', 'oldest'];
   const [sort, setSort] = useState('');
-  const orders = useSelector(selectOrders);
   const loadingOrders = useSelector(selectOrdersPending);
   const loadOrdersSuccess = useSelector(selectOrdersLoadSuccess);
   const cancelOrderSuccess = useSelector(selectCancelOrderSuccess);
@@ -62,7 +61,7 @@ const Orders = () => {
     }
   }, []);
 
-  if(!orders.length) {
+  if(!orders) {
     return (
       <div className="order__history__container">
         <h1 className="order_history"> No order history! </h1>

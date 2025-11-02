@@ -1,6 +1,6 @@
 import React from 'react';
 import Header from '../../components/Header/header.js';
-import Products from '../../features/Products/products.js';
+import Products from '../Products/products.js';
 import Navbar from '../../components/Navbar/navbar.js';
 
 
