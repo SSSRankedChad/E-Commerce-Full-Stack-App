@@ -1,23 +1,20 @@
 import React, {useState, useEffect} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Product from '../../components/Product/product.js';
-import { loadProducts, selectSearchTerm, clearProdStatusUpdates, selectProductLoadSuccess, selectProductsLoadError, selectProductPending, selectProducts, selectProduct, getProductById } from '../../store/Product/productSlice.js';
+import { loadProducts, selectSearchTerm, clearProdStatusUpdates, selectProductLoadSuccess, selectProductsLoadError, selectProductPending, getProductById } from '../../store/Product/productSlice.js';
 import Loader from '../../components/Loader/loader.js';
 import Alert from '@mui/material/Alert';
 
 
-const Products = () => {
+const Products = ({products}) => {
   const [category, setCategory] = useState('');
   const [sort, setSort] = useState('');
   const listCategories = ['Electronic', 'Beauty', 'Accessories', 'Automotive', 'Hardware', 'Gardening'];
   const sortOptions = ['', 'lowest', 'highest'];
   const arr = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-  const products = useSelector(selectProducts);
   const searchTerm = useSelector(selectSearchTerm);
-  const product = useSelector(selectProduct);
-  const productSuccess = useSelector(selectProductLoadSuccess);
+  const productLoadSuccess = useSelector(selectProductLoadSuccess);
   const loadProductError = useSelector(selectProductsLoadError);
-  const productId = product?.productId;
   const productLoading = useSelector(selectProductPending);
   const dispatch = useDispatch();
 
@@ -34,7 +31,7 @@ const Products = () => {
     }});
 
   useEffect(() => {
-    if(productSuccess) {
+    if(productLoadSuccess) {
       dispatch(clearProdStatusUpdates());
     }
   });

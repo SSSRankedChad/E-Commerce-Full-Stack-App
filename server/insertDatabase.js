@@ -2,11 +2,12 @@ const Client = require('pg');
 const { DB } = require('./config.js');
 
 (async() => {
+
   const productInsertStmt = `
-    INSERT INTO products (id, sell_price, category, description, name) VALUES ('384920', '10', 'Clothing', 'Plain Cotton Blue T-Shirt', 'Blue T-Shirt');
-    INSERT INTO products (id, sell_ price, category, description, name) VALUES ('487156', '12', 'Accessories', 'Chained Necklace', 'Gold Chain Necklace');
-    INSERT INTO products (id, sell_price, category, description, name) VALUES ('630198', '7', 'Accessories', 'Pink Candle For Desk', 'Pink Desk Candle');
-    INSERT INTO products (id, sell_price, category, description, name) VALUES ('819203', '20', 'Accessories', 'Black Handbag', 'Black Travel Handbag');`
+    INSERT INTO products (sell_price, url, category, description, name) VALUES ('10','../src/public/resources/blue-t-shirt.jpg', 'Clothing', 'Plain Cotton Blue T-Shirt', 'Blue T-Shirt');
+    INSERT INTO products (sell_price, url, category, description, name) VALUES ('12','../src/public/resources/gold-zipper-on-black-fashion-backpack.jpg', 'Accessories', 'Chained Necklace', 'Gold Chain Necklace');
+    INSERT INTO products (sell_price, url, category, description, name) VALUES ('7','../src/public/resources/stacked-bracelets.jpg', 'Accessories', 'Bracelets', 'Stacked Bracelets');
+    INSERT INTO products (sell_price, url, category, description, name) VALUES ('20','../src/public/resources/black-bag-over-the-shoulder.jpg', 'Accessories', 'Black Handbag', 'Black Travel Handbag');`
 
   try {
     const db = new Client({

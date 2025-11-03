@@ -12,9 +12,8 @@ import Product from '../../components/Product/product.js';
 
 
 
-const Cart = () => {
-  const cart = useSelector(selectCart);
-  const cartId = useSelector(selectCartId);
+const Cart = ({cart}) => {
+  const cartId = cart.?id;
   const cartLoading = useSelector(selectLoadCart);
   const loadCartError = useSelector(selectLoadCartError);
   const checkoutPending = useSelector(selectCheckingPending);
@@ -155,7 +154,7 @@ const Cart = () => {
     )
   }
 
-  if(!cart.items) {
+  if(!cart.items || !cart) {
     return (
       <section className="cart__items">
         <h2 className="cart__items__label"> Items in Cart </h2>
@@ -163,6 +162,7 @@ const Cart = () => {
       </section>
     )
   }
+
 
 
  return (

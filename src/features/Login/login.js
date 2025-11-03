@@ -33,7 +33,7 @@ const Login = () => {
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault();
+      e.preventDefault();
       dispatch(login({email, password}));
   }
 
@@ -51,16 +51,18 @@ const Login = () => {
       setEmail('');
       setPassword('');
       navigate('/');
-      dispatch(clearUserStatusUpdates);
+      dispatch(clearUserStatusUpdates());
     }
   }, [logoutSuccess, navigate, dispatch]);
 
 
   useEffect(() => {
     if(logginIn || logginOut) {
-      <Loader />
+      return (
+        <Loader />
+      )
     }
-  }, [logginIn, logginOut]);
+  });
 
   useEffect(() => {
     dispatch((clearUserStatusUpdates()))
