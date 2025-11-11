@@ -19,6 +19,15 @@ const Products = ({products}) => {
   const dispatch = useDispatch();
 
 
+  const handleSortChange = ({target}) => {
+    setSort(target.value);
+  }
+
+  const handleCartChange = ({target}) => {
+    setCategory(target.value);
+  }
+
+
   useEffect(() => {
     if(productLoading) {
       return (

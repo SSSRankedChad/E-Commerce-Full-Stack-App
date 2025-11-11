@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { findProductById, findProducts } from '../../apis/products.js';
 const axios = require('axios');
 
-export const getProductById = createAsyncThunk('/products/getPRoductById', async(id, thunkAPI) => {
+export const getProductById = createAsyncThunk('/products/getProductById', async(id, thunkAPI) => {
   try {
     const response = await findProductById(id);
     return response.data;
@@ -13,7 +13,7 @@ export const getProductById = createAsyncThunk('/products/getPRoductById', async
 
 
 
-export const loadProducts = createAsyncThunk('/products', async(data, thunkAPI) => {
+export const loadProducts = createAsyncThunk('/products/loadProducts', async(data, thunkAPI) => {
   try {
     const response = await findProducts(data);
     return response.data;

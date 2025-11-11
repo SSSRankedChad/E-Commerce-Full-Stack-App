@@ -3,7 +3,7 @@ import { isLoggedIn, userLogin, register } from '../../apis/auth.js';
 import { getUser, userUpdate } from '../../apis/user.js';
 
 
-export const loadUserById = createAsyncThunk('user/loadUserById', async(userId, thunkAPI) => {
+export const loadUserById = createAsyncThunk('/user/loadUserById', async(userId, thunkAPI) => {
   try {
     const response = await getUser(userId);
     return response.data;
@@ -12,7 +12,7 @@ export const loadUserById = createAsyncThunk('user/loadUserById', async(userId, 
   }
 });
 
-export const registerUser = createAsyncThunk('register/registerUser', async(userData, thunkAPI) => {
+export const registerUser = createAsyncThunk('/auth/registerUser', async(userData, thunkAPI) => {
   try {
     const response = await register(userData);
     return response.data
@@ -21,7 +21,7 @@ export const registerUser = createAsyncThunk('register/registerUser', async(user
   }
 });
 
-export const updateUser = createAsyncThunk('user/updateUser', async(data, thunkAPI) => {
+export const updateUser = createAsyncThunk('/user/updateUser', async(data, thunkAPI) => {
   try {
     const response = await userUpdate(data);
     return response.data;
@@ -245,22 +245,22 @@ export const {clearUserStatusUpdates} = userSlice.actions;
 export default userSlice.reducer;
 
 
-export const selectUser = state => state.user.user;
-export const selectUserId = state => state.user.user_id;
-export const selectUserLoading = state => state.user.loadingUser;
-export const selectUserLoadingError = state => state.user.loadingUserError;
-export const selectRegisterUserError = state => state.user.registerUserError;
-export const selectRegisteringUser = state => state.registeringUser;
-export const selectRegisterUserSuccess = state => state.user.registerUserSuccess;
-export const selectUpdatingUser = state => state.user.updatingUser
-export const selectUpdateUserError = state => state.user.updateUserError;
-export const selectUpdateUserSuccess = state => state.user.updateUserSuccess;
-export const selectChangePasswordError = state => state.user.changePasswordError;
-export const selectChangePasswordSuccess = state => state.user.changePasswordSuccess;
-export const selectLogginIn = state => state.user.logginIn;
-export const selectLogginOut = state => state.user.logginOut;
-export const selectLoginError = state => state.user.loginError;
-export const selectLoginSuccess = state => state.user.loginSuccess;
-export const selectLogoutError = state => state.user.logoutError;
-export const selectLogoutSuccess = state => state.user.logoutSuccess;
-export const selectSessionSuccess = state => state.user.sessionSuccess;
+export const selectUser = state => state.users.user;
+export const selectUserId = state => state.users.user_id;
+export const selectUserLoading = state => state.users.loadingUser;
+export const selectUserLoadingError = state => state.users.loadingUserError;
+export const selectRegisterUserError = state => state.users.registerUserError;
+export const selectRegisteringUser = state => state.users.registeringUser;
+export const selectRegisterUserSuccess = state => state.users.registerUserSuccess;
+export const selectUpdatingUser = state => state.users.updatingUser
+export const selectUpdateUserError = state => state.users.updateUserError;
+export const selectUpdateUserSuccess = state => state.users.updateUserSuccess;
+export const selectChangePasswordError = state => state.users.changePasswordError;
+export const selectChangePasswordSuccess = state => state.users.changePasswordSuccess;
+export const selectLogginIn = state => state.users.logginIn;
+export const selectLogginOut = state => state.users.logginOut;
+export const selectLoginError = state => state.users.loginError;
+export const selectLoginSuccess = state => state.users.loginSuccess;
+export const selectLogoutError = state => state.users.logoutError;
+export const selectLogoutSuccess = state => state.users.logoutSuccess;
+export const selectSessionSuccess = state => state.users.sessionSuccess;

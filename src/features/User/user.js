@@ -9,7 +9,7 @@ import { loadUserById, updateUser, changePassword, selectUser, selectUserId, sel
         selectLoginSuccess, clearUserStatusUpdates } from '../../store/User/userSlice.js';
 import { useSelector, useDispatch } from 'react-redux';
 
-const User = ({user}) => {
+const User = () => {
     const [username, setUsername] = useState(user.username);
     const [firstName, setFirstName] = useState(user.first_name);
     const [lastName, setLastName] = useState(user.last_name);
@@ -24,7 +24,8 @@ const User = ({user}) => {
     const [password, setPassword] = useState('');
     const [passMatch, setPassMatch] = useState('');
     const passwordMatch = password === passMatch;
-    const userId = user.?id;
+    const user = useSelector(selectUser);
+    const userId = useSelector(selectUserId) || user.?id;
     const loadingUser = useSelector(selectLoadingUser);
     const loadUserError = useSelector(selectLoadUserError);
     const registerUserSuccess = useSelector(selectRegisterUserSuccess);

@@ -12,8 +12,9 @@ import Product from '../../components/Product/product.js';
 
 
 
-const Cart = ({cart}) => {
-  const cartId = cart.?id;
+const Cart = () => {
+  const cart = useSelector(selectCart);
+  const cartId = useSelector(selectCartId);
   const cartLoading = useSelector(selectLoadCart);
   const loadCartError = useSelector(selectLoadCartError);
   const checkoutPending = useSelector(selectCheckingPending);

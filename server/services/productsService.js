@@ -13,7 +13,7 @@ module.exports = class productService {
        throw createError('409', 'Products not found!');
      }
 
-    return products;
+     return products;
 
     } catch(err) {
       throw new Error(err);
@@ -26,7 +26,7 @@ module.exports = class productService {
       const product = await productModelInstance.findProductById(id);
 
       if(!product) {
-        throw createError('409', 'Products not found!');
+        throw createError('409', 'Product not found!');
       }
 
       return product;

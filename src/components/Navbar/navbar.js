@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import "./navbar.css";
 import {useSelector, useDispatch} from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import IconButton from '@mui/material/IconButton';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import HistoryIcon from '@mui/icons-material/History';
@@ -10,12 +10,15 @@ import TextField from '@mui/material/TextField';
 import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
 import SearchIcon from '@mui/icons-material/Search';
 import { HomeOutlined } from '@mui/icons-material';
-import { logout, clearUserStatusUpdates } from '../../store/User/userSlice.js';
+import { logout, selectUser, selectUserId, clearUserStatusUpdates } from '../../store/User/userSlice.js';
 import Button from '@mui/material/Button';
 
 const Navbar = () => {
 
+  const user = useSelector(selectUser);
+  const userId = useSelector(selectUserId);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
 
 
@@ -27,15 +30,39 @@ const Navbar = () => {
 
   useEffect(() => {
     if(handleSubmit) {
-      dispatch(clearUserStatusUpdates());
+      navigate('/');
+      dispatch(clearUserStatusUpdates())
     }
   }, [dispatch]);
 
-  return (
-
+  if(userId) {
+   return (
     <div className='navbar'>
       <div className="userButton">
-       <Link to="/login" alt="Go to account">
+       <Link to="/user" alt="Go to account">
+        <AvatarCircle />
+       </Link>
+      </div>
+      <div className="homeButton">
+       <IconButton>
+        <Link to="/home">
+         <HomeOutlined />
+        </Link>
+       </IconButton>
+      </div>
+      <div className="productButton">
+        <IconButton>
+         <Link to="/products">
+          <ShoppingBagIcon />
+         </Link>
+    );
+  }
+
+  else {
+   return (
+    <div className='navbar'>
+      <div className="userButton">
+       <Link to="/login" alt="Login">
         <AvatarCircle />
        </Link>
       </div>
@@ -71,7 +98,8 @@ const Navbar = () => {
        <Button className="logout-button" name="logout-button" onClick={handleSubmit}>Log Out</Button>
       </div> 
      </div>
-  )
-}
+    );
+   }
+ }
 
 export default Navbar;

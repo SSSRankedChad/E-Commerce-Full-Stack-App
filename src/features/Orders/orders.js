@@ -52,7 +52,7 @@ const Orders = ({orders}) => {
 
 
   useEffect(() => {
-    if(loadingOrders) {
+    if(loadingOrders || !orders) {
       return (
         <div className="order__loading__container">
          <Loader />
@@ -61,18 +61,15 @@ const Orders = ({orders}) => {
     }
   }, []);
 
-  if(!orders) {
-    return (
-      <div className="order__history__container">
-        <h1 className="order_history"> No order history! </h1>
-        <p className="order__history__message"> Redirecting....</p>
-        {setTimeout(() => {
-          navigate("/")
-        }, 3000)}
-        <Loader /> 
-      </div>
-    );
-  }
+  useEffect(() => {
+   if(!orders) {
+    setTimeout(() => {
+      navigate('/')
+    }, 3000);
+   }
+  }, []);
+
+
 
   return (
     <section className="orders">
