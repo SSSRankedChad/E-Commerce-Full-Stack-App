@@ -47,11 +47,13 @@ const Cart = () => {
   };
 
 
-  if(checkingOut || cartLoading ) {
-    return (
-        <Loader />
-      );
-  }
+  useEffect(() => {
+    if(cartLoading || checkingOut) {
+      <div className="cart__loader__container">
+        <Loader /> 
+      </div> 
+    }
+  });
 
   const handleChange = ({target}) => {
     if(target.name === 'fullname') {
