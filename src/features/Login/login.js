@@ -56,13 +56,11 @@ const Login = () => {
   }, [logoutSuccess, navigate, dispatch]);
 
 
-  useEffect(() => {
-    if(logginIn || logginOut) {
-      return (
-        <Loader />
-      )
-    }
-  });
+   if(logginIn || logginOut) {
+       <div className="login__loading__container"> 
+          <Loader /> 
+       </div>
+   }
 
   useEffect(() => {
     dispatch((clearUserStatusUpdates()))

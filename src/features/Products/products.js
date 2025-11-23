@@ -28,16 +28,13 @@ const Products = ({products}) => {
   }
 
 
-  useEffect(() => {
-    if(productLoading) {
-      return (
+  if(productLoading) {
         <div className="Product__loader__container">
           <ul className="Product__list">
            {arr.map((num) => <li key="num"><Loader /></li>)}
           </ul>
         </div>
-      );
-    }});
+  }
 
   useEffect(() => {
     if(productLoadSuccess) {
@@ -55,16 +52,16 @@ const Products = ({products}) => {
       <div className="Products__container">
         <span className="Products__category__label">Categories: </span>
         <select className="Products__category" name="category" value={category}>
-         {listCategories.map((category, i) => <option key={`${category}__${i}`} value={category}></option>)}
+         {listCategories?.map((category, i) => <option key={`${category}__${i}`} value={category}></option>)}
         </select>
         <span className="Products__options__label"> Options: </span>
         <select className="Products__option" name="option" value={sort}>
-         {sortOptions.map((sort, i) => <option key={`${sort}__${i}`} value={sort}></option>)}
+         {sortOptions?.map((sort, i) => <option key={`${sort}__${i}`} value={sort}></option>)}
         </select>
       </div>
        <ul className="Products__list">
          {loadProductError && <Alert severity="error" msg={loadProductError} onClose={() => dispatch(clearProdStatusUpdates())}/>}
-         {products.map((product) => <li key={product.productId}><Product product={product} page="details"/></li>)}
+         {products?.map((product) => <li key={product.productId}><Product product={product} page="details"/></li>)}
        </ul>
     </div>
   );

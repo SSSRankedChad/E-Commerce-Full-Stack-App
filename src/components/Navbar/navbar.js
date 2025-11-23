@@ -39,9 +39,9 @@ const Navbar = () => {
    return (
     <div className='navbar'>
       <div className="userButton">
-       <Link to="/user" alt="Go to account">
-        <AvatarCircle />
-       </Link>
+        <Link to="/user">
+         <AvatarCircle />
+        </Link>
       </div>
       <div className="homeButton">
        <IconButton>
@@ -55,7 +55,10 @@ const Navbar = () => {
          <Link to="/products">
           <ShoppingBagIcon />
          </Link>
-    );
+        </IconButton>
+      </div>
+    </div>
+   )
   }
 
   else {
@@ -73,20 +76,20 @@ const Navbar = () => {
         </Link>
        </IconButton>
       </div>
-      <div className="productButton">
+       <div className="productButton">
         <IconButton>
          <Link to="/products">
           <ShoppingBagIcon />
          </Link>
         </IconButton>
-      </div>
-      <div className='cartButton'>
+       </div>
+       <div className='cartButton'>
         <IconButton>
-        <Link to="/cart">
-         <ShoppingCartIcon />
-        </Link>
+         <Link to="/cart">
+          <ShoppingCartIcon />
+         </Link>
         </IconButton>
-      </div>
+       </div>
       <div className='orderButton'>
           <IconButton>
            <Link to="/orders">
@@ -98,7 +101,7 @@ const Navbar = () => {
        <Button className="logout-button" name="logout-button" onClick={handleSubmit}>Log Out</Button>
       </div> 
      </div>
-    );
+    )
    }
  }
 

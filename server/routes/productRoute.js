@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const productService = require('../services/productsService.js');
-const prodcutServiceInstance = new productService();
+const productServiceInstance = new productService();
 
 
 module.exports = (app) => {
@@ -9,7 +9,7 @@ module.exports = (app) => {
  app.use('/api/products', router);
 
 	
-  router.get('/:productId', async(req, res, next) => {
+ router.get('/:productId', async(req, res, next) => {
    try { 
 	   const { productId } = req.params;
 	   const response = await productServiceInstance.findProductById({productId});

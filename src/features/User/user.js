@@ -25,7 +25,7 @@ const User = () => {
     const [passMatch, setPassMatch] = useState('');
     const passwordMatch = password === passMatch;
     const user = useSelector(selectUser);
-    const userId = useSelector(selectUserId) || user.?id;
+    const userId = useSelector(selectUserId) || user?.id;
     const loadingUser = useSelector(selectLoadingUser);
     const loadUserError = useSelector(selectLoadUserError);
     const registerUserSuccess = useSelector(selectRegisterUserSuccess);
