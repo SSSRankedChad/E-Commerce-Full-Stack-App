@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { isLoggedIn, userLogin, register } from '../../apis/auth.js';
+import { isLoggedIn, userLogin, register, userLogout } from '../../apis/auth.js';
 import { getUser, userUpdate } from '../../apis/user.js';
 
 
@@ -50,7 +50,7 @@ export const login = createAsyncThunk('auth/login', async(data, thunkAPI) => {
 
 export const logout = createAsyncThunk('auth/logout', async(thunkAPI) => {
     try {
-       const response = await axios.post('/auth/logout');
+       const resposne = await userLogout();
        return response.data;
     } catch(err) {
     return thunkAPI.rejectWithValue(err.response.data);
@@ -127,12 +127,14 @@ const userSlice = createSlice({
        state.loadingUserError = false;
        state.loadingUserSuccess = true;
        state.user = action.payload;
+       state.userId = action.payload.id;
       })
 
       .addCase(loadUserById.rejected, (state, action) => {
        state.loadingUserError = action.payload;
        state.loadingUserSuccess = false;
        state.user = {};
+       state.userId = null;
       })
 
       .addCase(registerUser.pending, (state, action) => {
@@ -164,6 +166,7 @@ const userSlice = createSlice({
         state.updateUserSuccess = true;
         state.updatingUserError = false;
         state.user = action.payload;
+        state.userId = action.payload.id;
       })
 
       .addCase(updateUser.rejected, (state, action) => {
@@ -246,7 +249,7 @@ export default userSlice.reducer;
 
 
 export const selectUser = state => state.users.user;
-export const selectUserId = state => state.users.user_id;
+export const selectUserId = state => state.users?.userId;
 export const selectUserLoading = state => state.users.loadingUser;
 export const selectUserLoadingError = state => state.users.loadingUserError;
 export const selectRegisterUserError = state => state.users.registerUserError;

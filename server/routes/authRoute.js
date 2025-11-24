@@ -23,4 +23,14 @@ module.exports = (app, passport) => {
      res.status(200).send(req.user);
   });
 
+  router.post('/logout', (req, res) => {
+    req.session.destroy(err => {
+      if(err) {
+        res.status(500).json({message: "Logout was unsuccesfull."})
+      }
+      else {
+        res.status(200).json({message: "Logout was succesfull!"})
+      }
+    }
+  }
 }

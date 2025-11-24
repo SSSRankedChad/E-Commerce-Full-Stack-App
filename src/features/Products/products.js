@@ -19,11 +19,11 @@ const Products = ({products}) => {
   const dispatch = useDispatch();
 
 
-  const handleSortChange = ({target}) => {
+  const handleSortChange = async({target}) => {
     setSort(target.value);
   }
 
-  const handleCartChange = ({target}) => {
+  const handleCartChange = async({target}) => {
     setCategory(target.value);
   }
 
@@ -64,10 +64,8 @@ const Products = ({products}) => {
       </div>
        <ul className="Products__list">
          {loadProductError && <Alert severity="error" msg={loadProductError} onClose={() => dispatch(clearProdStatusUpdates())}/>}
-         {products.map((product) => <li key={product.productId}><Product product={product} page="details"/></li>)}
+         {products.map((product) => <li key={product.productId}><Product product={product}/></li>)}
        </ul>
     </div>
   );
 }
-
-export default Products;

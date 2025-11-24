@@ -18,6 +18,7 @@ module.exports = (app) => {
 
   app.use(
     session({
+      name: "express-session",
       secret: SESSION_SECRET || "session_secret",
       resave: false,
       saveUninitialized: false,

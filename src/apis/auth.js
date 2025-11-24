@@ -28,3 +28,13 @@ export const isLoggedIn = async() => {
     throw err.response.data;
   }
 }
+
+
+export const userLogout = () => {
+  try {
+    const response = await API.post('/auth/logout');
+    return response.data;
+  } catch(err) {
+    throw err.response.data;
+  }
+}

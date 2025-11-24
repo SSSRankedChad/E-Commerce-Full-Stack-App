@@ -15,7 +15,7 @@ export const loadOrderById = createAsyncThunk('/orders/loadOrderById', async(dat
 
 export const loadOrders = createAsyncThunk('/orders/loadOrders', async(data, thunkAPI) => {
   try {
-    const response = await axios.get('/orders');
+    const response = await findOrder(data);
     return response.data;
    } catch(err) {
     return thunkAPI.rejectWithValue(err);
@@ -31,7 +31,7 @@ export const makeOrder = createAsyncThunk('/orders/createOrder', async(data, thu
   }
 });
 
-export const cancelOrder = createAsyncThunk('/orders/cancelOrder', async(data, thunkAPI) => {
+export const cancelOrder = createAsyncThunk('/orders/cancelOrder', async(orderId, thunkAPI) => {
   try {
     const response = await axios.delete('/orders/{orderId}', orderId);
     return response.data;
@@ -109,7 +109,7 @@ const orderSlice = createSlice({
         state.orderLoadError =  false;
         state.orderLoadSuccess = true;
         state.order = action.payload;
-        state.orderId = action.payload.order_id;
+        state.orderId = action.payload.id;
       })
       .addCase(loadOrderById.rejected, (state, action) => {
         state.orderPending = false;
@@ -142,7 +142,7 @@ const orderSlice = createSlice({
         state.createOrderError = false;
         state.creatOrderSuccess = true;
         state.order = action.payload;
-        state.orderId = action.payload.order_id;
+        state.orderId = action.payload.id;
       })
       .addCase(makeOrder.rejected, (state, action) => {
         state.creatingOrder = false;

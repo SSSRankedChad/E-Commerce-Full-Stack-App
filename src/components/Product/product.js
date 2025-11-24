@@ -63,10 +63,10 @@ const Product = ({product, page}) => {
       <div className="empty__product__container">
        <h1 className="empty__product__header"> Under Construction </h1>
        <p className="empty__product__message"> Redirecting..... </p>
-       <Loader /> 
        {setTimeout(() => {
          navigate("/")
         }, 3000)}
+       <Loader /> 
       </div>
     );
   }
