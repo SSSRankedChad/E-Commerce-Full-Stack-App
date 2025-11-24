@@ -247,7 +247,6 @@ const userSlice = createSlice({
 export const {clearUserStatusUpdates} = userSlice.actions;
 export default userSlice.reducer;
 
-
 export const selectUser = state => state.users.user;
 export const selectUserId = state => state.users?.userId;
 export const selectUserLoading = state => state.users.loadingUser;

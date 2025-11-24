@@ -51,15 +51,11 @@ const Orders = ({orders}) => {
   }, [sort, userId, dispatch, cancelOrderSuccess, logoutSuccess, loginSuccess, checkoutSuccess, loadOrdersSuccess]);
 
 
-  useEffect(() => {
-    if(loadingOrders || !orders) {
-      return (
-        <div className="order__loading__container">
+  if(loadingOrders || !orders) {
+       <div className="order__loading__container">
          <Loader />
-        </div>
-      );
-    }
-  }, []);
+       </div>
+  }
 
   useEffect(() => {
    if(!orders) {
