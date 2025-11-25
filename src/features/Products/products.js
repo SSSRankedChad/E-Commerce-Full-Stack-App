@@ -14,12 +14,17 @@ const Products = () => {
   const arr = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   const product = useSelector(selectProduct);
   const productId = useSelector(selectProductId);
-  const products = useSelector(selectProducts) || products.push(product);
+  const products = useSelector(selectProducts);
   const searchTerm = useSelector(selectSearchTerm);
   const productLoadSuccess = useSelector(selectProductLoadSuccess);
   const loadProductError = useSelector(selectProductsLoadError);
   const productLoading = useSelector(selectProductPending);
   const dispatch = useDispatch();
+
+  if(!products) {
+    products.push(product);
+    
+  }
 
   const handleSortChange = async({target}) => {
     setSort(target.value);
