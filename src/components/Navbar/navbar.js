@@ -39,7 +39,7 @@ const Navbar = () => {
    return (
     <div className='navbar'>
       <div className="userButton">
-        <Link to="/user">
+        <Link to="/user/${userId}">
          <AvatarCircle />
         </Link>
       </div>

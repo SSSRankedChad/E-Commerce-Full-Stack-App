@@ -1,38 +1,34 @@
 import API from './client.js';
 
-export const createOrder = async(data) => {
+export const createOrder = async() => {
   try {
-    const response = await API.post('/orders', data);
-    return response.data;
+    return await API.post('/orders');
   } catch(err) {
     throw err.response.data;
   }
 }
 
 
-export const findOrder = async(data) => {
+export const findOrder = async(id) => {
   try {
-    const response = await API.get('/orders/:orderId', data);
-    return response.data;
+    return await API.get('/orders/${orderId');
   } catch(err) {
     throw err.response.data;
   }
 }
 
 
-export const findOrderById = async(data) => {
+export const findOrderById = async(id) => {
   try {
-    const response = await API.get('orders/:orderId', data);
-    return response.data;
+    return await API.get('orders/${id}');
   } catch(err) {
     throw err.response.data;
   }
 }
 
-export const orderUpdate = async(data) => {
+export const orderUpdate = async(id) => {
   try {
-    const response = await API.put('orders/:orderId', data);
-    return response.data;
+    return await API.put('orders/${id}');
   } catch(err) {
     throw err.response.data;
   }

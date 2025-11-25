@@ -46,15 +46,6 @@ const Cart = () => {
     email
   };
 
-
-  useEffect(() => {
-    if(cartLoading || checkingOut) {
-      <div className="cart__loader__container">
-        <Loader /> 
-      </div> 
-    }
-  });
-
   const handleChange = ({target}) => {
     if(target.name === 'fullname') {
       setShipToName(target.value);
@@ -101,18 +92,6 @@ const Cart = () => {
     }
   };
 
-
-  if (inCheckout) {
-    return (
-      <Button name="Submit Order" size="large" disabled={!stripe} onClick={handleClick} />
-    )
-   } else  {
-    return (
-       <Link to="/cart/checkout"><Button name="Go to checkout" size="large" onClick={() => setInCheckout(true)}/></Link>
-    )
-  }
-
-
   useEffect(() => {
     dispatch(clearCartStatusUpdates())
   }, [dispatch]);
@@ -149,6 +128,24 @@ const Cart = () => {
   }, [checkoutSuccess, cartId, userId, dispatch, navigate]);
 
 
+  if(cartLoading || checkingOut) {
+    return <Loader /> 
+  }
+
+
+  if (inCheckout) {
+    return (
+      <Button name="Submit Order" size="large" disabled={!stripe} onClick={handleClick} />
+    )
+   } else  {
+    return (
+       <Link to="/cart/checkout"><Button name="Go to checkout" size="large" onClick={() => setInCheckout(true)}/></Link>
+    )
+  }
+
+
+
+
   if(checkoutSuccess) {
     return (
       <div className="cart__order__container">
@@ -165,6 +162,12 @@ const Cart = () => {
       </section>
     )
   }
+
+
+  if(cartLoading || checkingOut) {
+      return <Loader /> 
+  }
+
 
 
 

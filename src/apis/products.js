@@ -1,9 +1,8 @@
 import API from './client.js';
 
-export const findProducts = async(data) => {
+export const findProducts = async(category, sort) => {
   try {
-    const response = await API.get('/products', data);
-    return response.data;
+    return await API.get('/products', category, sort);
   } catch(err) {
     throw err.response.data;
   }
@@ -12,8 +11,7 @@ export const findProducts = async(data) => {
 
 export const findProductById = async(data) => {
   try {
-    const response = await API.get('/products/:productId', data);
-    return response.data;
+    return await API.get('/products/:productId', data);
   } catch(err) {
     throw err.response.data;
   }

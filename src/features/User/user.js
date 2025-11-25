@@ -120,9 +120,9 @@ const User = () => {
 
     if(userLoading || updatingUser) {
       return (
-        <div className="Loading__container">
-         <Loader />
-        </div>
+       <div className="Info__loading__container">
+        <Loader /> 
+       </div> 
       );
     };
 

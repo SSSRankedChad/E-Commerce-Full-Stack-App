@@ -39,17 +39,17 @@ const productSlice = createSlice({
   name: 'products',
   initialState,
   reducers: {
-    setProductId: (state) => {
+    setProductId: (state, action) => {
       state.productId = action.payload;
       return state;
     },
-    clearProduct: (state) => {
+    clearProduct: (state, action) => {
       state.productId = null;
       state.products = [];
       return state;
     },
 
-    setSearchTerm: (state) => {
+    setSearchTerm: (state, action) => {
       state.searchTerm = action.payload;
       return state;
     },
@@ -61,7 +61,8 @@ const productSlice = createSlice({
       state.productsLoadError = false;
       return state;
     },
-    extraReducers: (builder) => {
+   },
+   extraReducers: (builder) => {
       builder
        .addCase(getProductById.pending, (state, action) => {
          state.productPending = true;
@@ -70,8 +71,13 @@ const productSlice = createSlice({
        .addCase(getProductById.fulfilled, (state, action) => {
          state.productLoadSuccess = true;
          state.productLoadError = false;
-         state.product = action.payload;
-         state.productId = action.payload.id;
+         state.product = action.payload.data;
+         state.productId = action.payload.data.id;
+
+         const products = state.products.find(p => p.id === action.payload.id);
+         if(!exists) {
+          state.products.push(action.payload);
+        } 
        })
        .addCase(getProductById.rejected, (state, action) => {
          state.productPending = false;
@@ -84,25 +90,24 @@ const productSlice = createSlice({
        .addCase(loadProducts.fulfilled, (state, action) => {
          state.productsLoadSuccess = true;
          state.productsLoadError = false;
-         state.products = action.payload;
+         state.products = action.payload.data;
        })
        .addCase(loadProducts.rejected, (state, action) => {
         state.productsPending = false;
         state.productsLoadError = action.payload;
        })
-    }
-  }
+   }
 });
 
 export default productSlice.reducer;
 export const {setSearchTerm, setProductId, clearProduct, clearProdStatusUpdates} = productSlice.actions;
 
-export const selectProductId = state => state.product.productId;
-export const selectProduct = state => state.product.product;
-export const selectProducts = state => state.product.products;
-export const selectProductPending = state => state.product.productPending;
-export const selectProductPendError = state => state.product.productLoadError;
-export const selectProductLoadSuccess = state => state.product.productLoadSuccess;
-export const selectProductsPending = state => state.product.productsPending;
-export const selectProductsLoadError = state => state.product.productsLoadError;
-export const selectSearchTerm = state => state.product.searchTerm;
+export const selectProduct = state => state.products.product;
+export const selectProducts = state => state.products.products;
+export const selectProductId = state => state.products.productId;
+export const selectProductPending = state => state.products.productPending;
+export const selectProductPendError = state => state.products.productLoadError;
+export const selectProductLoadSuccess = state => state.products.productLoadSuccess;
+export const selectProductsPending = state => state.products.productsPending;
+export const selectProductsLoadError = state => state.products.productsLoadError;
+export const selectSearchTerm = state => state.products.searchTerm;

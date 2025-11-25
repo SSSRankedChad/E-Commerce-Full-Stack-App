@@ -31,6 +31,6 @@ module.exports = (app, passport) => {
       else {
         res.status(200).json({message: "Logout was succesfull!"})
       }
-    }
-  }
+    })
+  });
 }

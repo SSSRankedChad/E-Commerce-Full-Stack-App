@@ -55,13 +55,6 @@ const Login = () => {
     }
   }, [logoutSuccess, navigate, dispatch]);
 
-
-   if(logginIn || logginOut) {
-       <div className="login__loading__container"> 
-          <Loader /> 
-       </div>
-   }
-
   useEffect(() => {
     dispatch((clearUserStatusUpdates()))
   }, [dispatch]);
@@ -80,6 +73,14 @@ const Login = () => {
       dispatch(clearUserStatusUpdates());
     }
   }, [loginSuccess, navigate, dispatch]);
+
+   if(logginIn || logginOut) {
+    return (
+      <div className="User__loading__container">
+        <Loader /> 
+      </div>
+    );
+   }
 
   return (
     <div className="login__container">

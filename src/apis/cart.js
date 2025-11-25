@@ -1,19 +1,17 @@
 import API from './client.js';
 
 
-export const getCart = async(data) => {
+export const getCart = async(id) => {
   try {
-   const response = await API.get('/cart/:cartId', data);
-   return response.data;
+   return await API.get('/cart/${id}', {id});
   } catch(err) {
    throw err.response.data;
   }
 };
 
-export const addItem = async(userId, data) => {
+export const addItem = async(userId) => {
   try {
-    const response = await API.post('/cart/:userId', (userId, data));
-    return response.data;
+    return await API.post('/cart/${userId}', {userId});
   } catch(err) {
     throw err.response.data;
   }
@@ -22,26 +20,23 @@ export const addItem = async(userId, data) => {
 
 export const deleteItem = async(cartItemId) => {
   try {
-    const response = await API.delete('/cart/:cartItemId', cartItemId);
-    return response.data;
+    return await API.delete('/cart/${cartItemId}', {cartItemId});
   } catch(err) {
     throw err.response.data;
   }
 };
 
-export const updateItem = async(cartItemId, data) => {
+export const updateItem = async(cartItemId) => {
   try {
-    const response = await API.put('/cart/:cartItemId', (cartItemId, data));
-    return response.data;
+    return await API.put('/cart/${cartItemId}', {cartItemId});
   } catch(err) {
     throw err.response.data;
   }
 };
 
-export const cartCheckout = async(cartItem, data, payment) => {
+export const cartCheckout = async(data) => {
   try {
-    const response = await API.post('/cart/checkout', (cartItem, data, payment));
-    return response.data;
+    return await API.post('/cart/checkout', {cartItemId});
   } catch(err) {
     throw err.response.data;
   }

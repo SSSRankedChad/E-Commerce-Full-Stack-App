@@ -51,19 +51,16 @@ const Orders = ({orders}) => {
   }, [sort, userId, dispatch, cancelOrderSuccess, logoutSuccess, loginSuccess, checkoutSuccess, loadOrdersSuccess]);
 
 
-  if(loadingOrders || !orders) {
-       <div className="order__loading__container">
-         <Loader />
-       </div>
-  }
 
-  useEffect(() => {
-   if(!orders) {
+  if(!orders) {
     setTimeout(() => {
       navigate('/')
     }, 3000);
-   }
-  }, []);
+  }
+
+  if(loadingOrders || !orders) {
+    return <Loader />;
+  }
 
 
 

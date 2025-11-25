@@ -2,8 +2,7 @@ import API from './client';
 
 export const register = async(data) => {
   try {
-    const response = await API.post('/auth/register', data);
-    return response.data;
+     return await API.post('/auth/register', data);
   } catch(err) {
     throw err.response.data;
   }
@@ -12,9 +11,7 @@ export const register = async(data) => {
 
 export const userLogin = async(data) => {
   try {
-    const response = await API.post('/auth/login', data);
-    console.log(response.data);
-    return response.data;
+    return await API.post('/auth/login', data);
   } catch(err) {
     throw err.response.data;
   }
@@ -22,18 +19,16 @@ export const userLogin = async(data) => {
 
 export const isLoggedIn = async() => {
   try {
-    const response = await API.get('/login');
-    return response.data;
+    return await API.get('/login');
   } catch(err) {
     throw err.response.data;
   }
 }
 
 
-export const userLogout = () => {
+export const userLogout = async() => {
   try {
-    const response = await API.post('/auth/logout');
-    return response.data;
+    return await API.post('/auth/logout');
   } catch(err) {
     throw err.response.data;
   }
