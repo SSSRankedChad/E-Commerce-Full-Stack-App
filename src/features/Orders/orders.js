@@ -59,7 +59,11 @@ const Orders = ({orders}) => {
   }
 
   if(loadingOrders || !orders) {
-    return <Loader />;
+    return (
+      <div className="Order__loading__container">
+       <Loader /> 
+      </div>
+    )
   }
 
 

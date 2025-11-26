@@ -126,6 +126,10 @@ const orderSlice = createSlice({
         state.ordersLoadError = false;
         state.ordersLoadSuccess = true;
         state.orders = action.payload;
+        if(!orders) {
+          const orders = order.find(order = order.id === action.payload.id);
+          orders.push(action.payload);
+        }
       })
       .addCase(loadOrders.rejected, (state, action) => {
         state.ordersPending = false;
@@ -186,7 +190,6 @@ const orderSlice = createSlice({
 });
   export const {setOrderId, clearOrderStatusUpdates, clearOrders} = orderSlice.actions;
   export default orderSlice.reducer;
-
 
   export const selectOrderPending = state => state.orders.orderPending;
   export const selectOrdersPending = state => state.orders.orderPending;

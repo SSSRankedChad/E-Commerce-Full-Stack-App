@@ -28,7 +28,15 @@ export const findOrderById = async(id) => {
 
 export const orderUpdate = async(id) => {
   try {
-    return await API.put('orders/${id}');
+    return await API.put('/orders/${id}');
+  } catch(err) {
+    throw err.response.data;
+  }
+}
+
+export const getOrders = async(data) => {
+  try {
+    return await API.get('/orders', data);
   } catch(err) {
     throw err.response.data;
   }
