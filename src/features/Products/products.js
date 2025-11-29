@@ -21,10 +21,6 @@ const Products = () => {
   const productLoading = useSelector(selectProductPending);
   const dispatch = useDispatch();
 
-  if(products.length === 0) {
-    products.push(product);
-  }
-
   const handleSortChange = async({target}) => {
     setSort(target.value);
   }
@@ -34,7 +30,7 @@ const Products = () => {
   }
 
   useEffect(() => {
-    dispatch(getProductById({productId}))
+    dispatch(getProductById(productId))
   }, [dispatch, productId]);
 
 
@@ -52,14 +48,11 @@ const Products = () => {
     return (
      <div className="Product__loading__container">
       <ul className="Product__list">
-       {arr.map((num => <li key="num"><Loader /></li>))}
+       {arr.map((product => <li key="product"><Loader /></li>))}
       </ul>
      </div>
     );
   }
-
-
-
   return (
     <div className="Products">
       <div className="Products__container">
@@ -74,7 +67,7 @@ const Products = () => {
       </div>
        <ul className="Products__list">
          {loadProductError && <Alert severity="error" msg={loadProductError} onClose={() => dispatch(clearProdStatusUpdates())}/>}
-         {products.map((product) => <li key={product.productId}><Product product={product}/></li>)}
+         {products.map((product) => <li key={productId}><Product product={product}/></li>)}
        </ul>
     </div>
   );

@@ -71,12 +71,8 @@ const productSlice = createSlice({
        .addCase(getProductById.fulfilled, (state, action) => {
          state.productLoadSuccess = true;
          state.productLoadError = false;
-         state.product = action.payload.data;
-         state.productId = action.payload.data.id;
-         if(!products) {
-         const products = state.products.find(product => product.id === action.payload.id);
-         state.products.push(action.payload);
-        } 
+         state.product = action.payload;
+         state.productId = action.payload.id;  
        })
        .addCase(getProductById.rejected, (state, action) => {
          state.productPending = false;
@@ -89,7 +85,13 @@ const productSlice = createSlice({
        .addCase(loadProducts.fulfilled, (state, action) => {
          state.productsLoadSuccess = true;
          state.productsLoadError = false;
-         state.products = action.payload.data;
+         const product = action.payload;
+         state.product = product;
+         state.productId = product.id;
+         const foundProducts = state.products.some(item => item.id === product.id);
+         if(!foundProducts) {
+          state.products.push(product);
+        }
        })
        .addCase(loadProducts.rejected, (state, action) => {
         state.productsPending = false;

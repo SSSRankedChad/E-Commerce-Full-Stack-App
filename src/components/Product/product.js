@@ -5,20 +5,21 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import IconButton from '@mui/material/IconButton';
 import Button from '@mui/material/Button';
-import { setProductId, selectProducts, selectFilteredProducts, selectProduct } from '../../store/Product/productSlice.js';
+import { setProductId, selectProducts, selectFilteredProducts, selectProduct, selectProductId } from '../../store/Product/productSlice.js';
 import { selectUserId } from '../../store/User/userSlice';
 import { selectCartId, loadCart, updateCart } from '../../store/Cart/cartSlice';
 import { AddCircle } from '@mui/icons-material';
 import { RemoveCircle } from '@mui/icons-material';
 
 
-const Product = ({product, page}) => {
+const Product = ({page}) => {
+  const product = useSelector(selectProduct);
   const products = useSelector(selectProducts);
   const [cartQuantity, setCartQuantity] = useState(product?.cart_quantity);
   const [quantity, setQuantity] = useState(product?.cart_quantity);
   const cartId = useSelector(selectCartId);
   const userId = useSelector(selectUserId);
-  const productId = product?.product_id;
+  const productId = useSelector(selectProductId);
   const dispatch = useDispatch();
   let navigate = useNavigate();
 
@@ -79,7 +80,7 @@ const Product = ({product, page}) => {
 	       </div>
 	       <div className="Product__cart__name__container">
 	         <p className="Product__cart__label">Name: </p>
-		     <Link to={`product/{productId}`}>
+		     <Link to={`product/${productId}`}>
 		      <h2 className="product__cart__name" id={products.productId} onClick={handleProductClick}>{product.name}</h2>
 	         </Link>
 	       </div>

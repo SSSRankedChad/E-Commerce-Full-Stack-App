@@ -2,18 +2,18 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { getCart, updateItem, cartCheckout } from '../../apis/cart.js';
 const axios = require('axios');
 
-export const loadCart = createAsyncThunk('/cart/:cartId', async(data, thunkAPI) => {
+export const loadCart = createAsyncThunk('/cart/loadCart', async(cartId, thunkAPI) => {
   try {
-    const response = await getCart(data);
+    const response = await getCart(cartId);
     return response.data;
   } catch(err) {
     return thunkAPI.rejectWithValue(err.response.data);
   }
 });
 
-export const updateCart = createAsyncThunk('/cart/:cartId', async(data, thunkAPI) => {
+export const updateCart = createAsyncThunk('/cart/updateCart', async(id, thunkAPI) => {
   try {
-    const response = await updateItem(data);
+    const response = await updateItem(id);
     return response.data;
   } catch(err) {
     return thunkAPI.rejectWithValue(err.response.data);
@@ -48,7 +48,7 @@ const cartSlice = createSlice({
   initialState,
   reducers: {
     setCartId: (state, action) => {
-      state.cartId = action.payload;
+      state.cartId = action.payload.id;
       return state;
     },
     clearCartStatusUpdates: (state, action) => {
