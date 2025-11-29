@@ -75,7 +75,7 @@ const productSlice = createSlice({
          state.productId = action.payload.data.id;
 
          const products = state.products.find(p => p.id === action.payload.id);
-         if(!exists) {
+         if(!products) {
           state.products.push(action.payload);
         } 
        })

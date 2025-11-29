@@ -126,6 +126,10 @@ const orderSlice = createSlice({
         state.ordersLoadError = false;
         state.ordersLoadSuccess = true;
         state.orders = action.payload;
+        if(!orders) {
+         const orders = state.orders.find(order == order.id === action.payload.id);
+         orders.push(action.payload);
+        }
       })
       .addCase(loadOrders.rejected, (state, action) => {
         state.ordersPending = false;

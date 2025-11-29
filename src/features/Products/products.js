@@ -20,8 +20,10 @@ const Products = () => {
   const loadProductError = useSelector(selectProductsLoadError);
   const productLoading = useSelector(selectProductPending);
   const dispatch = useDispatch();
-  console.log(products)
-  console.log(product);
+
+  if(products.length === 0) {
+    products.push(product);
+  }
 
   const handleSortChange = async({target}) => {
     setSort(target.value);

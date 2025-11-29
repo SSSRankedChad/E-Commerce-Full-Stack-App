@@ -25,7 +25,7 @@ const Orders = ({orders}) => {
   const navigate = useNavigate();
   const checkoutSuccess = useSelector(selectCheckoutSuccess);
 
-
+ 
   const handleChange = ({target}) => {
     setSort(target.value);
   };
@@ -59,7 +59,9 @@ const Orders = ({orders}) => {
   }
 
   if(loadingOrders || !orders) {
-    return <Loader />;
+    <div className="order__loading__container">
+      <Loader /> 
+    </div>
   }
 
 
