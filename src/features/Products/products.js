@@ -21,8 +21,14 @@ const Products = () => {
   const productLoading = useSelector(selectProductPending);
   const dispatch = useDispatch();
 
+<<<<<<< HEAD
   if(products.length === 0) {
     products.push(product);
+=======
+  if(!products) {
+    products.push(product);
+    
+>>>>>>> 23d34f6a5ab076e550e7dec85fe3433ecf94a891
   }
 
   const handleSortChange = async({target}) => {

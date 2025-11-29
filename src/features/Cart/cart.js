@@ -128,10 +128,6 @@ const Cart = () => {
   }, [checkoutSuccess, cartId, userId, dispatch, navigate]);
 
 
-  if(cartLoading || checkingOut) {
-    return <Loader /> 
-  }
-
 
   if (inCheckout) {
     return (
@@ -165,7 +161,9 @@ const Cart = () => {
 
 
   if(cartLoading || checkingOut) {
-      return <Loader /> 
+    <div className="Cart__loading__container">
+      <Loader /> 
+    </div> 
   }
 
 

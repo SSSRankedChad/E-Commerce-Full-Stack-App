@@ -59,9 +59,12 @@ const Orders = ({orders}) => {
   }
 
   if(loadingOrders || !orders) {
-    <div className="order__loading__container">
-      <Loader /> 
-    </div>
+    return (
+      <div className="Order__loading__container">
+       <span> Orders loading......</span>
+       <Loader /> 
+      </div>
+    )
   }
 
 

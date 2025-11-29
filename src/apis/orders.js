@@ -33,3 +33,11 @@ export const orderUpdate = async(orderId) => {
     throw err.response.data;
   }
 }
+
+export const getOrders = async(data) => {
+  try {
+    return await API.get('/orders', data);
+  } catch(err) {
+    throw err.response.data;
+  }
+}

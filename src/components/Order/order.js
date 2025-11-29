@@ -55,7 +55,7 @@ const Order = ({order}) => {
     <section className="Order">
      <div className="order__info__container">
      {cancelOrderError && <Alert severity="error" msg={cancelOrderError} onClose={(() => dispatch(cearOrderStatusUpdates()))}/>}
-      <Link to={'/orders/{orderId}'}>
+      <Link to={`/orders/${orderId}`}>
        <h3 className="order__id" onClick={handleOrderClick}>Order Id: {order.orderId}</h3>
       </Link>
      <p className="order__date"> Date: {order.date} </p>

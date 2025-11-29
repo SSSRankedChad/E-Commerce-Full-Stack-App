@@ -42,7 +42,7 @@ module.exports = class orderModel {
   }
  }
  
- async findOrderById(userId) {
+ async findOrderByUser(userId) {
    try {
     const statement = `SELECT * FROM orders WHERE userId = $1`;
     const values = [userId];
@@ -57,7 +57,7 @@ module.exports = class orderModel {
    }
  }
 
-async findOneById(orderId) {
+async findOrderById(orderId) {
  try {
   const statement = `SELECT * FROM orders WHERE orderId = $1`
   const values = [orderId];

@@ -191,7 +191,6 @@ const orderSlice = createSlice({
   export const {setOrderId, clearOrderStatusUpdates, clearOrders} = orderSlice.actions;
   export default orderSlice.reducer;
 
-
   export const selectOrderPending = state => state.orders.orderPending;
   export const selectOrdersPending = state => state.orders.orderPending;
   export const selectOrderLoadError = state => state.orders.orderLoadError;

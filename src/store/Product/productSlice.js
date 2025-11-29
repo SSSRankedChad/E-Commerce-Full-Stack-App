@@ -73,10 +73,9 @@ const productSlice = createSlice({
          state.productLoadError = false;
          state.product = action.payload.data;
          state.productId = action.payload.data.id;
-
-         const products = state.products.find(p => p.id === action.payload.id);
          if(!products) {
-          state.products.push(action.payload);
+         const products = state.products.find(product => product.id === action.payload.id);
+         state.products.push(action.payload);
         } 
        })
        .addCase(getProductById.rejected, (state, action) => {
