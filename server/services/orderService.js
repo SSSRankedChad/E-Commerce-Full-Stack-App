@@ -21,7 +21,7 @@ module.exports = class orderService {
  async find(id) {
     try {
 	    const { id } = data;
-	    const order = await orderModelInstance.findOrderById(id);
+	    const order = await orderModelInstance.findOrderByUser(id);
 	    return order;
 	    if(!order) {
 	     throw createError('409', 'Order not found!');
@@ -34,7 +34,7 @@ module.exports = class orderService {
  async get(id) {
   try {
 	  const { id } = data;
-	  const order = await orderModelInstance.findOneById(id);
+	  const order = await orderModelInstance.findOrderById(id);
 	  return order;
 	  if(!order) {
 	   throw createError('409','Order not found!');
