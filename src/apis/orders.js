@@ -11,7 +11,7 @@ export const createOrder = async(data) => {
 
 export const findOrder = async(orderId) => {
   try {
-    return await API.get('/orders/${orderId}', orderId);
+    return await API.get(`/orders/${orderId}`);
   } catch(err) {
     throw err.response.data;
   }
@@ -20,7 +20,7 @@ export const findOrder = async(orderId) => {
 
 export const findOrderById = async(orderId) => {
   try {
-    return await API.get('orders/${orderId}', orderId);
+    return await API.get(`orders/${orderId}`);
   } catch(err) {
     throw err.response.data;
   }
@@ -28,7 +28,7 @@ export const findOrderById = async(orderId) => {
 
 export const orderUpdate = async(orderId) => {
   try {
-    return await API.put('orders/${orderId}', orderId);
+    return await API.put(`orders/${orderId}`);
   } catch(err) {
     throw err.response.data;
   }

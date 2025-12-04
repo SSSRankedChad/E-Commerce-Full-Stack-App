@@ -9,9 +9,9 @@ export const findProducts = async(category, sort) => {
 }
 
 
-export const findProductById = async(data) => {
+export const findProductById = async(productId) => {
   try {
-    return await API.get('/products/:productId', data);
+    return await API.get(`/products/${productId}`,);
   } catch(err) {
     throw err.response.data;
   }

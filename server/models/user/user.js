@@ -17,10 +17,10 @@ module.exports = class userModel {
     }
   }
 
-  async findUserById(id) {
+  async findUserById(userId) {
    try {
-     const statement = `SELECT id FROM users where id = $1`;
-     const values = [id];
+     const statement = `SELECT id FROM users where id as userId = $1`;
+     const values = [userId];
      const results = await db.query(statement);
      if(results.rows?.length) {
        return results.rows[0];
