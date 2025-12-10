@@ -30,7 +30,7 @@ const Products = () => {
   }
 
   useEffect(() => {
-    dispatch(getProductById(productId))
+    dispatch(getProductById({productId}))
   }, [dispatch, productId]);
 
 
@@ -41,8 +41,8 @@ const Products = () => {
   }, [productLoadSuccess, dispatch]);
 
   useEffect(() => {
-    dispatch(loadProducts({category, sort}))
-  }, [category, sort, searchTerm, dispatch]);
+    dispatch(loadProducts({products}))
+  }, [products, dispatch]);
 
   if(productLoading) {
     return (

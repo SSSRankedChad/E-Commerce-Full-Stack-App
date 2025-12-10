@@ -9,7 +9,7 @@ module.exports = (app) => {
 
   app.use('/api/orders', router);
 
-  router.post('/', async(err, req, res, next) => {
+  router.post('/', async(req, res, next) => {
     try {
 	    const data = req.body;
 	    const response = await orderServiceInstance.create(data);
