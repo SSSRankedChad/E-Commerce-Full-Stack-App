@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import "./orders.css";
 import Loader from "../../components/Loader/loader.js";
+import Navbar from "../../components/Navbar/navbar.js";
 import Alert from '@mui/material/Alert';
 import Navbar from '../../components/Navbar/navbar.js';
 import { useSelector, useDispatch } from 'react-redux';
@@ -71,6 +72,7 @@ const Orders = ({orders}) => {
 
   return (
     <section className="orders">
+     <Navbar /> 
      <h2 className="Orders__heading__container"> Order History </h2>
      <div className="Orders__container">
       <span className="Orders__label"> Sort: </span>

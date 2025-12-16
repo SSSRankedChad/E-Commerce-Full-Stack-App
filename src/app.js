@@ -3,6 +3,7 @@ import Navbar from './components/Navbar/navbar.js';
 import Orders  from './features/Orders/orders.js';
 import Order  from './components/Order/order.js';
 import User  from './features/User/user.js';
+import Cart from './features/Cart/cart.js';
 import Products  from './features/Products/products.js';
 import Login  from './features/Login/login.js';
 import Home from './features/Home/home.js';
@@ -33,11 +34,12 @@ const App = () => {
   return (
     <div className="App__main__container">
       <Routes>
-       <Route path="login" element={<Login />} />
-       <Route path="products" element={<Products />}/>
-       <Route path="user" elemnent={<User />}/>
-       <Route path="orders" element={<Orders />}/>
+       <Route path="/login" element={<Login />} />
+       <Route path="/products" element={<Products />}/>
+       <Route path="/user" elemnent={<User />}/>
+       <Route path="/orders" element={<Orders />}/>
        <Route path="/orders/:orderId" element={<Order />}/>
+       <Route path="/cart" element={<Cart />}/>
        <Route path="/cart/checkout" element={<stripeContainer />}/>
        <Route path="/" element={<Home />}/>
        <Route path="*" element={<Home />}/>

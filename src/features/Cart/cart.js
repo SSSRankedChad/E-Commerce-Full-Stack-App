@@ -8,6 +8,7 @@ import { selectCartId, selectCart, selectloadCart, selectCheckoutSuccess, select
          clearCartStatusUpdates, selectCheckoutError} from '../../store/Cart/cartSlice.js';
 import { selectUserId, selectUser } from '../../store/User/userSlice.js';
 import Loader from '../../components/Loader/loader.js';
+import Navbar from '../../components/Navbar/navbar.js';
 import Product from '../../components/Product/product.js';
 
 
@@ -171,6 +172,7 @@ const Cart = () => {
 
  return (
       <section className="Cart">
+       <Navbar /> 
             {inCheckout && <form className="Cart__form" method="post" action="">
                 <div className="Cart__address">
                     <h2 className="Cart__address__heading">Ship To Address</h2>
