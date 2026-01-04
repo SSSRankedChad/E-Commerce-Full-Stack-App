@@ -1,8 +1,8 @@
 import API from './client.js';
 
-export const findProducts = async(data) => {
+export const findProducts = async() => {
   try {
-    return await API.get('/products', data);
+    return await API.get('/products');
   } catch(err) {
     throw err.response.data;
   }

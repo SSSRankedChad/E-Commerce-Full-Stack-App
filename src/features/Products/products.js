@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Product from '../../components/Product/product.js';
-import Navbar from '../../components/Navbar/navbar.js';
 import { loadProducts, selectProduct, selectProducts, selectProductId, selectSearchTerm, clearProdStatusUpdates, selectProductLoadSuccess, selectProductsLoadError, selectProductPending, getProductById } from '../../store/Product/productSlice.js';
 import Loader from '../../components/Loader/loader.js';
 import Alert from '@mui/material/Alert';
@@ -31,7 +30,7 @@ const Products = () => {
   }
 
   useEffect(() => {
-    dispatch(getProductById({productId}))
+    dispatch(getProductById(productId));
   }, [dispatch, productId]);
 
 
@@ -42,8 +41,8 @@ const Products = () => {
   }, [productLoadSuccess, dispatch]);
 
   useEffect(() => {
-    dispatch(loadProducts({products}))
-  }, [products, dispatch]);
+    dispatch(loadProducts())
+  }, [dispatch]);
 
   if(productLoading) {
     return (
@@ -56,7 +55,6 @@ const Products = () => {
   }
   return (
     <div className="Products">
-    <Navbar /> 
       <div className="Products__container">
         <span className="Products__category__label">Categories: </span>
         <select className="Products__category" name="category" value={category} onChange={handleCategoryChange}>
@@ -69,7 +67,7 @@ const Products = () => {
       </div>
        <ul className="Products__list">
          {loadProductError && <Alert severity="error" msg={loadProductError} onClose={() => dispatch(clearProdStatusUpdates())}/>}
-         {products.map((product) => <li key={productId}><Product product={product} page="details"/></li>)}
+         {products.map((product) => <li key={product.id}><Product product={product} page="details"/></li>)}
        </ul>
     </div>
   );

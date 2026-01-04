@@ -1,11 +1,11 @@
-const Client = require('pg');
+const { Client } = require('pg');
 const { DB } = require('./config.js');
 
 (async() => {
   
  const usersTableStmt = `
-  CREATE TABLE IF NOT EXIST users (
-    id  INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY NOT NULL,
+  CREATE TABLE IF NOT EXISTS users (
+    id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY NOT NULL,
     email varchar(50),
     password TEXT,
     firstname varchar(50),
@@ -16,16 +16,17 @@ const { DB } = require('./config.js');
 `
 
 const productsTableStmt = `
-  CREATE TABLE IF NOT EXIST products (
+  CREATE TABLE IF NOT EXISTS products (
    id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY NOT NULL,
    name varchar(50) NOT NULL,
    price INT NOT NULL, 
-   description varchar(50) NOT NULL
+   description varchar(50) NOT NULL,
+   category varchar(50) NOT NULL 
  );
 `
 
 const ordersTableStmt = `
-  CREATE TABLE IF NOT EXIST orders (
+  CREATE TABLE IF NOT EXISTS orders (
    id iNT PRIMARY KEY GENERATED ALWAYS AS IDENTITY NOT NULL,
    created DATE NOT NULL,
    total INT NOT NULL,
@@ -38,7 +39,7 @@ const ordersTableStmt = `
 
 
 const orderItemsTableStmt = ` 
-  CREATE TABLE IF NOT EXIST orderItems (
+  CREATE TABLE IF NOT EXISTS orderItems (
     id iNT PRIMARY KEY GENERATED ALWAYS AS IDENTITY NOT NULL,
     created DATE NOT NULL,
     qty INT NOT NULL,
@@ -67,7 +68,7 @@ const cartItemsTableStmt = `
     qty INT NOT NULL,
     cartId INT NOT NULL,
     productId INT NOT NULL,
-    FOREIGN KEY (cartId) REFERENCES cart(id),
+    FOREIGN KEY (cartId) REFERENCES carts(id),
     FOREIGN KEY (productId) REFERENCES products(id)
 
   );
@@ -75,10 +76,10 @@ const cartItemsTableStmt = `
 
 try {  
   const db = new Client({
-     user: DB.PGUSER,
-     password: DB.PGPASSWORD,
+    user: DB.PGUSER || "whales",
+     password: DB.PGPASSWORD || "shodan",
      host: DB.PGHOST,
-     database: DB.PGDATABASE,
+     database: DB.PGDATABASE || "nuwhales",
      port: DB.PGPORT,
   });
 
@@ -96,5 +97,5 @@ try {
 } catch(err) {
   console.log("Error creating one or more tables: ", err);
  }
-});
+})();
   

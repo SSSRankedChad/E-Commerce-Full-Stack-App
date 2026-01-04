@@ -6,10 +6,11 @@ dotenv.config();
 module.exports = {
   PORT: process.env.PORT || 5000,
   DB: {
-   PGHOST: process.env.PGHOST || "localhost",
-   PGUSER: process.env.PGUSER || "whales",
-   PGPASSWORD: process.env.PGPASSWORD || "shodan",
-   PGPORT: process.env.PGPORT || 5432,
+   PGHOST: process.env.PGHOST,
+   PGUSER: process.env.PGUSER,
+   PGPASSWORD: process.env.PGPASSWORD,
+   PGPORT: process.env.PGPORT,
+   PGDATABASE: process.env.PGDATABASE
   }, 
   SESSION_SECRET: process.env.SESSION_SECRET
  };

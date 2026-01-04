@@ -4,12 +4,11 @@ const { DB } = require('../config.js');
 
 
 const pool = new Pool({
-   USER: DB.USER,
-   PASSWORD: DB.PASSWORD,
-   HOST: DB.HOST,
-   PORT: DB.PORT,
-   DATABASE: DB.PORT,
-   SESSION_SECRET: DB.SESSION_SECRET
+   USER: DB.PGUSER,
+   PASSWORD: DB.PGPASSWORD,
+   HOST: DB.PGHOST,
+   PORT: DB.PGPORT,
+   DATABASE: DB.PGDATABASE,
 });
 
 

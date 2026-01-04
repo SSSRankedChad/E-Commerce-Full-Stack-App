@@ -5,9 +5,9 @@ const productModelInstance = new productModel();
 
 module.exports = class productService {
 
-  async get(data) {
+  async get() {
     try {
-     const products = await productModelInstance.findProducts(data);
+     const products = await productModelInstance.findProducts();
 
      if(!products) {
        throw createError('409', 'Products not found!');

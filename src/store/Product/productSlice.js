@@ -13,9 +13,9 @@ export const getProductById = createAsyncThunk('/products/getProductById', async
 
 
 
-export const loadProducts = createAsyncThunk('/products/loadProducts', async(data, thunkAPI) => {
+export const loadProducts = createAsyncThunk('/products/loadProducts', async(thunkAPI) => {
   try {
-    const response = await findProducts(data);
+    const response = await findProducts();
     return response.data;
   } catch(err) {
     return thunkAPI.rejectWithValue(err.response.data);
@@ -85,19 +85,13 @@ const productSlice = createSlice({
        .addCase(loadProducts.fulfilled, (state, action) => {
          state.productsLoadSuccess = true;
          state.productsLoadError = false;
-         const product = action.payload;
-         state.product = product;
-         state.productId = product.id;
-         const foundProducts = state.products.some(item => item.id === product.id);
-         if(!foundProducts) {
-          state.products.push(product);
-        }
+         state.products = action.payload;
        })
        .addCase(loadProducts.rejected, (state, action) => {
         state.productsPending = false;
         state.productsLoadError = action.payload;
        })
-   }
+     }
 });
 
 export default productSlice.reducer;

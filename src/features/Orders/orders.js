@@ -3,7 +3,6 @@ import "./orders.css";
 import Loader from "../../components/Loader/loader.js";
 import Navbar from "../../components/Navbar/navbar.js";
 import Alert from '@mui/material/Alert';
-import Navbar from '../../components/Navbar/navbar.js';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { clearOrders, loadOrders, selectOrdersPending, selectCancelOrderSuccess, clearOrderStatusUpdates, selectOrders, selectOrdersLoadSuccess, selectCancelingOrderError} from '../../store/Orders/orderSlice.js';

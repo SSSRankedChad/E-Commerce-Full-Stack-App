@@ -8,6 +8,16 @@ module.exports = (app) => {
 
  app.use('/api/products', router);
 
+
+  router.get('/', async(req, res, next) => {
+	 try {
+	    const response = await productServiceInstance.get();
+	    res.status(200).send(response);
+	  } catch(err) {
+	    next(err);
+	  }
+   });
+
 	
  router.get('/:productId', async(req, res, next) => {
    try { 
@@ -19,15 +29,5 @@ module.exports = (app) => {
    }
   });
 
-
-  router.get('/', async(req, res, next) => {
-	 try {
-	    const data = req.query;
-	    const response = await productServiceInstance.get(data);
-	    res.status(200).send(response);
-	  } catch(err) {
-	    next(err);
-	  }
-   });
 
 }
