@@ -11,9 +11,9 @@ const { DB } = require('./config.js');
 
   try {
     const db = new Client({
-      user: DB.PGUSER || "whales",
+      user: DB.PGUSER || "halim",
       host: DB.PGHOST,
-      database: DB.PGDATABASE || "nuwhales",
+      database: DB.PGDATABASE || "codecademy",
       port: DB.PGPORT,
       password: DB.PGPASSWORD,
     });
