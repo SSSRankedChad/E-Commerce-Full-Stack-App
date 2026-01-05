@@ -13,7 +13,6 @@ import { RemoveCircle } from '@mui/icons-material';
 
 
 const Product = ({product, page}) => {
-  const products = useSelector(selectProducts);
   const [cartQuantity, setCartQuantity] = useState(product?.cart_quantity);
   const [quantity, setQuantity] = useState(product?.cart_quantity);
   const cartId = useSelector(selectCartId);
@@ -27,7 +26,7 @@ const Product = ({product, page}) => {
   };
 
   const handleAddClick = () => {
-    dispatch(setCartQuantity(prev => prev + 1));
+    setCartQuantity(prev => prev + 1);
   }
 
   const handleRemoveClick = () => {
@@ -80,7 +79,7 @@ const Product = ({product, page}) => {
 	       <div className="Product__cart__name__container">
 	         <p className="Product__cart__label">Name: </p>
 		     <Link to={`product/${productId}`}>
-		      <h2 className="product__cart__name" id={products.productId} onClick={handleProductClick}>{product.name}</h2>
+		      <h2 className="product__cart__name" id={product.id} onClick={handleProductClick}>{product.name}</h2>
 	         </Link>
 	       </div>
 	       <div className="Product__cart__price">
@@ -137,7 +136,7 @@ const Product = ({product, page}) => {
 	     <div className="Product__default__name__container">
 	       <p className="Product__default__name__label">Name: </p>
 		     <Link to={`product/{productId}`}>
-		      <h2 className="product__cart__name" id={`products.productId`} onClick={handleProductClick}>{product.name}</h2>
+		      <h2 className="product__cart__name" id={product.id} onClick={handleProductClick}>{product.name}</h2>
 	       </Link>
 	     </div>
 	    <div className="Product__default__description">

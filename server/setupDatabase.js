@@ -79,7 +79,7 @@ try {
      user: DB.PGUSER || "halim",
      password: DB.PGPASSWORD,
      host: DB.PGHOST,
-     database: DB.PGDATABASE || "codecademy",
+     database: DB.PGDATABASE || "halim",
      port: DB.PGPORT,
   });
 

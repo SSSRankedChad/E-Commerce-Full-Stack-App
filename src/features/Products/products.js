@@ -30,15 +30,14 @@ const Products = () => {
   }
 
   useEffect(() => {
-    dispatch(getProductById(productId));
-  }, [dispatch, productId]);
-
-
-  useEffect(() => {
     if(productLoadSuccess) {
       dispatch(clearProdStatusUpdates());
     }
   }, [productLoadSuccess, dispatch]);
+
+  useEffect(() => {
+    dispatch(getProductById({productId}))
+  }, [productId, dispatch]);
 
   useEffect(() => {
     dispatch(loadProducts())
@@ -67,7 +66,7 @@ const Products = () => {
       </div>
        <ul className="Products__list">
          {loadProductError && <Alert severity="error" msg={loadProductError} onClose={() => dispatch(clearProdStatusUpdates())}/>}
-         {products.map((product) => <li key={product.id}><Product product={product} page="details"/></li>)}
+         {products.map((product) => <li key={product.id}><Product product={product} page="cart"/></li>)}
        </ul>
     </div>
   );
