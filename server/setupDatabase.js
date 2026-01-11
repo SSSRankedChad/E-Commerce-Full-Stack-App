@@ -76,10 +76,10 @@ const cartItemsTableStmt = `
 
 try {  
   const db = new Client({
-    user: DB.PGUSER || "whales",
-     password: DB.PGPASSWORD || "shodan",
+     user: DB.PGUSER || "halim",
+     password: DB.PGPASSWORD,
      host: DB.PGHOST,
-     database: DB.PGDATABASE || "nuwhales",
+     database: DB.PGDATABASE || "halim",
      port: DB.PGPORT,
   });
 

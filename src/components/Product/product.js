@@ -13,7 +13,6 @@ import { RemoveCircle } from '@mui/icons-material';
 
 
 const Product = ({product, page}) => {
-  const [cartQuantity, setCartQuantity] = useState(0);
   const [quantity, setQuantity] = useState(0);
   const cartId = useSelector(selectCartId);
   const userId = useSelector(selectUserId);

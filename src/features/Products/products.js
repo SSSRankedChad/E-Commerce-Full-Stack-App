@@ -30,15 +30,14 @@ const Products = () => {
   }
 
   useEffect(() => {
-    dispatch(getProductById(productId));
-  }, [dispatch, productId]);
-
-
-  useEffect(() => {
     if(productLoadSuccess) {
       dispatch(clearProdStatusUpdates());
     }
   }, [productLoadSuccess, dispatch]);
+
+  useEffect(() => {
+    dispatch(getProductById({productId}))
+  }, [productId, dispatch]);
 
   useEffect(() => {
     dispatch(loadProducts())
