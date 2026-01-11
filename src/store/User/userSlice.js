@@ -57,9 +57,9 @@ export const logout = createAsyncThunk('auth/logout', async(thunkAPI) => {
    }
 });
 
-export const session = createAsyncThunk('auth/session', async(data, thunkAPI) => {
+export const session = createAsyncThunk('auth/session', async(thunkAPI) => {
   try {
-    const response = await isLoggedIn(data);
+    const response = await isLoggedIn();
     return response.data;
   } catch(err) {
     return thunkAPI.rejectWithValue(err.response.data);
@@ -100,6 +100,10 @@ const userSlice = createSlice({
   name: 'users',
   initialState,
   reducers: {
+    setUserId : (state, action) => {
+      state.userId = action.payload.id;
+      return state;
+    },
     clearUserStatusUpdates: (state) => {
       state.loadingUser = false;
       state.loadingUserError = false;
@@ -109,10 +113,14 @@ const userSlice = createSlice({
       state.updateUserError = false;
       state.changingPassword = false;
       state.changePasswordError = false;
+      state.loginSuccess = false;
+      state.registerUserSuccess = false;
+      state.updateUserSuccess = false;
       state.loggingIn = false;
       state.loginError = false;
       state.logginOut = false;
       state.logoutError = false;
+      return state;
     }
   },
   extraReducers: (builder) => {
@@ -123,6 +131,8 @@ const userSlice = createSlice({
       })
 
       .addCase(loadUserById.fulfilled, (state, action) => {
+       console.log('Login payload:', action.payload);
+       console.log('User ID from payload:', action.payload.id);
        state.loadingUser = false;
        state.loadingUserError = false;
        state.loadingUserSuccess = true;
@@ -134,7 +144,6 @@ const userSlice = createSlice({
        state.loadingUserError = action.payload;
        state.loadingUserSuccess = false;
        state.user = {};
-       state.userId = null;
       })
 
       .addCase(registerUser.pending, (state, action) => {
@@ -147,13 +156,13 @@ const userSlice = createSlice({
        state.registerUserError = false;
        state.registeringUser = false;
        state.user = action.payload;
+       state.userId = action.payload.id;
       })
 
       .addCase(registerUser.rejected, (state, action) => {
        state.registeringUser = false;
        state.registerUserError = action.payload;
        state.user = {};
-       state.userId = null;
       })
 
       .addCase(updateUser.pending, (state, action) => {
@@ -199,6 +208,7 @@ const userSlice = createSlice({
         state.loginError = false;
         state.loginSuccess = true;
         state.user = action.payload;
+        state.userId = action.payload.id;
       })
 
       .addCase(login.pending, (state, action) => {
@@ -220,7 +230,6 @@ const userSlice = createSlice({
         state.logoutSuccess = action.payload;
         state.logoutError = false;
         state.user = {}
-        state.userId = null;
       })
 
       .addCase(logout.rejected, (state, action) => {
@@ -244,11 +253,11 @@ const userSlice = createSlice({
 });
 
 
-export const {clearUserStatusUpdates} = userSlice.actions;
+export const { clearUserStatusUpdates, setUserId } = userSlice.actions;
 export default userSlice.reducer;
 
 export const selectUser = state => state.users.user;
-export const selectUserId = state => state.users?.userId;
+export const selectUserId = state => state.users.userId;
 export const selectUserLoading = state => state.users.loadingUser;
 export const selectUserLoadingError = state => state.users.loadingUserError;
 export const selectRegisterUserError = state => state.users.registerUserError;

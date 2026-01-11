@@ -67,7 +67,7 @@ const Products = () => {
       </div>
        <ul className="Products__list">
          {loadProductError && <Alert severity="error" msg={loadProductError} onClose={() => dispatch(clearProdStatusUpdates())}/>}
-         {products.map((product) => <li key={product.id}><Product product={product} page="details"/></li>)}
+         {products.map((product) => <li key={product.id}><Product product={product}/></li>)}
        </ul>
     </div>
   );

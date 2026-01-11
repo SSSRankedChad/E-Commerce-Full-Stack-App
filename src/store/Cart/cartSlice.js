@@ -52,12 +52,15 @@ const cartSlice = createSlice({
       return state;
     },
     clearCartStatusUpdates: (state, action) => {
+      state.loadCartPending = false;
       state.loadCartError = false;
       state.loadCartSuccess = false;
       state.updateCartError = false;
+      state.updateCartPending = false;
       state.updateCartSuccess = false;
+      state.checkoutPending = false;
       state.checkoutError = false;
-      state.checkoutError = false;
+      state.checkoutSuccess = false;
     },
     clearCart: (state, action) => {
       state.cart = {};
@@ -125,6 +128,7 @@ export default cartSlice.reducer;
 
 export const selectCart = state => state.cart.cart;
 export const selectCartId = state => state.cart.cartId;
+export const selectCartQuantity = state => state.cart.cartQuantity;
 export const selectLoadCart = state => state.cart.loadCartPending;
 export const selectLoadCartError = state => state.cart.loadCartError;
 export const selctUpdatingCart = state => state.cart.updateCart;

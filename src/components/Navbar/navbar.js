@@ -35,11 +35,11 @@ const Navbar = () => {
     }
   }, [dispatch]);
 
-  if(userId) {
+  if(!user) {
    return (
     <div className='navbar'>
       <div className="userButton">
-        <Link to={`/user/${userId}`}>
+        <Link to="/login">
          <AvatarCircle />
         </Link>
       </div>
@@ -65,7 +65,7 @@ const Navbar = () => {
    return (
     <div className='navbar'>
       <div className="userButton">
-       <Link to="/login" alt="Login">
+       <Link to={`/user`} alt="Login">
         <AvatarCircle />
        </Link>
       </div>

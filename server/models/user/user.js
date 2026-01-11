@@ -19,9 +19,9 @@ module.exports = class userModel {
 
   async findUserById(userId) {
    try {
-     const statement = `SELECT id FROM users where id as userId = $1`;
+     const statement = `SELECT * FROM users WHERE id = $1`;
      const values = [userId];
-     const results = await db.query(statement);
+     const results = await db.query(statement, values);
      if(results.rows?.length) {
        return results.rows[0];
     }

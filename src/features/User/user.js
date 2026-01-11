@@ -1,18 +1,20 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import AvatarCircle from '@mui/material/Avatar';
 import TextInput from '@mui/material/TextField';
 import Loader from '../../components/Loader/loader.js';
 import Alert from '@mui/material/Alert';
 import Button from '@mui/material/Button';
-import { loadUserById, updateUser, changePassword, selectUser, selectUserId, selectUserLoading, selectUserLoadingError, selectRegisteringUserSuccess,
+import { loadUserById, updateUser, changePassword, selectUser, selectUserId, selectUserLoading, selectUserLoadingError, selectRegisterUserSuccess,
         selectUpdatingUser, selectUpdateUserSuccess, selectUpdateUserError,  selectChangePasswordSuccess, selectChangePasswordError,
-        selectLoginSuccess, clearUserStatusUpdates } from '../../store/User/userSlice.js';
+        selectLoginSuccess, selectSessionSuccess, clearUserStatusUpdates } from '../../store/User/userSlice.js';
 import { useSelector, useDispatch } from 'react-redux';
 
 const User = () => {
+    const user = useSelector(selectUser);
     const [username, setUsername] = useState(user.username);
-    const [firstName, setFirstName] = useState(user.first_name);
-    const [lastName, setLastName] = useState(user.last_name);
+    const [firstName, setFirstName] = useState(user.firstname);
+    const [lastName, setLastName] = useState(user.lastname);
     const [gender, setGender] = useState(user.gender);
     let [dob, setDob] = useState(user.date_of_birth);
     const [phone, setPhone] = useState(user.phone);
@@ -23,11 +25,10 @@ const User = () => {
     const [zip, setZip] = useState(user.zip_code);
     const [password, setPassword] = useState('');
     const [passMatch, setPassMatch] = useState('');
+    const userId = useSelector(selectUserId);
     const passwordMatch = password === passMatch;
-    const user = useSelector(selectUser);
-    const userId = useSelector(selectUserId) || user?.id;
-    const loadingUser = useSelector(selectLoadingUser);
-    const loadUserError = useSelector(selectLoadUserError);
+    const userLoading = useSelector(selectUserLoading);
+    const loadUserError = useSelector(selectUserLoadingError);
     const registerUserSuccess = useSelector(selectRegisterUserSuccess);
     const updatingUser = useSelector(selectUpdatingUser);
     const updateUserSuccess = useSelector(selectUpdateUserSuccess);
@@ -35,9 +36,12 @@ const User = () => {
     const changePasswordSuccess = useSelector(selectChangePasswordSuccess);
     const changePasswordError = useSelector(selectChangePasswordError);
     const loginSuccess = useSelector(selectLoginSuccess);
+    const session = useSelector(selectSessionSuccess);
     const dispatch = useDispatch();
+    console.log(user);
+    console.log(userId);
 
-  const handleChange = ({target}) => {
+    const handleChange = ({target}) => {
       if(target.name === "username") {
         setUsername(target.value);
       }
@@ -96,27 +100,18 @@ const User = () => {
         }
     };
 
-
     useEffect(() => {
-       dispatch(clearUsersStatusUpdates())
+       dispatch(clearUserStatusUpdates())
     }, [dispatch]);
 
     useEffect(() => {
-        dispatch(loadUserById({userId}))
-    }, [dispatch])
+      console.log(userId);
+      if(userId) {
+        console.log(userId);
+        dispatch(loadUserById(userId));
 
-    useEffect(() => {
-        if(registerUserSuccess || loginSuccess || updateUserSuccess) {
-            dispatch(loadUserById({userId}))
-        }
-        else if (changePasswordSuccess) {
-            setPassword('');
-            setPassMatch('');
-        }
-        else if (loadUserError || changePasswordError || updateUserError) {
-            dispatch(clearUsersStatusUpdates());
-        }
-    }, [dispatch, loadUserError, registerUserSuccess, loginSuccess, changePasswordSuccess]);
+      }
+    }, [dispatch, userId]);
 
     if(userLoading || updatingUser) {
       return (
@@ -128,30 +123,32 @@ const User = () => {
 
     return (
       <section className="user__container">
-      {loginSuccess && <Alert severity="error" msg={loadUserError} onClose={(() => dispatch(clearUserStatusUpdates()))}/>}
-      {updateUserSuccess && <Alert severity="error" msg={updateUserError} onClose={(() => dispatch(clearUserStatusUpdates()))}/>}
-      <h3 className="profile_title">{`Welcome, ${user.first_name}!`}</h3>
-       <AvatarCircle />
-       <TextInput name="username" value={username} onChange={handleChange}/>
-       <TextInput name="firstname" value={first_name} onChange={handleChange}/>
-       <TextInput name="lastname" value={last_name} onChange={handleChange}/>
-       <TextInput name="gender" value={gender} onChange={handleChange}/>
-       <TextInput name="streetaddress" value={street_address} onChange={handleChange}/>
-       <TextInput name="city" value={city} onChange={handleChange}/>
-       <TextInput name="state" value={state} onChange={handleChange}/>
-       <TextInput name="zip" value={zip} onChange={handleChange}/>
+       {loginSuccess && <Alert severity="error" msg={loadUserError} onClose={(() => dispatch(clearUserStatusUpdates()))}/>}
+       {updateUserSuccess && <Alert severity="error" msg={updateUserError} onClose={(() => dispatch(clearUserStatusUpdates()))}/>}
+        <h3 className="profile_title">{`Welcome, ${user.username}!`}</h3>
+         <AvatarCircle />
+         <TextInput name="username" value={username} onChange={handleChange}/>
+         <TextInput name="firstname" value={firstName} onChange={handleChange}/>
+         <TextInput name="lastname" value={lastName} onChange={handleChange}/>
+         <TextInput name="gender" value={gender} onChange={handleChange}/>
+         <TextInput name="streetaddress" value={streetAddress} onChange={handleChange}/>
+         <TextInput name="city" value={city} onChange={handleChange}/>
+         <TextInput name="state" value={state} onChange={handleChange}/>
+         <TextInput name="zip" value={zip} onChange={handleChange}/>
 
        <section className="change__password__container">
-        <h3 className> Change Password </h3>
-        {changePasswordSuccess && <Alert severity="error" msg={changePasswordError} onClose={(() => dispatch(clearUserStatusUpdates()))}/>}
-        <TextInput name="New Password" value={password} onChange={handleChange}/>
-        {password && <TextInput name="password_match" value={passMatch} type="password" onChange={handleChange} placeholder="Please enter a new password"/>}
-        {passMatch && <Button id="changepassword-buttton" name="Change Password" onClick={handleClick}>Submit</Button>}
-       </section>
-        <Button id="updateuser-button" name="Update User" onClick={handleClick}> Update Account </Button>
-        <Link to='/orders'><p className="order__link"> View order history</p></Link>
+         <h3 className> Change Password </h3>
+         {changePasswordSuccess && <Alert severity="error" msg={changePasswordError} onClose={(() => dispatch(clearUserStatusUpdates()))}/>}
+         <TextInput name="New Password" value={password} onChange={handleChange}/>
+         {password && <TextInput name="password_match" value={passMatch} type="password" onChange={handleChange} placeholder="Please enter a new password"/>}
+         {passMatch && <Button id="changepassword-buttton" name="Change Password" onClick={handleClick}>Submit</Button>}
+        </section>
+         <Button id="updateuser-button" name="Update User" onClick={handleClick}> Update Account </Button>
+         <Link to='/orders'><p className="order__link"> View order history</p></Link>
+         <Link to='/home'><p className="home__link">Home</p></Link>
       </section>
-    )
+    );
+
 }
 
 export default User;

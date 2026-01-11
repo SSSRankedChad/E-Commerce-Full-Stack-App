@@ -3,8 +3,10 @@ import {Link, useNavigate, useLocation} from 'react-router-dom';
 import  IconButton  from '@mui/material/IconButton';
 import  Button  from '@mui/material/Button';
 import { useSelector, useDispatch } from 'react-redux';
-import { useStripe, useElements, CardNumberElement, CardExpiryElement } from '@stripe/react-stripe-js';
-import { selectCartId, selectCart, selectloadCart, selectCheckoutSuccess, selectLoadCartError, selectCheckoutPending,
+import { useStripe, useElements, CardNumberElement, CardExpiryElement, CardCvCElement  } from '@stripe/react-stripe-js';
+import { Elements } from '@stripe/react-stripe-js';
+import { stripePromise } from '../../components/stripe/stripe.js';
+import { selectCartId, selectCart, loadCart, setCartId, selectLoadCart, selectCheckoutSuccess, selectLoadCartError, selectCheckoutPending,
          clearCartStatusUpdates, selectCheckoutError} from '../../store/Cart/cartSlice.js';
 import { selectUserId, selectUser } from '../../store/User/userSlice.js';
 import Loader from '../../components/Loader/loader.js';
@@ -13,17 +15,17 @@ import Product from '../../components/Product/product.js';
 
 
 
-const Cart = () => {
+const CartForm = () => {
   const cart = useSelector(selectCart);
   const cartId = useSelector(selectCartId);
   const cartLoading = useSelector(selectLoadCart);
   const loadCartError = useSelector(selectLoadCartError);
-  const checkoutPending = useSelector(selectCheckingPending);
-  const checkout = useSelector(checkout);
+  const checkout = useSelector(selectCheckoutSuccess);
+  const checkoutPending = useSelector(selectCheckoutPending);
   const checkoutError = useSelector(selectCheckoutError);
   const user = useSelector(selectUser);
   const userId = useSelector(selectUserId);
-  const [shipToName, setShipToName] = useState(user.first_name + '' + user.last_name);
+  const [shipToName, setShipToName] = useState(user.firstname + '' + user.lastname);
   const [email, setEmail] = useState(user.email);
   const [shipToCity, setShipToCity] = useState(user.city);
   const [shipToState, setShipToState] = useState(user.state);
@@ -31,12 +33,14 @@ const Cart = () => {
   const [shipToZip, setShipToZip] = useState(user.zip);
   const [payMethod, setPayMethod] = useState('');
   const [cardNum, setCardNum] = useState('');
-  const [inCheckout, setInCheckout] = useState(false);
+  const [inCheckout, setInCheckout] = useState(true);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const location = useLocation();
   const stripe = useStripe();
   const elements = useElements();
+
+  console.log(cart);
+  console.log(cartId);
 
   const address = {
     shipToName,
@@ -98,21 +102,13 @@ const Cart = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    if(!userId){
-      navigate('/login');
+    if(userId) {
+      dispatch(loadCart(cartId, userId));
     }
-    else {
-      dispatch(setCartId(user.cart_id));
-      disaptch(loadCart({cartId, userId}));
-    }
-
-    if(location.pathname !== 'cart/checkout') {
-      setInCheckout(false);
-    }
-  }, [userId, cartId, user, location, navigate, dispatch]);
+  }, [userId, cartId, dispatch]);
 
   useEffect(() => {
-    if(checkoutSuccess) {
+    if(checkout) {
       setShipToCity('');
       setShipToName('');
       setShipToState('');
@@ -126,13 +122,13 @@ const Cart = () => {
         dispatch(clearCartStatusUpdates());
       }, 2500);
     }
-  }, [checkoutSuccess, cartId, userId, dispatch, navigate]);
+  }, [checkout, cartId, userId, dispatch, navigate]);
 
 
 
   if (inCheckout) {
     return (
-      <Button name="Submit Order" size="large" disabled={!stripe} onClick={handleClick} />
+      <Button name="Submit Order" size="large" disabled={!stripe} onClick={handleSubmit} />
     )
    } else  {
     return (
@@ -151,7 +147,7 @@ const Cart = () => {
     )
   }
 
-  if(!cart.items || !cart) {
+  if(!cart || !userId) {
     return (
       <section className="cart__items">
         <h2 className="cart__items__label"> Items in Cart </h2>
@@ -162,9 +158,11 @@ const Cart = () => {
 
 
   if(cartLoading || checkingOut) {
-    <div className="Cart__loading__container">
+    return (
+     <div className="Cart__loading__container">
       <Loader /> 
-    </div> 
+     </div> 
+    );
   }
 
 
@@ -172,8 +170,7 @@ const Cart = () => {
 
  return (
       <section className="Cart">
-       <Navbar /> 
-            {inCheckout && <form className="Cart__form" method="post" action="">
+            <form className="Cart__form" method="post" action="">
                 <div className="Cart__address">
                     <h2 className="Cart__address__heading">Ship To Address</h2>
                     <TextInput name="Full Name" value={shipToName} onChange={handleChange}/>
@@ -192,13 +189,12 @@ const Cart = () => {
                     <CardCvcElement className="Cart__input" id="cardCVC" name="cardCVC" required/>
                 </div>
                 {checkoutError && <Alert severity='error' msg={checkoutError} onClose={() => dispatch(clearCartStatusUpdates())}/>}
-            </form>}
-            {cart.items && <section className="Cart__items">
+            
+            <section className="Cart__items">
                 <h2 className="Cart__items__heading">Items in Cart</h2>
                 {loadCartError && <Alert severity='error' msg={loadCartError} onClose={() => dispatch(clearCartStatusUpdates())}/>}
-                {cart.items.map((cartItem, i) => <Product product={cartItem} display='inCart' key={cart.items[i].product_id}/>)}
+                {cart.items.map((cartItem, i) => <Product product={cartItem} display='inCart' key={cart.items[i].productId}/>)}
                 <div className="Cart__info">
-                    {inCheckout ?
                     <div className="Cart__info__details">
                         <div className="Cart__info__pay__details">
                             <p className="Cart__shipping">Shipping: $9.99</p>
@@ -206,12 +202,23 @@ const Cart = () => {
                             <p className="Cart__subtotal">{`Subtotal: $${cart.subtotal.toFixed(2)}`}</p>
                         </div>
                         <p className="Cart__total">{`Total: $${(cart.subtotal + (cart.subtotal * 0.0825) + 9.99).toFixed(2)}`}</p>
-                    </div> :
-                    <p className="Cart__subtotal">{`Subtotal: $${cart.subtotal.toFixed(2)}`}</p>}
-                    <Button /> 
+                    </div> 
+                    <p className="Cart__subtotal">{`Subtotal: $${cart.subtotal.toFixed(2)}`}</p>
+                    <Button />
                 </div>
-             </section>}
+             </section>
+          </form>
     </section>
+  );
+}
+
+const Cart = () => {
+  return (
+   <div className="stripe__cart__container">
+    <Elements stripe={stripePromise}> 
+     <CartForm /> 
+    </Elements>
+   </div>
   );
 }
 

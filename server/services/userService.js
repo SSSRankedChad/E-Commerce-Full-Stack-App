@@ -14,6 +14,7 @@ module.exports = class userService {
      if(!user) {
        createError('409', 'User not found!');
      }
+    return user;
    } catch(err) {
      throw new Error(err);
    }
@@ -30,6 +31,7 @@ module.exports = class userService {
       if(!user) {
         createError('409', 'User not found!');
       }
+     return user;
     } catch(err) {
       throw new Error(err);
     }

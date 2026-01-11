@@ -23,14 +23,14 @@ module.exports = class ProductModel {
      const statement = `SELECT * FROM products WHERE id = $1`;
      const values = [id];
      const results = await db.query(statement, values);
-  
+
      if(results.rows?.length) {
       return results.rows[0];
      }
      return null;
    }  catch(err) {
      throw new Error(err);
-   };
+   }
   }
 
 }

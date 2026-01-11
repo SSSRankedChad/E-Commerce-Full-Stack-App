@@ -7,7 +7,7 @@ export const getProductById = createAsyncThunk('/products/getProductById', async
     const response = await findProductById(id);
     return response.data;
   } catch(err) {
-    return thunkAPI.rejectWithValue(err.response.data);
+    return thunkAPI.rejectWithValue(err);
   }
 });
 
@@ -18,7 +18,7 @@ export const loadProducts = createAsyncThunk('/products/loadProducts', async(thu
     const response = await findProducts();
     return response.data;
   } catch(err) {
-    return thunkAPI.rejectWithValue(err.response.data);
+    return thunkAPI.rejectWithValue(err);
   }
  });
 
@@ -40,12 +40,12 @@ const productSlice = createSlice({
   initialState,
   reducers: {
     setProductId: (state, action) => {
-      state.productId = action.payload;
+      state.productId = action.payload.id;
       return state;
     },
     clearProduct: (state, action) => {
       state.productId = null;
-      state.products = [];
+      state.product = {};
       return state;
     },
 
@@ -55,7 +55,7 @@ const productSlice = createSlice({
     },
 
     clearProdStatusUpdates: (state) => {
-      state.productPending = false;
+      state.productPending = false
       state.productLoadError = false;
       state.productsPending = false;
       state.productsLoadError = false;
@@ -69,6 +69,7 @@ const productSlice = createSlice({
          state.productLoadError = false;
        })
        .addCase(getProductById.fulfilled, (state, action) => {
+         state.productPending = false;
          state.productLoadSuccess = true;
          state.productLoadError = false;
          state.product = action.payload;
@@ -83,11 +84,13 @@ const productSlice = createSlice({
          state.productsLoadError = false;
        })
        .addCase(loadProducts.fulfilled, (state, action) => {
+         state.productsPending = false;
          state.productsLoadSuccess = true;
          state.productsLoadError = false;
          state.products = action.payload;
        })
        .addCase(loadProducts.rejected, (state, action) => {
+        state.productsLoadSuccess = false;
         state.productsPending = false;
         state.productsLoadError = action.payload;
        })
@@ -99,9 +102,9 @@ export const {setSearchTerm, setProductId, clearProduct, clearProdStatusUpdates}
 
 export const selectProduct = state => state.products.product;
 export const selectProducts = state => state.products.products;
-export const selectProductId = state => state.products.productId;
+export const selectProductId = state => state.products.product.id;
 export const selectProductPending = state => state.products.productPending;
-export const selectProductPendError = state => state.products.productLoadError;
+export const selectProductLoadError = state => state.products.productLoadError;
 export const selectProductLoadSuccess = state => state.products.productLoadSuccess;
 export const selectProductsPending = state => state.products.productsPending;
 export const selectProductsLoadError = state => state.products.productsLoadError;

@@ -9,7 +9,7 @@ module.exports = (app) => {
 
   app.use('/api/cart', router);
 
-  router.post('/mine', async(req, res, next) => {
+  router.post('/', async(req, res, next) => {
     try {
        const data = req.body;
        const response = await cartServiceInstance.create(data);
@@ -19,7 +19,7 @@ module.exports = (app) => {
     }
    });
 
-  router.post('/mine', async(req, res, next) => {
+  router.post('/', async(req, res, next) => {
 	  try {
 	    const data = req.body;
 	    const response = await cartServiceInstance.checkout(data);
@@ -30,7 +30,7 @@ module.exports = (app) => {
   });
 
 
-  router.put('mine/items/:cartItemId', async(req, res, next) => {
+  router.put('/items/:cartItemId', async(req, res, next) => {
 	 try {
 	   const { cartItemId } = req.params;
 	   const data = req.body;
@@ -41,7 +41,7 @@ module.exports = (app) => {
 	}
  });
 
- router.post('mine/items', async(req, res, next) => {
+ router.post('/items', async(req, res, next) => {
 	try {
 	   const { userId } = req.params;
 	   const data = req.body;
@@ -52,7 +52,7 @@ module.exports = (app) => {
 	}
  });
 
-  router.delete('mine/items/:cartItemId', async(req, res, next) => {
+  router.delete('/items/:cartItemId', async(req, res, next) => {
 	try {
 	  const { cartItemId } = req.params;
 	  const data = req.body;

@@ -69,7 +69,7 @@ const Login = () => {
     if(loginSuccess) {
       setEmail('');
       setPassword('');
-      navigate('/');
+      navigate('/user');
       dispatch(clearUserStatusUpdates());
     }
   }, [loginSuccess, navigate, dispatch]);

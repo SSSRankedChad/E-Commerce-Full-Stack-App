@@ -19,10 +19,10 @@ module.exports = (app) => {
    });
 
 	
- router.get('/:productId', async(req, res, next) => {
+ router.get('/:id', async(req, res, next) => {
    try { 
-	   const { productId } = req.params;
-	   const response = await productServiceInstance.find(productId);
+   	 const { id } = req.params;
+	   const response = await productServiceInstance.find(id);
 	   res.status(200).send(response);
    } catch(err) {
 	  next(err);

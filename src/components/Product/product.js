@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import IconButton from '@mui/material/IconButton';
 import Button from '@mui/material/Button';
-import { setProductId, selectProducts, selectFilteredProducts, selectProduct, selectProductId } from '../../store/Product/productSlice.js';
+import { selectProductId } from '../../store/Product/productSlice.js';
 import { selectUserId } from '../../store/User/userSlice';
 import { selectCartId, loadCart, updateCart } from '../../store/Cart/cartSlice';
 import { AddCircle } from '@mui/icons-material';
@@ -13,9 +13,8 @@ import { RemoveCircle } from '@mui/icons-material';
 
 
 const Product = ({product, page}) => {
-  const products = useSelector(selectProducts);
-  const [cartQuantity, setCartQuantity] = useState(product?.cart_quantity);
-  const [quantity, setQuantity] = useState(product?.cart_quantity);
+  const [cartQuantity, setCartQuantity] = useState(0);
+  const [quantity, setQuantity] = useState(0);
   const cartId = useSelector(selectCartId);
   const userId = useSelector(selectUserId);
   const productId = useSelector(selectProductId);
@@ -27,7 +26,10 @@ const Product = ({product, page}) => {
   };
 
   const handleAddClick = () => {
-    dispatch(setCartQuantity(prev => prev + 1));
+    setCartQuantity(cartQuantity => {
+      const newQuantity = cartQuantity + 1;
+      return newQuantity;
+    });
   }
 
   const handleRemoveClick = () => {
@@ -39,7 +41,7 @@ const Product = ({product, page}) => {
 
   const handleCartClick = () => {
     if(!userId) {
-      navigate('/login', { replace: true});
+      navigate('/login');
     }
     else if (cartQuantity) {
       setCartQuantity(prev => prev + 1);
@@ -79,8 +81,8 @@ const Product = ({product, page}) => {
 	       </div>
 	       <div className="Product__cart__name__container">
 	         <p className="Product__cart__label">Name: </p>
-		     <Link to={`product/${productId}`}>
-		      <h2 className="product__cart__name" id={products.productId} onClick={handleProductClick}>{product.name}</h2>
+		     <Link to={`product/${id}`}>
+		      <h2 className="product__cart__name" id={product.id} onClick={handleProductClick}>{product.name}</h2>
 	         </Link>
 	       </div>
 	       <div className="Product__cart__price">
@@ -137,7 +139,7 @@ const Product = ({product, page}) => {
 	     <div className="Product__default__name__container">
 	       <p className="Product__default__name__label">Name: </p>
 		     <Link to={`product/{productId}`}>
-		      <h2 className="product__cart__name" id={`products.productId`} onClick={handleProductClick}>{product.name}</h2>
+		      <h2 className="product__cart__name" id={product.id} onClick={handleProductClick}>{product.name}</h2>
 	       </Link>
 	     </div>
 	    <div className="Product__default__description">
@@ -146,9 +148,11 @@ const Product = ({product, page}) => {
 	    </div>
 	    <div className="Product__default__button">
 		   <IconButton className="Product__default__add" onClick={handleAddClick}><AddCircle /></IconButton>
-	     <Button className="Product__default__cart" onClick={handleCartClick}></Button>
+       <IconButton className="Product__default__remove" onClick={handleRemoveClick}><RemoveCircle /></IconButton>
+       <input className="Product__cart__quantity" type="number" id="quantity" min="0" max="100" value={cartQuantity} readOnly/>
+	     <Button className="Product__default__cart" onClick={handleCartClick}>Add to Cart</Button>
 	    </div>
-      </div>
+     </div>
 	  );
    }
 }
