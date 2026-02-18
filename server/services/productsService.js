@@ -24,14 +24,10 @@ module.exports = class productService {
   async find(id) {
     try {
       const product = await productModelInstance.findProductById(id);
+
+
+      console.log(product);
      
-      console.log("=== SERVICE LAYER ===");
-      console.log("Received id in service:", id);
-      console.log("Type:", typeof id);
-      
-      console.log("Product from model:", product); 
-
-
       if(!product) {
         throw createError('409', 'Product not found!');
       }

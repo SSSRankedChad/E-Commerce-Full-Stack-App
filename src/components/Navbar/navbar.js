@@ -35,7 +35,7 @@ const Navbar = () => {
     }
   }, [dispatch]);
 
-  if(!user) {
+  if(!user || !userId) {
    return (
     <div className='navbar'>
       <div className="userButton">

@@ -9,20 +9,31 @@ module.exports = (app) => {
 
   app.use('/api/cart', router);
 
-  router.post('/', async(req, res, next) => {
+  router.post('/mine', async(req, res, next) => {
     try {
-       const data = req.body;
-       const response = await cartServiceInstance.create(data);
+       const { userId } = req.user;
+       const response = await cartServiceInstance.create({userId});
        res.status(200).send(response);
     } catch(err) {
 	     next(err);
     }
    });
 
-  router.post('/', async(req, res, next) => {
+  router.get('/mine', async(req, res, next) => {
+    try {
+      const { userId } = req.user;
+      const response = await cartServiceInstance.get({userId});
+      res.status(200).send(response);
+    } catch(err) {
+      next(err);
+    }
+  })
+
+  router.post('/mine/checkout', async(req, res, next) => {
 	  try {
-	    const data = req.body;
-	    const response = await cartServiceInstance.checkout(data);
+	    const userId = req.user;
+      const { cartId, paymentInfo } = req.body;
+	    const response = await cartServiceInstance.checkout({userId, cartId, paymentInfo});
 	    res.status(200).send(response);
 	  } catch(err) {
 	     next(err);
@@ -30,7 +41,7 @@ module.exports = (app) => {
   });
 
 
-  router.put('/items/:cartItemId', async(req, res, next) => {
+  router.put('/mine/items/:cartItemId', async(req, res, next) => {
 	 try {
 	   const { cartItemId } = req.params;
 	   const data = req.body;
@@ -41,7 +52,7 @@ module.exports = (app) => {
 	}
  });
 
- router.post('/items', async(req, res, next) => {
+ router.post('/mine/items', async(req, res, next) => {
 	try {
 	   const { userId } = req.params;
 	   const data = req.body;
@@ -52,7 +63,7 @@ module.exports = (app) => {
 	}
  });
 
-  router.delete('/items/:cartItemId', async(req, res, next) => {
+  router.delete('/mine/items/:cartItemId', async(req, res, next) => {
 	try {
 	  const { cartItemId } = req.params;
 	  const data = req.body;

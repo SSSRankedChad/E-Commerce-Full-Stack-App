@@ -2,27 +2,22 @@ import React , { useState, useEffect } from 'react';
 import "./product.css";
 import Loader from '../../components/Loader/loader.js';
 import { useSelector, useDispatch } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import IconButton from '@mui/material/IconButton';
 import Button from '@mui/material/Button';
-import { selectProductId } from '../../store/Product/productSlice.js';
-import { selectUserId } from '../../store/User/userSlice';
-import { selectCartId, loadCart, updateCart } from '../../store/Cart/cartSlice';
-import { AddCircle } from '@mui/icons-material';
-import { RemoveCircle } from '@mui/icons-material';
+import { selectUserId } from '../../store/User/userSlice.js';
+import { selectCartId, loadCart, updateCart, create } from '../../store/Cart/cartSlice.js';
+import AddCircle  from '@mui/icons-material/AddCircle';
+import RemoveCircle from '@mui/icons-material/RemoveCircle';
 
 
 const Product = ({product, page}) => {
+  const [cartQuantity, setCartQuantity] = useState(0);
   const [quantity, setQuantity] = useState(0);
   const cartId = useSelector(selectCartId);
   const userId = useSelector(selectUserId);
-  const productId = useSelector(selectProductId);
   const dispatch = useDispatch();
   let navigate = useNavigate();
-
-  const handleProductClick = () => {
-    dispatch(setProductId(productId));
-  };
 
   const handleAddClick = () => {
     setCartQuantity(cartQuantity => {
@@ -50,14 +45,16 @@ const Product = ({product, page}) => {
     }
   }
 
-
   useEffect(() => {
   if(quantity !== cartQuantity) {
-    dispatch(updateCart({ cartId, userId, cartQuantity, productId}));
-    dispatch(loadCart( { cartId, userId } ));
+    dispatch(updateCart(cartId, userId, cartQuantity));
+    dispatch(loadCart( cartId, userId ));
     setQuantity(cartQuantity);
     }
-  }, [cartId, userId, productId, cartQuantity, quantity, dispatch]);
+  else if(!cartId) {
+    dispatch(create());
+  }
+  }, [cartId, userId, cartQuantity, quantity, dispatch]);
 
   if(!product) {
     return (
@@ -76,13 +73,13 @@ const Product = ({product, page}) => {
 	return (
 	   <div className="Product__cart__container">
 	      <div className="Product__image__container">
-	        <img src={product.url} alt=""/>
+	        <img style= {{maxWidth: "100%", maxHeight: "100%"}} src={product.url} alt=""/>
 	       </div>
 	       <div className="Product__cart__name__container">
 	         <p className="Product__cart__label">Name: </p>
-		     <Link to={`product/${id}`}>
-		      <h2 className="product__cart__name" id={product.id} onClick={handleProductClick}>{product.name}</h2>
-	         </Link>
+		     <Link to={`products/${product.id}`}>
+		      <h2 className="product__cart__name" id={product.id}>{product.name}</h2>
+	       </Link>
 	       </div>
 	       <div className="Product__cart__price">
 		    <p className="Product__price__label"> Price: </p>
@@ -133,17 +130,19 @@ const Product = ({product, page}) => {
 	return (
 	   <div className="Product__default__container">
 	    <div className="Product__default__image">
-	      <img src={product.url} /> 
+	      <img style={{maxWidth: "100%", maxHeight: "100%"}} src={product.url} /> 
 	    </div>
 	     <div className="Product__default__name__container">
 	       <p className="Product__default__name__label">Name: </p>
-		     <Link to={`product/{productId}`}>
-		      <h2 className="product__cart__name" id={product.id} onClick={handleProductClick}>{product.name}</h2>
+		     <Link to={`products/${product.id}`}>
+		      <h2 className="product__cart__name" id={product.id}>{product.name}</h2>
 	       </Link>
 	     </div>
 	    <div className="Product__default__description">
 	      <p className="Product__default__description__label"> Description: </p>
 	      <p className="Product__default__description__value"> {product.description} </p>
+        <p className="Product__default__price__label"> Price: </p>
+        <p className="Product__default__price__value">{product.price}</p>
 	    </div>
 	    <div className="Product__default__button">
 		   <IconButton className="Product__default__add" onClick={handleAddClick}><AddCircle /></IconButton>

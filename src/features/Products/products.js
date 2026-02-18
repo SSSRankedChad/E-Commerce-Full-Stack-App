@@ -1,25 +1,26 @@
 import React, {useState, useEffect} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import Product from '../../components/Product/product.js';
-import { loadProducts, selectProduct, selectProducts, selectProductId, selectSearchTerm, clearProdStatusUpdates, selectProductLoadSuccess, selectProductsLoadError, selectProductPending, getProductById } from '../../store/Product/productSlice.js';
+import { loadProducts, selectProducts, selectProduct, selectProductId, selectSearchTerm, clearProdStatusUpdates, selectProductLoadSuccess, selectProductsLoadError, selectProductPending, getProductById } from '../../store/Product/productSlice.js';
 import Loader from '../../components/Loader/loader.js';
 import Alert from '@mui/material/Alert';
 
 
-const Products = () => {
+const Products = ({product}) => {
   const [category, setCategory] = useState('');
   const [sort, setSort] = useState('');
   const listCategories = ['Electronic', 'Beauty', 'Accessories', 'Automotive', 'Hardware', 'Gardening'];
   const sortOptions = ['', 'lowest', 'highest'];
   const arr = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-  const product = useSelector(selectProduct);
-  const productId = useSelector(selectProductId);
   const products = useSelector(selectProducts);
   const searchTerm = useSelector(selectSearchTerm);
   const productLoadSuccess = useSelector(selectProductLoadSuccess);
   const loadProductError = useSelector(selectProductsLoadError);
   const productLoading = useSelector(selectProductPending);
   const dispatch = useDispatch();
+
+
 
   const handleSortChange = async({target}) => {
     setSort(target.value);
@@ -35,13 +36,10 @@ const Products = () => {
     }
   }, [productLoadSuccess, dispatch]);
 
-  useEffect(() => {
-    dispatch(getProductById({productId}))
-  }, [productId, dispatch]);
 
   useEffect(() => {
-    dispatch(loadProducts())
-  }, [dispatch]);
+      dispatch(loadProducts());
+   }, [dispatch]);
 
   if(productLoading) {
     return (

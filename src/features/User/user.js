@@ -15,7 +15,9 @@ const User = () => {
     const [username, setUsername] = useState(user.username);
     const [firstName, setFirstName] = useState(user.firstname);
     const [lastName, setLastName] = useState(user.lastname);
-    const [gender, setGender] = useState(user.gender);
+    const [gender, setGender] = useState("");
+    const genderList = ["Male", "Female" ,"Non-Binary"];
+    const states = ['AL','AK','AZ','AR','CA','CO','CT','DE','FL','GA','HI','ID','IL','IN','IA','KS','KY','LA','ME','MD','MA','MI','MN','MS','MO','MT','NE','NV','NH','NJ','NM','NY','NC','ND','OH','OK','OR','PA','RI','SC','SD','TN','TX','UT','VT','VA','WA','WV','WI','WY'];
     let [dob, setDob] = useState(user.date_of_birth);
     const [phone, setPhone] = useState(user.phone);
     const [email, setEmail] = useState(user.email);
@@ -38,8 +40,6 @@ const User = () => {
     const loginSuccess = useSelector(selectLoginSuccess);
     const session = useSelector(selectSessionSuccess);
     const dispatch = useDispatch();
-    console.log(user);
-    console.log(userId);
 
     const handleChange = ({target}) => {
       if(target.name === "username") {
@@ -74,7 +74,10 @@ const User = () => {
       }
       else if (target.name === 'passwordmatch') {
        setPassMatch(target.value);
-     }
+      }
+      else if (target.name === "state") {
+        setState(target.value);
+      }
   };
 
   const userProfile = {
@@ -105,11 +108,8 @@ const User = () => {
     }, [dispatch]);
 
     useEffect(() => {
-      console.log(userId);
       if(userId) {
-        console.log(userId);
         dispatch(loadUserById(userId));
-
       }
     }, [dispatch, userId]);
 
@@ -128,12 +128,17 @@ const User = () => {
         <h3 className="profile_title">{`Welcome, ${user.username}!`}</h3>
          <AvatarCircle />
          <TextInput name="username" value={username} onChange={handleChange}/>
-         <TextInput name="firstname" value={firstName} onChange={handleChange}/>
-         <TextInput name="lastname" value={lastName} onChange={handleChange}/>
-         <TextInput name="gender" value={gender} onChange={handleChange}/>
-         <TextInput name="streetaddress" value={streetAddress} onChange={handleChange}/>
-         <TextInput name="city" value={city} onChange={handleChange}/>
-         <TextInput name="state" value={state} onChange={handleChange}/>
+         <TextInput name="firstname" placeholder="Last Name" value={firstName} onChange={handleChange}/>
+         <TextInput name="lastname" placeholder="First Name" value={lastName} onChange={handleChange}/>
+         <select name="gender" value={gender} onChange={handleChange}>
+         {genderList.map((gender, i) => <option key={`${gender}___${i}`} value={gender}>{gender}</option>)}
+         </select>
+         <TextInput name="streetaddress" placeholder="Street Address" value={streetAddress} onChange={handleChange}/>
+         <TextInput name="city" placeholder= "City" value={city} onChange={handleChange}/>
+         <select name="state" value={state} onChange={handleChange}>
+         {states.map((state, i) => <option key={`${state}___${i}`} value={state}>{state}</option>)}
+         </select>
+
          <TextInput name="zip" value={zip} onChange={handleChange}/>
 
        <section className="change__password__container">

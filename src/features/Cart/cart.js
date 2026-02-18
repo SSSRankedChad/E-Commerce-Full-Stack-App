@@ -1,23 +1,23 @@
 import React, {useState, useEffect} from 'react';
 import {Link, useNavigate, useLocation} from 'react-router-dom';
-import  IconButton  from '@mui/material/IconButton';
-import  Button  from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
+import Alert from '@mui/material/Alert';
+import Button from '@mui/material/Button';
+import TextInput from '@mui/material/TextField';
 import { useSelector, useDispatch } from 'react-redux';
-import { useStripe, useElements, CardNumberElement, CardExpiryElement, CardCvCElement  } from '@stripe/react-stripe-js';
-import { Elements } from '@stripe/react-stripe-js';
-import { stripePromise } from '../../components/stripe/stripe.js';
+import { useStripe, useElements, CardNumberElement, CardExpiryElement, CardCvCElement, loadStripe, Elements  } from '@stripe/react-stripe-js';
 import { selectCartId, selectCart, loadCart, setCartId, selectLoadCart, selectCheckoutSuccess, selectLoadCartError, selectCheckoutPending,
          clearCartStatusUpdates, selectCheckoutError} from '../../store/Cart/cartSlice.js';
 import { selectUserId, selectUser } from '../../store/User/userSlice.js';
 import Loader from '../../components/Loader/loader.js';
-import Navbar from '../../components/Navbar/navbar.js';
 import Product from '../../components/Product/product.js';
 
 
 
-const CartForm = () => {
+const Cart = () => {
   const cart = useSelector(selectCart);
   const cartId = useSelector(selectCartId);
+  console.log(cartId);
   const cartLoading = useSelector(selectLoadCart);
   const loadCartError = useSelector(selectLoadCartError);
   const checkout = useSelector(selectCheckoutSuccess);
@@ -33,14 +33,12 @@ const CartForm = () => {
   const [shipToZip, setShipToZip] = useState(user.zip);
   const [payMethod, setPayMethod] = useState('');
   const [cardNum, setCardNum] = useState('');
-  const [inCheckout, setInCheckout] = useState(true);
+  const [inCheckout, setInCheckout] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const stripe = useStripe();
   const elements = useElements();
 
-  console.log(cart);
-  console.log(cartId);
 
   const address = {
     shipToName,
@@ -55,16 +53,16 @@ const CartForm = () => {
     if(target.name === 'fullname') {
       setShipToName(target.value);
     }
-    else if(target.street === 'streetaddress') {
+    else if(target.name === 'streetaddress') {
       setShipToStreet(target.value);
     }
-    else if(target.state === 'state') {
+    else if(target.name === 'state') {
       setShipToState(target.value);
     }
-    else if(target.zip === 'zipcode') {
+    else if(target.name === 'zipcode') {
       setShipToZip(target.value);
     }
-    else if(target.city === 'city') {
+    else if(target.name === 'city') {
       setShipToCity(target.value);
     }
   };
@@ -76,7 +74,7 @@ const CartForm = () => {
 
     const {error, paymentMethod } = await stripe.createPaymentMethod({
       type:'card',
-      card: elements.getElements(CardNumberElement),
+      card: elements.getElement(CardNumberElement),
       billing_details: {
         name: shipToName,
         email
@@ -93,7 +91,7 @@ const CartForm = () => {
         amount
       };
 
-      dispatch(checkout( {cardId, userId, address, paymentInfo} ));
+      dispatch(checkout( {cartId, userId, address, paymentInfo} ));
     }
   };
 
@@ -103,7 +101,7 @@ const CartForm = () => {
 
   useEffect(() => {
     if(userId) {
-      dispatch(loadCart(cartId, userId));
+      dispatch(loadCart({ cartId, userId }));
     }
   }, [userId, cartId, dispatch]);
 
@@ -116,7 +114,7 @@ const CartForm = () => {
       setCardNum('');
       setPayMethod('');
       setEmail('');
-      dispatch(loadCart({cartId, userID}));
+      dispatch(loadCart({cartId, userId}));
       setTimeout(() => {
         navigate('/orders');
         dispatch(clearCartStatusUpdates());
@@ -126,20 +124,8 @@ const CartForm = () => {
 
 
 
-  if (inCheckout) {
-    return (
-      <Button name="Submit Order" size="large" disabled={!stripe} onClick={handleSubmit} />
-    )
-   } else  {
-    return (
-       <Link to="/cart/checkout"><Button name="Go to checkout" size="large" onClick={() => setInCheckout(true)}/></Link>
-    )
-  }
 
-
-
-
-  if(checkoutSuccess) {
+  if(checkout) {
     return (
       <div className="cart__order__container">
        <p className="cartSuccess"> Your order has been placed! </p>
@@ -147,7 +133,7 @@ const CartForm = () => {
     )
   }
 
-  if(!cart || !userId) {
+  if(!cart.quantity) {
     return (
       <section className="cart__items">
         <h2 className="cart__items__label"> Items in Cart </h2>
@@ -157,7 +143,9 @@ const CartForm = () => {
   }
 
 
-  if(cartLoading || checkingOut) {
+
+
+  if(cartLoading) {
     return (
      <div className="Cart__loading__container">
       <Loader /> 
@@ -193,7 +181,7 @@ const CartForm = () => {
             <section className="Cart__items">
                 <h2 className="Cart__items__heading">Items in Cart</h2>
                 {loadCartError && <Alert severity='error' msg={loadCartError} onClose={() => dispatch(clearCartStatusUpdates())}/>}
-                {cart.items.map((cartItem, i) => <Product product={cartItem} display='inCart' key={cart.items[i].productId}/>)}
+                {cart.items.map((cartItem, i) => <Product product={cartItem} page='cart' key={cart.items[i].productId}/>)}
                 <div className="Cart__info">
                     <div className="Cart__info__details">
                         <div className="Cart__info__pay__details">
@@ -209,16 +197,6 @@ const CartForm = () => {
              </section>
           </form>
     </section>
-  );
-}
-
-const Cart = () => {
-  return (
-   <div className="stripe__cart__container">
-    <Elements stripe={stripePromise}> 
-     <CartForm /> 
-    </Elements>
-   </div>
   );
 }
 

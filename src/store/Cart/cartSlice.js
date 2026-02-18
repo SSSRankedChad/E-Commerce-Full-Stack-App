@@ -1,10 +1,38 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { getCart, updateItem, cartCheckout } from '../../apis/cart.js';
+import { getCart, addItem, createCart, updateItem, cartCheckout } from '../../apis/cart.js';
 const axios = require('axios');
 
-export const loadCart = createAsyncThunk('/cart/loadCart', async(cartId, thunkAPI) => {
+
+export const create = createAsyncThunk('/cart/create', async(thunkAPI) => {
   try {
-    const response = await getCart(cartId);
+    const response = await createCart();
+    return resposnse.data;
+  } catch(err) {
+    return thunkAPI.rejectWithValue(err.response.data);
+  }
+});
+
+export const addCartItem = createAsyncThunk('/cart/addItem', async(userId, thunkAPI) => {
+  try {
+    const response = await addItem(userId);
+    return response.data;
+  } catch(err) {
+    return thunkAPI.rejectWithValue(err.response.data);
+  }
+});
+
+export const deleteCartItem = createAsyncThunk('/cart/delteeCart', async(cartItemId, thunkAPI) => {
+  try {
+    const response = await deleteItem(cartItemId);
+    return response.data;
+  } catch(err) {
+    return thunkAPI.rejectWithValue(err.response.data);
+  }
+});
+
+export const loadCart = createAsyncThunk('/cart/loadCart', async(userId, thunkAPI) => {
+  try {
+    const response = await getCart(userId);
     return response.data;
   } catch(err) {
     return thunkAPI.rejectWithValue(err.response.data);
@@ -31,7 +59,17 @@ export const checkout = createAsyncThunk('/cart/checkout', async(data, thunkAPI)
 
 const initialState = {
   cart :{},
-  cartId: null,
+  cartId: 0,
+  cartQuantity: 0,
+  createCartPending: false,
+  createCartSuccess: false,
+  createCartError: false,
+  addCartItemPending: false,
+  addCartItemSuccess: false,
+  addCartItemError: false,
+  deleteCartItemPending: false,
+  deleteCartItemSuccess: false,
+  deleteCartItemError: false,
   loadCartPending: false,
   loadCartSuccess: false,
   loadCartError: false,
@@ -49,13 +87,23 @@ const cartSlice = createSlice({
   reducers: {
     setCartId: (state, action) => {
       state.cartId = action.payload.id;
-      return state;
     },
     clearCartStatusUpdates: (state, action) => {
+      state.createCartPending = false;
+      state.createCartSuccess = false;
+      state.createCartError = false;
+      state.addCartItemPending = false;
+      state.addCartItemSuccess = false;
+      state.addCartItemError = false;
+      state.deleteCartItemPending = false;
+      state.deleteCartItemSuccess = false;
+      state.deleteCartItemError = false;
       state.loadCartPending = false;
+      state.loadCartSuccess = false;
       state.loadCartError = false;
       state.loadCartSuccess = false;
       state.updateCartError = false;
+      state.updateCartSuccess = false;
       state.updateCartPending = false;
       state.updateCartSuccess = false;
       state.checkoutPending = false;
@@ -64,12 +112,28 @@ const cartSlice = createSlice({
     },
     clearCart: (state, action) => {
       state.cart = {};
+      state.cartQuantity = 0;
       state.cartId = null;
-      return state;
     },
   },
     extraReducers: (builder) => {
      builder
+      .addCase(create.pending, (state, action) => {
+        state.createCartPending = true;
+        state.createCartSuccess = false;
+        state.createCartError = false;
+      })
+      .addCase(create.fulfilled, (state, action) => {
+        state.createCartPending = false;
+        state.createCartSuccess = true;
+        state.createCartError = false;
+        state.cart = action.payload;
+      })
+      .addCase(create.rejected, (state, action) => {
+        state.createCartPending = false;
+        state.createCartSuccess = false;
+        state.createCartError = action.payload;
+      })
       .addCase(loadCart.pending, (state, action) => {
         state.loadCartPending = true;
         state.loadCartError = false;
@@ -86,6 +150,40 @@ const cartSlice = createSlice({
         state.loadCartSuccess = false;
         state.loadCartError = action.payload;
         state.cart = {};
+      })
+      .addCase(addCartItem.pending, (state, action) => {
+        state.addCartItemPending = true;
+        state.addCartItemSuccess = false;
+        state.addCartItemError = false;
+      })
+      .addCase(addCartItem.fulfilled, (state, action) => {
+        state.addCartItemPending = false;
+        state.addCartItemSuccess = true;
+        state.addCartItemError = false;
+        state.cart = action.payload;
+        state.cartQuantity = action.payload.cartQuantity;
+      })
+      .addCase(addCartItem.rejected, (state, action) => {
+        state.addCartItemPending = false;
+        state.addCartItemSuccess = false;
+        state.addCartItemError = action.payload;
+      })
+      .addCase(deleteCartItem.pending, (state, action) => {
+        state.deleteCartItemPending = true;
+        state.deleteCartItemSuccess = false;
+        state.deleteCartItemError = false;
+      })
+      .addCase(deleteCartItem.fulfilled, (state, action) => {
+        state.deleteCartItemPending = false;
+        state.deleteCartItemError = false;
+        state.deleteCartItemSuccess = true;
+        state.cart = action.payload;
+        state.cartQuantity = action.payload.cartQuantity;
+      })
+      .addCase(deleteCartItem.rejected, (state, action) => {
+        state.deleteCartItemPending = false;
+        state.deleteCartItemSuccess = false;
+        state.deleteCartItemError = action.payload;
       })
       .addCase(updateCart.pending, (state, action) => {
         state.updateCartPending = true;
@@ -131,8 +229,10 @@ export const selectCartId = state => state.cart.cartId;
 export const selectCartQuantity = state => state.cart.cartQuantity;
 export const selectLoadCart = state => state.cart.loadCartPending;
 export const selectLoadCartError = state => state.cart.loadCartError;
+export const selectLoadCartSuccess = state => state.cart.loadCartSuccess;
 export const selctUpdatingCart = state => state.cart.updateCart;
 export const selectUpdatingCartError = state => state.cart.updatingCartError;
+export const selectUpdateCartSuccess = state => state.cart.updateCartSuccess;
 export const selectCheckoutSuccess = state => state.cart.checkoutSuccess;
 export const selectCheckoutError = state => state.cart.checkoutError;
 export const selectCheckoutPending = state => state.cart.checkoutPending;

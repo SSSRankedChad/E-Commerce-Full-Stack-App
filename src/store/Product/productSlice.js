@@ -2,23 +2,23 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { findProductById, findProducts } from '../../apis/products.js';
 const axios = require('axios');
 
-export const getProductById = createAsyncThunk('/products/getProductById', async(id, thunkAPI) => {
+export const getProductById = createAsyncThunk('/products/getProductById', async(productId, thunkAPI) => {
   try {
-    const response = await findProductById(id);
+    const response = await findProductById(productId);
     return response.data;
   } catch(err) {
-    return thunkAPI.rejectWithValue(err);
+    return thunkAPI.rejectWithValue(err.response.data);
   }
 });
 
 
 
-export const loadProducts = createAsyncThunk('/products/loadProducts', async(thunkAPI) => {
+export const loadProducts = createAsyncThunk('/products/loadProducts', async(param, thunkAPI) => {
   try {
     const response = await findProducts();
     return response.data;
   } catch(err) {
-    return thunkAPI.rejectWithValue(err);
+    return thunkAPI.rejectWithValue(err.response.data);
   }
  });
 
@@ -40,22 +40,15 @@ const productSlice = createSlice({
   initialState,
   reducers: {
     setProductId: (state, action) => {
-      state.productId = action.payload.id;
-      return state;
-    },
-    clearProduct: (state, action) => {
-      state.productId = null;
-      state.product = {};
-      return state;
+      state.productId = action.payload;
     },
 
     setSearchTerm: (state, action) => {
       state.searchTerm = action.payload;
-      return state;
     },
 
     clearProdStatusUpdates: (state) => {
-      state.productPending = false
+      state.productPending = false;
       state.productLoadError = false;
       state.productsPending = false;
       state.productsLoadError = false;
@@ -72,8 +65,15 @@ const productSlice = createSlice({
          state.productPending = false;
          state.productLoadSuccess = true;
          state.productLoadError = false;
+         const foundProduct = state.products.findIndex(p => p.id === action.payload.id);
+         if(foundProduct !== -1) {
+           state.products[foundProduct] = action.payload;
+         }
+         else {
+           state.products.push(action.payload);
+         }
          state.product = action.payload;
-         state.productId = action.payload.id;  
+         
        })
        .addCase(getProductById.rejected, (state, action) => {
          state.productPending = false;
@@ -84,17 +84,16 @@ const productSlice = createSlice({
          state.productsLoadError = false;
        })
        .addCase(loadProducts.fulfilled, (state, action) => {
-         state.productsPending = false;
+         state.productPending = false;
          state.productsLoadSuccess = true;
          state.productsLoadError = false;
          state.products = action.payload;
        })
        .addCase(loadProducts.rejected, (state, action) => {
-        state.productsLoadSuccess = false;
         state.productsPending = false;
         state.productsLoadError = action.payload;
        })
-     }
+   }
 });
 
 export default productSlice.reducer;
@@ -102,9 +101,9 @@ export const {setSearchTerm, setProductId, clearProduct, clearProdStatusUpdates}
 
 export const selectProduct = state => state.products.product;
 export const selectProducts = state => state.products.products;
-export const selectProductId = state => state.products.product.id;
+export const selectProductId = state => state.products.productId;
 export const selectProductPending = state => state.products.productPending;
-export const selectProductLoadError = state => state.products.productLoadError;
+export const selectProductPendError = state => state.products.productLoadError;
 export const selectProductLoadSuccess = state => state.products.productLoadSuccess;
 export const selectProductsPending = state => state.products.productsPending;
 export const selectProductsLoadError = state => state.products.productsLoadError;

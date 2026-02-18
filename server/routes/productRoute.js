@@ -11,7 +11,8 @@ module.exports = (app) => {
 
   router.get('/', async(req, res, next) => {
 	 try {
-	    const response = await productServiceInstance.get();
+      const products = req.query;
+	    const response = await productServiceInstance.get(products);
 	    res.status(200).send(response);
 	  } catch(err) {
 	    next(err);
@@ -19,10 +20,10 @@ module.exports = (app) => {
    });
 
 	
- router.get('/:id', async(req, res, next) => {
+ router.get('/:productId', async(req, res, next) => {
    try { 
-   	 const { id } = req.params;
-	   const response = await productServiceInstance.find(id);
+   	 const { productId } = req.params;
+	   const response = await productServiceInstance.find(productId);
 	   res.status(200).send(response);
    } catch(err) {
 	  next(err);

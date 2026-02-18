@@ -7,12 +7,22 @@ const orderModel = require('../models/orders/orders.js');
 const orderModelInstance = new orderModel();
 
 module.exports = class cartService {
+
+  async get(data) {
+    const { userId } = data;
+    try {
+      const cart = await cartModelInstance.findOneById(data);
+      return cart;
+    } catch(err) {
+      throw err;
+    }
+  }
   
   async create(data) {
 
      const { userId } = data;
      try {
-    	const cart = await cartModelInstance.creata(data);
+    	const cart = await cartModelInstance.create(data);
     	return cart;
     } catch(err) {
 	throw err;
