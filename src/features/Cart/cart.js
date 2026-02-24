@@ -17,7 +17,6 @@ import Product from '../../components/Product/product.js';
 const Cart = () => {
   const cart = useSelector(selectCart);
   const cartId = useSelector(selectCartId);
-  console.log(cartId);
   const cartLoading = useSelector(selectLoadCart);
   const loadCartError = useSelector(selectLoadCartError);
   const checkout = useSelector(selectCheckoutSuccess);
@@ -101,7 +100,7 @@ const Cart = () => {
 
   useEffect(() => {
     if(userId) {
-      dispatch(loadCart({ cartId, userId }));
+      dispatch(loadCart(cartId, userId);
     }
   }, [userId, cartId, dispatch]);
 
@@ -133,7 +132,7 @@ const Cart = () => {
     )
   }
 
-  if(!cart.quantity) {
+  if(!cart.quantity || !cart) {
     return (
       <section className="cart__items">
         <h2 className="cart__items__label"> Items in Cart </h2>
