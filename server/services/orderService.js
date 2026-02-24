@@ -5,14 +5,10 @@ const orderModelInstance = new orderModel();
 
 module.exports = class orderService {
    
-  async create(data) {
+  async create() {
     try {
-    	const { id } = data;
-	    const order = await orderModelInstance.createOrder(id);
+	    const order = await orderModelInstance.createOrder();
 	    return order;
-	    if(!order) {
-	     throw createError('409', 'Order not found!');
-	    }
      } catch(err) {
 	      throw err;
      }
