@@ -11,8 +11,7 @@ module.exports = (app) => {
 
   router.post('/', async(req, res, next) => {
     try {
-	    const data = req.body;
-	    const response = await orderServiceInstance.create(data);
+	    const response = await orderServiceInstance.create();
 	    res.status(200).send(response);
     } catch(err) {
 	    next(err);
