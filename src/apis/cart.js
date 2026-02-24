@@ -3,7 +3,7 @@ import API from './client.js';
 
 export const createCart = async() => {
   try {
-    return await API.post(`/carts/mine`);
+    return await API.post(`/carts/mine/`);
   } catch(err) {
     throw err.response.data;
   }
