@@ -96,10 +96,10 @@ const User = () => {
     const handleClick = (e) => {
         e.preventDefault();
         if(e.target.id === 'updateuser-button') {
-            dispatch(updateUser({userId, userProfile}));
+            dispatch(updateUser(userId, userProfile));
         }
         else if (e.target.id === 'changepassword-button') {
-            dispatch(changePassword({userId, password }));
+            dispatch(changePassword(userId, password));
         }
     };
 
