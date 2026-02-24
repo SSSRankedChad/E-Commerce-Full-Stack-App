@@ -132,7 +132,7 @@ const Cart = () => {
     )
   }
 
-  if(!cart.quantity || !cart) {
+  if(!cart) {
     return (
       <section className="cart__items">
         <h2 className="cart__items__label"> Items in Cart </h2>
