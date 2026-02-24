@@ -22,7 +22,7 @@ module.exports = (app) => {
   router.get('/:orderId', async(req, res, next) => {
     try {
 	    const { orderId } = req.params;
-	    const response = await orderServiceInstance.get({ orderId });
+	    const response = await orderServiceInstance.get(orderId);
 	    res.status(200).send(response);
 	} catch(err) {
 	   next(err);
@@ -32,7 +32,7 @@ module.exports = (app) => {
   router.get('/:userId', async(req, res, next) => {
   try {
 	  const { userId } = req.params;
-	  const response = await orderServiceInstance.find({userId});
+	  const response = await orderServiceInstance.find(userId);
 	  res.status(200).send(response);
 	} catch(err) {
 	  next(err);
