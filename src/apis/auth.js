@@ -1,17 +1,17 @@
 import API from './client';
 
-export const register = async(data) => {
+export const register = async() => {
   try {
-     return await API.post('/auth/register', data);
+     return await API.post('/auth/register');
   } catch(err) {
     throw err.response.data;
   }
 }
 
 
-export const userLogin = async(data) => {
+export const userLogin = async() => {
   try {
-    return await API.post('/auth/login', data);
+    return await API.post('/auth/login');
   } catch(err) {
     throw err.response.data;
   }
