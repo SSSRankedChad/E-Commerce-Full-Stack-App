@@ -25,8 +25,6 @@ module.exports = class productService {
     try {
       const product = await productModelInstance.findProductById(id);
 
-
-      console.log(product);
      
       if(!product) {
         throw createError('409', 'Product not found!');
