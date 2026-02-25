@@ -12,13 +12,14 @@ import ProductDetails from './features/ProductDetails/productDetails.js';
 import StripeContainer from './components/stripe/stripe.js';
 import { Routes, Route } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { session, selectUserId, clearUserStatusUpdates, selectSessionSuccess } from './store/User/userSlice.js';
+import { session, selectUser, selectUserId, clearUserStatusUpdates, selectSessionSuccess } from './store/User/userSlice.js';
 import Loader from './components/Loader/loader.js';
 
 
 
 const App = () => {
-  const userId = useSelector(selectUserId);
+  const user = useSelector(selectUser);
+  const userId = useSelector(selectUserId) || user.id;
   const sessionSuccess = useSelector(selectSessionSuccess);
   const dispatch = useDispatch();
 
