@@ -15,8 +15,6 @@ const ProductDetails = () => {
     const productLoadError = useSelector(selectProductPendError);
     const dispatch = useDispatch();
 
-    console.log(productId);
-
     useEffect(() => {
         if(productId) {
             dispatch(getProductById(productId));
@@ -50,7 +48,7 @@ const ProductDetails = () => {
         <h2 className="Product__details__header"> Product Page </h2> 
          {productLoadError && <Alert severity="error" msg={productLoadError} onClose={() => dispatch(clearProdStatusUpdates())}/>}
          <Product page="details" product={product} />
-         <Link to="/home"> Return to Home </Link>
+         <Link to="/products"> Back to Products </Link>
        </div> 
     );
 
