@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import Product from '../../components/Product/product.js';
+import Navbar from '../../components/Navbar/navbar.js';
 import { loadProducts, selectProducts, selectProduct, selectProductId, selectSearchTerm, clearProdStatusUpdates, selectProductLoadSuccess, selectProductsLoadError, selectProductPending, getProductById } from '../../store/Product/productSlice.js';
 import Loader from '../../components/Loader/loader.js';
 import Alert from '@mui/material/Alert';
@@ -52,6 +53,7 @@ const Products = ({product}) => {
   }
   return (
     <div className="Products">
+     <Navbar /> 
       <div className="Products__container">
         <span className="Products__category__label">Categories: </span>
         <select className="Products__category" name="category" value={category} onChange={handleCategoryChange}>
