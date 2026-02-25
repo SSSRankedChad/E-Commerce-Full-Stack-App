@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Product from '../../components/Product/product.js';
 import Alert from '@mui/material/Alert';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import Loader from '../../components/Loader/loader.js';
 import { selectProductId, selectProduct, getProductById, selectProductPending, selectProductLoadSuccess, selectProductPendError, clearProdStatusUpdates  } from '../../store/Product/productSlice.js';
@@ -49,7 +49,8 @@ const ProductDetails = () => {
        <div className="Product__details__page__container">
         <h2 className="Product__details__header"> Product Page </h2> 
          {productLoadError && <Alert severity="error" msg={productLoadError} onClose={() => dispatch(clearProdStatusUpdates())}/>}
-        <Product page="details" product={product} />
+         <Product page="details" product={product} />
+         <Link to="/home"> Return to Home </Link>
        </div> 
     );
 
