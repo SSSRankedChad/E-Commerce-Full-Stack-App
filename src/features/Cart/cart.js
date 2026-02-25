@@ -100,7 +100,7 @@ const Cart = () => {
 
   useEffect(() => {
     if(userId) {
-      dispatch(loadCart(cartId, userId);
+      dispatch(loadCart(cartId, userId));
     }
   }, [userId, cartId, dispatch]);
 
