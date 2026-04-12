@@ -5,13 +5,13 @@ const swaggerLoader = require('./swagger.js');
 
 module.exports = async(app) => {
  
- const expressApp = await expressLoader(app);
+ expressLoader(app);
 
- const passport = await passportLoader(expressApp);
+ const passport = passportLoader(app);
 
- await swaggerLoader(app);
+ swaggerLoader(app);
  
- await routeLoader(app, passport);
+ routeLoader(app, passport);
 
  
  app.use((err, req, res, next) => {

@@ -24,7 +24,8 @@ module.exports = (app) => {
       saveUninitialized: false,
       cookie: {
 	      secure: false,
-	      maxAge: 24 * 24 * 60 * 1200,
+	      httpOnly: true,
+        sameSite: 'lax',
 	    }
   }));
     

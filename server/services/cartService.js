@@ -12,7 +12,19 @@ module.exports = class cartService {
     const { userId } = data;
     try {
       const cart = await cartModelInstance.findOneById(data);
+      console.log(cart);
       return cart;
+    } catch(err) {
+      throw err;
+    }
+  }
+
+  async findItems(data) {
+    const { userId } = data;
+    try {
+      const cart = await cartModelInstance.findOneById(data);
+      const cartItems = await cartItemModelInstance.findItemsById(cart.id);
+      return cartItems;
     } catch(err) {
       throw err;
     }
@@ -32,10 +44,15 @@ module.exports = class cartService {
  async addItem(userId, data) {
 
     try {
+
+    const { quantity, productId } = data;
      
      const cart = await cartModelInstance.findOneById(userId);
      
-     const cartItem = await cartItemModelInstance.create({userId, ...data});
+     const cartItem = await cartItemModelInstance.create({
+       qty: quantity,
+       cartid: cart.id,
+       productid: productId });
     
       return cartItem;
     } catch(err) {
@@ -54,7 +71,7 @@ async deleteCartItem(cartItemId) {
 
 async updateItem(cartItemId, data) {
    try {
-    const cartItem = await cartItemModelInstance.update({cartItemId, ...data});
+    const cartItem = await cartItemModelInstance.update({id: cartItemId, ...data});
     return cartItem;
    } catch(err) {
     throw err;

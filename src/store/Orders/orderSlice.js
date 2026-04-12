@@ -1,30 +1,30 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { createOrder, findOrder, findOrderById, orderUpdate } from '../../apis/orders.js';
+import { createOrder, findOrder, findOrderById, orderUpdate, deleteOrder } from '../../apis/orders.js';
 
 const axios = require('axios');
 
 
-export const loadOrderById = createAsyncThunk('/orders/loadOrderById', async(data, thunkAPI) => {
+export const loadOrderById = createAsyncThunk('/orders/loadOrderById', async(orderId, thunkAPI) => {
   try {
-    const response = await findOrderById(data);
+    const response = await findOrderById(orderId);
     return response.data;
   } catch(err) {
     return thunkAPI.rejectWithValue(err);
   }
 });
 
-export const loadOrders = createAsyncThunk('/orders/loadOrders', async(data, thunkAPI) => {
+export const loadOrders = createAsyncThunk('/orders/loadOrders', async(orderId, thunkAPI) => {
   try {
-    const response = await findOrder(data);
+    const response = await findOrder(orderId);
     return response.data;
    } catch(err) {
     return thunkAPI.rejectWithValue(err);
   }
 });
 
-export const makeOrder = createAsyncThunk('/orders/createOrder', async(data, thunkAPI) => {
+export const makeOrder = createAsyncThunk('/orders/createOrder', async(param, thunkAPI) => {
   try {
-    const response = await createOrder(data);
+    const response = await createOrder();
     return response.data;
   } catch(err) {
     return thuunkAPI.rejectWithValue(err);
@@ -33,7 +33,7 @@ export const makeOrder = createAsyncThunk('/orders/createOrder', async(data, thu
 
 export const cancelOrder = createAsyncThunk('/orders/cancelOrder', async(orderId, thunkAPI) => {
   try {
-    const response = await axios.delete('/orders/{orderId}', orderId);
+    const response = await deleteOrder(orderId);
     return response.data;
   } catch(err) {
     return thunkAPI.rejectWIthValue(err);
@@ -203,3 +203,6 @@ const orderSlice = createSlice({
   export const selectCreatingOrderError = state => state.orders.creatingOrderError;
   export const selectUpdatingOrder = state => state.orders.updateOrder;
   export const selectUpdatingOrderErorr = state => state.orders.updateOrderError;
+  export const selectDeletingOrder = state => state.orders.deletingOrder;
+  export const selectDeleteOrderSuccess = state => state.orders.deleteOrderSuccess;
+  export const seleteDeleteOrderError = state => state.orders.deleteOrderError;

@@ -3,7 +3,7 @@ import "./register.css";
 import Button from '@mui/material/Button';
 import Alert from '@mui/material/Alert';
 import Loader from '../../components/Loader/loader.js';
-import {selectRegisteringUser, selectRegisterUserSuccess, selectRegisterUserError, registerUser, clearUserStatusUpdates } from '../../store/User/userSlice.js';
+import { registerUser } from '../../store/User/userSlice.js';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import TextInput from '@mui/material/TextField';
@@ -14,9 +14,6 @@ const Register = () => {
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const registerUserError = useSelector(selectRegisterUserError);
-  const registerUserSuccess = useSelector(selectRegisterUserSuccess);
-  const registeringUser = useSelector(selectRegisteringUser);
   const dispatch = useDispatch();
   let navigate = useNavigate();
 
@@ -45,39 +42,10 @@ const Register = () => {
   }
 
 
-  useEffect(() => {
-    dispatch(clearUserStatusUpdates())
-  }, [dispatch]);
-
-
-  useEffect(() => {
-    if(registerUserSuccess) {
-      setFirstname('');
-      setLastname('');
-      setEmail('');
-      setUsername('');
-      setPassword('');
-      navigate('/');
-      dispatch(clearUserStatusUpdates());
-    }
-  }, [dispatch, navigate, registerUserSuccess]);
-
-
-  if(registeringUser) {
-    return (
-      <div className="register__user__loader">
-       <Loader />
-      </div>
-    );
-  };
-
-
-
   return (
    <div className="register__user__container">
      <form className="register__form" onSubmit={handleSubmit}>
       <h2 title="Register__user__title"> New User Registeration </h2>
-      {registerUserError && <Alert severity="error" msg={registerUserError} onClose={()=>dispatch(clearUserStatusUpdates())}/>}
       <Link to='/login'><p>Already registered? Login here!</p></Link>
       <p> First Name: </p><TextInput className="firstname" name="firstname" value={firstname} onChange={handleChange} placeholder="Enter first name"/>
       <p> Last Name: </p><TextInput className="lastname" name="lastname" value={lastname} onChange={handleChange} placeholder="Enter last name"/>

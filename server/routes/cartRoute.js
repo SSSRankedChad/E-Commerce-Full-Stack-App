@@ -9,29 +9,46 @@ module.exports = (app) => {
 
   app.use('/api/cart', router);
 
-  router.post('/mine', async(req, res, next) => {
+  function requireAuth(req, res, next) {
+    if(!req.isAuthenticated()) {
+      return res.status(401).send('Unauthorized');
+    }
+    next();
+  }
+
+  router.post('/mine', requireAuth, async(req, res, next) => {
     try {
-       const { userId } = req.user;
-       const response = await cartServiceInstance.create({userId});
+       const userId = req.user.id;
+       const response = await cartServiceInstance.create(userId);
        res.status(200).send(response);
     } catch(err) {
 	     next(err);
     }
    });
 
-  router.get('/mine', async(req, res, next) => {
+  router.get('/mine/items', requireAuth, async(req, res, next) => {
     try {
-      const { userId } = req.user;
-      const response = await cartServiceInstance.get({userId});
+      const userId = req.user.id;
+      const response = await cartServiceInstance.findItems(userId);
       res.status(200).send(response);
     } catch(err) {
       next(err);
     }
   })
 
-  router.post('/mine/checkout', async(req, res, next) => {
+  router.get('/mine', requireAuth, async(req, res, next) => {
+    try {
+      const userId = req.user.id;
+      const response = await cartServiceInstance.get(userId);
+      res.status(200).send(response);
+    } catch(err) {
+      next(err);
+    }
+  })
+
+  router.post('/mine/checkout', requireAuth, async(req, res, next) => {
 	  try {
-	    const userId = req.user;
+	    const userId = req.user.id;
       const { cartId, paymentInfo } = req.body;
 	    const response = await cartServiceInstance.checkout({userId, cartId, paymentInfo});
 	    res.status(200).send(response);
@@ -41,33 +58,33 @@ module.exports = (app) => {
   });
 
 
-  router.put('/mine/items/:cartItemId', async(req, res, next) => {
+  router.put('/mine/items/:cartItemId', requireAuth, async(req, res, next) => {
 	 try {
+     const userId = req.user.id;
+     const { quantity } = req.body;
 	   const { cartItemId } = req.params;
-	   const data = req.body;
-	   const response = await cartServiceInstance.updateItem({cartItemId, ...data});
+	   const response = await cartServiceInstance.updateItem(cartItemId, { qty: quantity });
 	   res.status(200).send(response);
 	} catch(err) {
 	  next(err);
 	}
  });
 
- router.post('/mine/items', async(req, res, next) => {
+ router.post('/mine/items', requireAuth, async(req, res, next) => {
 	try {
-	   const { userId } = req.params;
-	   const data = req.body;
-	   const response = await cartServiceInstance.addItem({userId, ...data});
+	   const userId = req.user.id;
+	   const response = await cartServiceInstance.addItem(userId, req.body);
 	   res.status(200).send(response);
 	} catch(err) {
 	  next(err);
 	}
  });
 
-  router.delete('/mine/items/:cartItemId', async(req, res, next) => {
+  router.delete('/mine/items/:cartItemId', requireAuth, async(req, res, next) => {
 	try {
+    const userId = req.user.id;
 	  const { cartItemId } = req.params;
-	  const data = req.body;
-	  const response = await cartServiceInstance.deleteCartItem({cartItemId});
+	  const response = await cartServiceInstance.deleteCartItem({userId, cartItemId});
 	  res.status(200).send(response);
 	} catch(err) {
 	  next(err);

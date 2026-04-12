@@ -3,66 +3,68 @@ import { isLoggedIn, userLogin, register, userLogout } from '../../apis/auth.js'
 import { getUser, userUpdate } from '../../apis/user.js';
 
 
-export const loadUserById = createAsyncThunk('/user/loadUserById', async(userId, thunkAPI) => {
+export const loadUserById = createAsyncThunk('/user/loadUserById', async(userId, { rejectWithValue }) => {
   try {
     const response = await getUser(userId);
     return response.data;
   } catch(err) {
-    return thunkAPI.rejectWithValue(err.response.data);
+    return rejectWithValue(err.response.data);
   }
 });
 
-export const registerUser = createAsyncThunk('/auth/registerUser', async(userData, thunkAPI) => {
+export const registerUser = createAsyncThunk('/auth/registerUser', async(userData, { rejectWithValue }) => {
   try {
     const response = await register(userData);
     return response.data
   } catch(err) {
-    return thunkAPI.rejectWithValue(err.response.data);
+    return rejectWithValue(err.response.data);
   }
 });
 
-export const updateUser = createAsyncThunk('/user/updateUser', async(data, thunkAPI) => {
+export const updateUser = createAsyncThunk('/user/updateUser', async(data, { rejectWithValue }) => {
   try {
     const response = await userUpdate(data);
     return response.data;
   } catch (err) {
-    return thunkAPI.rejectWithValue(err.response.data);
+    return rejectWithValue(err.response.data);
   }
 });
 
-export const changePassword = createAsyncThunk('user/changePassword', async({userId, password}, thunkAPI) => {
+export const changePassword = createAsyncThunk('user/changePassword', async({userId, password}, { rejectWithValue }) => {
   try {
     const response = await axios.put('/users/changePassword', {userId, password});
     return response.data;
   } catch(err) {
-    return thunkAPI.rejectWithValue(err.response.data);
+    return rejectWithValue(err.response.data);
   }
 });
 
-export const login = createAsyncThunk('auth/login', async(data, thunkAPI) => {
+export const login = createAsyncThunk('auth/login', async(data, { rejectwWithValue }) => {
   try {
     const response = await userLogin(data);
     return response.data; 
   } catch(err) {
-    return thunkAPI.rejectWithValue(err.response.data);
+    return rejectWithValue(err.response.data);
   }
 });
 
-export const logout = createAsyncThunk('auth/logout', async(thunkAPI) => {
-    try {
-       const resposne = await userLogout();
-       return response.data;
-    } catch(err) {
-    return thunkAPI.rejectWithValue(err.response.data);
-   }
+
+export const logout = createAsyncThunk('/auth/logout', async(param, { rejectWithValue }) => {
+  try {
+    const response = await userLogout();
+    return response.data;
+  } catch(err) {
+    return rejectWithValue(err.response.data);
+  }
 });
 
-export const session = createAsyncThunk('auth/session', async(thunkAPI) => {
+
+export const session = createAsyncThunk('auth/session', async({ rejectWithValue }) => {
   try {
     const response = await isLoggedIn();
     return response.data;
   } catch(err) {
-    return thunkAPI.rejectWithValue(err.response.data);
+    return rejectWithValue(err.response.data);
   }
 })  
 
@@ -87,9 +89,6 @@ const initialState = {
   changePasswordError: false,
   changePasswordSuccess: false,
   changingPassword: false,
-  logginOut: false,
-  logoutSuccess: false,
-  logoutError: false,
   sessionSuccess: false,
   sessionError: false,
   gettingSession: false,
@@ -100,10 +99,6 @@ const userSlice = createSlice({
   name: 'users',
   initialState,
   reducers: {
-    setUserId : (state, action) => {
-      state.userId = action.payload.id;
-      return state;
-    },
     clearUserStatusUpdates: (state) => {
       state.loadingUser = false;
       state.loadingUserError = false;
@@ -131,8 +126,6 @@ const userSlice = createSlice({
       })
 
       .addCase(loadUserById.fulfilled, (state, action) => {
-       console.log('Login payload:', action.payload);
-       console.log('User ID from payload:', action.payload.id);
        state.loadingUser = false;
        state.loadingUserError = false;
        state.loadingUserSuccess = true;
@@ -221,26 +214,19 @@ const userSlice = createSlice({
         state.loginError = action.payload;
       })
 
-      .addCase(logout.pending, (state, action) => {
-        state.loggingOut = true;
-        state.logoutError = false;
-      })
-
-      .addCase(logout.fulfilled, (state, action) => {
-        state.logoutSuccess = action.payload;
-        state.logoutError = false;
-        state.user = {}
-      })
-
-      .addCase(logout.rejected, (state, action) => {
-        state.logoutError = action.payload;
-        state.loggingOut = false;
-      })
-
       .addCase(session.pending, (state, action) => {
         state.gettingSession = true;
         state.sessionError = false;
       })
+
+     .addCase(logout.fulfilled, (state, action) => {
+       state.logoutSuccess = true;
+       state.user = {};
+       state.cart = {};
+       state.cartItems = [];
+       state.session = {};
+       state.userId = null;
+     })
 
       .addCase(session.fulfilled, (state, action) => {
         state.sessionSuccess = true;

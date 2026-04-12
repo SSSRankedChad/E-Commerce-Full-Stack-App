@@ -8,12 +8,12 @@ module.exports = class cartModel {
     this.created = data.date || moment.utc().toString();
     this.modified = data.modified || moment.utc().toString();
     this.converted = data.converted || null;
-    this.isActive = data.isActive || null; 
+    this.isactive = data.isactive || null; 
   }
 
-  async create(userId) {
+  async create(userid) {
    try {
-     const data = { userId, ...this };
+     const data = { userid, ...this };
      const statement = pgp.helpers.insert(data, null, 'carts') + 'RETURNING *';
      const results = await db.query(statement);
 
@@ -26,11 +26,10 @@ module.exports = class cartModel {
    }
   }
 
-  async findOneById(userId) {
+  async findOneById(userid) {
     try {
-      const condition = `SELECT * FROM carts WHERE userId = $1`;
-      const values = [userId];
-      const statement = pgp.helpers.insert(data, null, 'carts') + condition;
+      const statement = `SELECT * FROM carts WHERE userid = $1`;
+      const values = [userid];
       const results = await db.query(statement, values);
 
       if(results.rows?.length) {

@@ -19,18 +19,30 @@ module.exports = (app, passport) => {
    });
 
     
-  router.post('/login', passport.authenticate('local'), (req, res) => {
-     res.status(200).send(req.user);
+  router.post('/login', passport.authenticate('local'), async(req, res, next) => {
+     try {
+       const { email, password } = req.body;
+       const response = await authServiceInstance.login({ email, password });
+       res.status(200).send(response);
+     } catch(err) {
+       next(err);
+     }
   });
 
-  router.post('/logout', (req, res) => {
-    req.session.destroy(err => {
-      if(err) {
-        res.status(500).json({message: "Logout was unsuccesfull."})
-      }
-      else {
-        res.status(200).json({message: "Logout was succesfull!"})
-      }
-    })
+  router.get('/session', (req, res, next) => {
+   try {
+    res.status(200).json({user: req.session.user});
+    } catch(err) {
+      next(err); 
+    }
   });
+
+  router.post('/logout', async (req, res, next) => {
+    req.session.destroy((err => {
+         if(err) {
+           res.status(500).json({message: "Session not destroyed"});
+          }
+          res.status(200).json({message: "Session was destroyed"});
+        }));
+    });
 }

@@ -11,11 +11,11 @@ const { DB } = require('./config.js');
 
   try {
     const db = new Client({
-      user: DB.PGUSER || "halim",
+      user: DB.PGUSER || "whales",
+      password: DB.PGPASSWORD || "shodan",
       host: DB.PGHOST,
-      database: DB.PGDATABASE || "halim",
+      database: DB.PGDATABASE || "ecomapp",
       port: DB.PGPORT,
-      password: DB.PGPASSWORD,
     });
 
 

@@ -20,14 +20,14 @@ const productsTableStmt = `
    id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY NOT NULL,
    name varchar(50) NOT NULL,
    price INT NOT NULL, 
-   description varchar(50) NOT NULL,
-   category varchar(50) NOT NULL 
+   description TEXT NOT NULL,
+   category varchar(50) NOT NULL
  );
 `
 
 const ordersTableStmt = `
   CREATE TABLE IF NOT EXISTS orders (
-   id iNT PRIMARY KEY GENERATED ALWAYS AS IDENTITY NOT NULL,
+   id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY NOT NULL,
    created DATE NOT NULL,
    total INT NOT NULL,
    modified DATE NOT NULL,
@@ -40,7 +40,7 @@ const ordersTableStmt = `
 
 const orderItemsTableStmt = ` 
   CREATE TABLE IF NOT EXISTS orderItems (
-    id iNT PRIMARY KEY GENERATED ALWAYS AS IDENTITY NOT NULL,
+    id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY NOT NULL,
     created DATE NOT NULL,
     qty INT NOT NULL,
     orderId INT NOT NULL,
@@ -48,7 +48,8 @@ const orderItemsTableStmt = `
     price INT NOT NULL,
     name TEXT NOT NULL,
     productId INT NOT NULL,
-    FOREIGN KEY (orderId) REFERENCES orders(id)
+    FOREIGN KEY (orderId) REFERENCES orders(id),
+    FOREIGN KEY (productId) REFERENCES products(id)
  );
 `
 
@@ -70,16 +71,15 @@ const cartItemsTableStmt = `
     productId INT NOT NULL,
     FOREIGN KEY (cartId) REFERENCES carts(id),
     FOREIGN KEY (productId) REFERENCES products(id)
-
   );
 `
 
 try {  
   const db = new Client({
-     user: DB.PGUSER || "halim",
-     password: DB.PGPASSWORD,
+     user: DB.PGUSER || "whales",
+     password: DB.PGPASSWORD || "shodan",
      host: DB.PGHOST,
-     database: DB.PGDATABASE || "halim",
+     database: DB.PGDATABASE || "ecomapp",
      port: DB.PGPORT,
   });
 

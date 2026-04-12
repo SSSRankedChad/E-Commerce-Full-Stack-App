@@ -2,59 +2,48 @@ import React , { useState, useEffect } from 'react';
 import "./product.css";
 import Loader from '../../components/Loader/loader.js';
 import { useSelector, useDispatch } from 'react-redux';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import IconButton from '@mui/material/IconButton';
 import Button from '@mui/material/Button';
 import { selectUserId } from '../../store/User/userSlice.js';
-import { selectCartId, loadCart, updateCart, create } from '../../store/Cart/cartSlice.js';
+import { loadCart, updateCart, addCartItem, deleteCartItem } from '../../store/Cart/cartSlice.js';
 import AddCircle  from '@mui/icons-material/AddCircle';
 import RemoveCircle from '@mui/icons-material/RemoveCircle';
 
 
-const Product = ({product, page}) => {
+const Product = ({product, page }) => {
+  const cartItems = useSelector((state) => state.cart.cartItems);
+  const cartItem = cartItems.find((item) => item.id === product.id);
+  const cartItemId = cartItem?.cartItemId;
   const [cartQuantity, setCartQuantity] = useState(0);
   const [quantity, setQuantity] = useState(0);
-  const cartId = useSelector(selectCartId);
   const userId = useSelector(selectUserId);
   const dispatch = useDispatch();
   let navigate = useNavigate();
 
-  const handleAddClick = () => {
-    setCartQuantity(cartQuantity => {
-      const newQuantity = cartQuantity + 1;
-      return newQuantity;
-    });
+  const deleteFromCart = () => {
+   setCartQuantity(prev => {
+    if(!prev) return;
+    else if (prev) return prev - 1;
+
+   })
   }
 
-  const handleRemoveClick = () => {
-    setCartQuantity(prev => {
-      if(!prev) return;
-      else return prev - 1
-      });
+  const handleAddClick = () => {
+    setCartQuantity(prev => prev + 1);
   }
 
   const handleCartClick = () => {
-    if(!userId) {
-      navigate('/login');
-    }
-    else if (cartQuantity) {
-      setCartQuantity(prev => prev + 1);
-    }
-    else {
-      setCartQuantity(1)
-    }
+    dispatch(addCartItem({product, quantity: cartQuantity}));
   }
 
+
   useEffect(() => {
-  if(quantity !== cartQuantity) {
-    dispatch(updateCart(cartId, userId, cartQuantity));
-    dispatch(loadCart( cartId, userId ));
-    setQuantity(cartQuantity);
+    if(quantity !== cartQuantity) {
+      dispatch(updateCart({cartItemId, quantity: cartQuantity}));
+      setQuantity(cartQuantity);
     }
-  else if(!cartId) {
-    dispatch(create());
-  }
-  }, [cartId, userId, cartQuantity, quantity, dispatch]);
+  }, [dispatch, cartItemId, quantity, cartQuantity]);
 
   if(!product) {
     return (
@@ -83,7 +72,7 @@ const Product = ({product, page}) => {
 	       </div>
 	       <div className="Product__cart__price">
 		    <p className="Product__price__label"> Price: </p>
-		    <p className="Product__price__value">{product.sell_price} </p>
+		    <p className="Product__price__value">{product.price} </p>
 	       </div>
 	       <div className="Product__category__container">
 	 	    <p className="Product__category__label"> Category: </p>
@@ -93,10 +82,7 @@ const Product = ({product, page}) => {
 		    <p className="Product__cart__label"> Quantity: </p>
 	        <IconButton onClick={handleAddClick}><AddCircle /></IconButton>
 		     <input className="Product__cart__quantity" type="number" id="quantity" min="0" max="100" value={cartQuantity} readOnly/>
-	        <IconButton onClick={handleRemoveClick}><RemoveCircle /></IconButton>
-	       </div>
-	       <div className="Product__button__container">
-		    <Button id="cart-button" className="Product__cart__button" onClick={handleCartClick}></Button>
+	        <IconButton onClick={deleteFromCart}><RemoveCircle /></IconButton>
 	       </div>
 	    </div>
 	  );
@@ -115,7 +101,7 @@ const Product = ({product, page}) => {
 	    </div> 
 	    <div className="Product__details__price">
 	       <p className="Product__details__price__label"> Price: </p>
-	       <p className="Product__details__price__value"> {product.sell_price} </p>
+	       <p className="Product__details__price__value"> {product.price} </p>
 	    </div>
 	    <div className="Product__details__description">
 	       <p className="Product__details__description__label"> Description: </p>
@@ -146,9 +132,9 @@ const Product = ({product, page}) => {
 	    </div>
 	    <div className="Product__default__button">
 		   <IconButton className="Product__default__add" onClick={handleAddClick}><AddCircle /></IconButton>
-       <IconButton className="Product__default__remove" onClick={handleRemoveClick}><RemoveCircle /></IconButton>
+       <IconButton className="Product__default__remove" onClick={deleteFromCart}><RemoveCircle /></IconButton>
+       <Button className="Product__default__cart__button" onClick={handleCartClick}> Add to Cart </Button> 
        <input className="Product__cart__quantity" type="number" id="quantity" min="0" max="100" value={cartQuantity} readOnly/>
-	     <Button className="Product__default__cart" onClick={handleCartClick}>Add to Cart</Button>
 	    </div>
      </div>
 	  );

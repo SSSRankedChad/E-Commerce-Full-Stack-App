@@ -9,29 +9,16 @@ import Home from './features/Home/home.js';
 import Register from './features/Register/register.js';
 import ProductDetails from './features/ProductDetails/productDetails.js';
 import StripeContainer from './components/stripe/stripe.js';
+import Navbar from './components/Navbar/navbar.js';
 import { Routes, Route } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { session, selectUser, selectUserId, clearUserStatusUpdates, selectSessionSuccess } from './store/User/userSlice.js';
 
 
 const App = () => {
-  const user = useSelector(selectUser);
-  const userId = useSelector(selectUserId) || user.id;
-  const sessionSuccess = useSelector(selectSessionSuccess);
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    if(userId) {
-      dispatch(session())
-    }
-    if(sessionSuccess) {
-      dispatch(clearUserStatusUpdates())
-    }
-  }, [dispatch, session, userId])
-
 
   return (
     <div className="App__main__container">
+      <Navbar /> 
       <Routes>
        <Route path="/login" element={<Login />} />
        <Route path="/products" element={<Products />}/>

@@ -5,25 +5,21 @@ import Alert from '@mui/material/Alert';
 import Button from '@mui/material/Button';
 import TextInput from '@mui/material/TextField';
 import { useSelector, useDispatch } from 'react-redux';
-import { useStripe, useElements, CardNumberElement, CardExpiryElement, CardCvCElement, loadStripe, Elements  } from '@stripe/react-stripe-js';
-import { selectCartId, selectCart, loadCart, setCartId, selectLoadCart, selectCheckoutSuccess, selectLoadCartError, selectCheckoutPending,
-         clearCartStatusUpdates, selectCheckoutError} from '../../store/Cart/cartSlice.js';
+import { useStripe, useElements, CardNumberElement, CardExpiryElement, CardCvcElement, loadStripe, Elements  } from '@stripe/react-stripe-js';
+import { fetchCart, checkout, loadItems } from '../../store/Cart/cartSlice.js';
 import { selectUserId, selectUser } from '../../store/User/userSlice.js';
+import { selectProduct } from '../../store/Product/productSlice.js';
 import Loader from '../../components/Loader/loader.js';
 import Product from '../../components/Product/product.js';
 
 
 
-const Cart = () => {
-  const cart = useSelector(selectCart);
-  const cartId = useSelector(selectCartId);
-  const cartLoading = useSelector(selectLoadCart);
-  const loadCartError = useSelector(selectLoadCartError);
-  const checkout = useSelector(selectCheckoutSuccess);
-  const checkoutPending = useSelector(selectCheckoutPending);
-  const checkoutError = useSelector(selectCheckoutError);
+const Cart = ({cart}) => {
+
+  const { cartItems } = useSelector(state => state.cart);
   const user = useSelector(selectUser);
-  const userId = useSelector(selectUserId);
+  const userId = useSelector(selectUserId) || user.id;
+  const product = useSelector(selectProduct);
   const [shipToName, setShipToName] = useState(user.firstname + '' + user.lastname);
   const [email, setEmail] = useState(user.email);
   const [shipToCity, setShipToCity] = useState(user.city);
@@ -37,6 +33,8 @@ const Cart = () => {
   const navigate = useNavigate();
   const stripe = useStripe();
   const elements = useElements();
+
+
 
 
   const address = {
@@ -66,6 +64,13 @@ const Cart = () => {
     }
   };
 
+
+
+  
+   const total = cartItems.reduce((sum, item) => {
+      return sum += (item.price * item.qty); 
+    }, 0);
+
   const handleSubmit = async() => {
     if(!stripe || !elements) {
       return;
@@ -82,7 +87,7 @@ const Cart = () => {
 
     if(!error) {
       const { stripeId } = paymentMethod;
-      const amount = (cart.subtotal * 0.0725 + 5.99).toFixed(2);
+      const amount = (total * 0.0725 + 5.99).toFixed(2);
       const paymentInfo = {
         cardNum,
         payMethod,
@@ -90,41 +95,20 @@ const Cart = () => {
         amount
       };
 
-      dispatch(checkout( {cartId, userId, address, paymentInfo} ));
+      dispatch(checkout({ userId, address, paymentInfo} ));
     }
   };
 
   useEffect(() => {
-    dispatch(clearCartStatusUpdates())
+    if(userId) {
+      dispatch(fetchCart(userId));
+      dispatch(loadItems());
+
+    }
   }, [dispatch]);
 
-  useEffect(() => {
-    if(userId) {
-      dispatch(loadCart(cartId, userId));
-    }
-  }, [userId, cartId, dispatch]);
-
-  useEffect(() => {
-    if(checkout) {
-      setShipToCity('');
-      setShipToName('');
-      setShipToState('');
-      setShipToZip('');
-      setCardNum('');
-      setPayMethod('');
-      setEmail('');
-      dispatch(loadCart({cartId, userId}));
-      setTimeout(() => {
-        navigate('/orders');
-        dispatch(clearCartStatusUpdates());
-      }, 2500);
-    }
-  }, [checkout, cartId, userId, dispatch, navigate]);
-
-
-
-
-  if(checkout) {
+  
+  if(inCheckout) {
     return (
       <div className="cart__order__container">
        <p className="cartSuccess"> Your order has been placed! </p>
@@ -132,24 +116,13 @@ const Cart = () => {
     )
   }
 
-  if(!cart) {
+  if(!cartItems || !userId) {
     return (
       <section className="cart__items">
         <h2 className="cart__items__label"> Items in Cart </h2>
         Your cart is empty.
       </section>
     )
-  }
-
-
-
-
-  if(cartLoading) {
-    return (
-     <div className="Cart__loading__container">
-      <Loader /> 
-     </div> 
-    );
   }
 
 
@@ -175,23 +148,19 @@ const Cart = () => {
                     <CardExpiryElement className="Cart__input" id="cardExp" name="cardExp" required/>
                     <CardCvcElement className="Cart__input" id="cardCVC" name="cardCVC" required/>
                 </div>
-                {checkoutError && <Alert severity='error' msg={checkoutError} onClose={() => dispatch(clearCartStatusUpdates())}/>}
             
             <section className="Cart__items">
                 <h2 className="Cart__items__heading">Items in Cart</h2>
-                {loadCartError && <Alert severity='error' msg={loadCartError} onClose={() => dispatch(clearCartStatusUpdates())}/>}
-                {cart.items.map((cartItem, i) => <Product product={cartItem} page='cart' key={cart.items[i].productId}/>)}
+                {cartItems.map((cartItem, i) => <Product product={cartItem} page='cart' key={cartItems[i].productId}/>)}
                 <div className="Cart__info">
                     <div className="Cart__info__details">
                         <div className="Cart__info__pay__details">
                             <p className="Cart__shipping">Shipping: $9.99</p>
-                            <p className="Cart__tax">{`Tax: $${(cart.subtotal * 0.0825).toFixed(2)}`}</p>
-                            <p className="Cart__subtotal">{`Subtotal: $${cart.subtotal.toFixed(2)}`}</p>
+                            <p className="Cart__tax">{`Tax: $${(total * 0.0825).toFixed(2)}`}</p>
                         </div>
-                        <p className="Cart__total">{`Total: $${(cart.subtotal + (cart.subtotal * 0.0825) + 9.99).toFixed(2)}`}</p>
+                        <p className="Cart__total">{`Total: $${(total * 0.0825 + 9.99).toFixed(2)}`}</p>
                     </div> 
-                    <p className="Cart__subtotal">{`Subtotal: $${cart.subtotal.toFixed(2)}`}</p>
-                    <Button />
+                    <Button className="checkout-button" id="checkout" onClick={handleSubmit}> Submit Order </Button>
                 </div>
              </section>
           </form>

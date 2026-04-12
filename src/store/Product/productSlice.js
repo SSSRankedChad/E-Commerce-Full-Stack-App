@@ -32,21 +32,12 @@ const initialState = {
   productsPending: false,
   productsLoadSuccess: false,
   productsLoadError: false,
-  searchTerm: "",
 };
 
 const productSlice = createSlice({
   name: 'products',
   initialState,
   reducers: {
-    setProductId: (state, action) => {
-      state.productId = action.payload;
-    },
-
-    setSearchTerm: (state, action) => {
-      state.searchTerm = action.payload;
-    },
-
     clearProdStatusUpdates: (state) => {
       state.productPending = false;
       state.productLoadError = false;
@@ -65,14 +56,8 @@ const productSlice = createSlice({
          state.productPending = false;
          state.productLoadSuccess = true;
          state.productLoadError = false;
-         const foundProduct = state.products.findIndex(p => p.id === action.payload.id);
-         if(foundProduct !== -1) {
-           state.products[foundProduct] = action.payload;
-         }
-         else {
-           state.products.push(action.payload);
-         }
          state.product = action.payload;
+         state.productId = action.payload.id;
          
        })
        .addCase(getProductById.rejected, (state, action) => {
@@ -97,7 +82,7 @@ const productSlice = createSlice({
 });
 
 export default productSlice.reducer;
-export const {setSearchTerm, setProductId, clearProduct, clearProdStatusUpdates} = productSlice.actions;
+export const {clearProdStatusUpdates} = productSlice.actions;
 
 export const selectProduct = state => state.products.product;
 export const selectProducts = state => state.products.products;

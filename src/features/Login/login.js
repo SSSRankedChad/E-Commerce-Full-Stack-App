@@ -6,7 +6,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import Alert from '@mui/material/Alert';
 import { Link, useNavigate } from 'react-router-dom';
 import TextInput from '@mui/material/TextField';
-import { login, logout, selectLogoutSuccess, selectLogginIn, selectLogginOut, selectLoginSuccess, selectLoginError, selectSessionSuccess, clearUserStatusUpdates } from '../../store/User/userSlice.js';
+import { login, selectLogginIn, selectLogginOut, selectLoginSuccess, selectLoginError, selectSessionSuccess, clearUserStatusUpdates } from '../../store/User/userSlice.js';
 import { useSelector, useDispatch } from 'react-redux';
 
 
@@ -14,8 +14,6 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const logginIn = useSelector(selectLogginIn);
-  const logginOut = useSelector(selectLogginOut);
-  const logoutSuccess = useSelector(selectLogoutSuccess);
   const loginSuccess = useSelector(selectLoginSuccess);
   const loginError = useSelector(selectLoginError);
   const sessionSuccess = useSelector(selectSessionSuccess);
@@ -38,43 +36,21 @@ const Login = () => {
   }
 
 
-  const handleLogout = (e) => {
-    e.preventDefault();
-    if(e.target.id === 'logout-button') {
-      dispatch(logout);
-    }
-  }
-
-
-  useEffect(() => {
-    if(logoutSuccess) {
-      setEmail('');
-      setPassword('');
-      navigate('/');
-      dispatch(clearUserStatusUpdates());
-    }
-  }, [logoutSuccess, navigate, dispatch]);
-
-  useEffect(() => {
+   useEffect(() => {
     dispatch((clearUserStatusUpdates()))
   }, [dispatch]);
 
-  useEffect(() => {
-    if(sessionSuccess) {
-      navigate('/home')
-    }
-  }, [sessionSuccess, dispatch]);
 
   useEffect(() => {
     if(loginSuccess) {
       setEmail('');
       setPassword('');
-      navigate('/user');
+      navigate('/home');
       dispatch(clearUserStatusUpdates());
     }
   }, [loginSuccess, navigate, dispatch]);
 
-   if(logginIn || logginOut) {
+   if(logginIn ) {
     return (
       <div className="User__loading__container">
         <Loader /> 
@@ -92,7 +68,6 @@ const Login = () => {
        <p> Enter Password: </p><TextInput name="password" type="password" value={password} onChange={handleChange}/>
        <Button type="submit" id="login-button" name="login-button" fullWidth> Login </Button>
       </form>
-      <Button id="logout-button" name="logout-button" onClick={handleLogout}>Logout</Button>
     </div>
   );
 

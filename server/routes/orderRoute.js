@@ -41,8 +41,8 @@ module.exports = (app) => {
  router.put('/:orderId', async(req, res, next) => {
    try {
       const { orderId } = req.params;
-	    const data = req.body;
-	    const response = await orderServiceInstance.update({orderId, ...data});
+	    const { order } = req.body;
+	    const response = await orderServiceInstance.update({orderId, ...order});
 	    res.status(200).send(response);
     } catch(err) {
       throw new Error(err);

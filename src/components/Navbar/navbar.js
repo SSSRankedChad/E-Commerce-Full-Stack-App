@@ -2,40 +2,40 @@ import React, {useEffect} from 'react';
 import "./navbar.css";
 import {useSelector, useDispatch} from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
+import LogoutIcon from '@mui/icons-material/Logout';
 import IconButton from '@mui/material/IconButton';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import HistoryIcon from '@mui/icons-material/History';
 import AvatarCircle from '@mui/material/Avatar';
 import TextField from '@mui/material/TextField';
 import ShoppingBagIcon from '@mui/icons-material/ShoppingBag';
-import SearchIcon from '@mui/icons-material/Search';
 import { HomeOutlined } from '@mui/icons-material';
-import { logout, selectUser, selectUserId, clearUserStatusUpdates } from '../../store/User/userSlice.js';
+import { selectUser, selectUserId, clearUserStatusUpdates, logout, selectLogoutSuccess } from '../../store/User/userSlice.js';
 import Button from '@mui/material/Button';
 
 const Navbar = () => {
 
   const user = useSelector(selectUser);
   const userId = useSelector(selectUserId);
+  const logoutSuccess = useSelector(selectLogoutSuccess);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    dispatch(logout());
+  const handleClick = async () => {
+    await dispatch(logout());
+    navigate('/');
   }
 
-
   useEffect(() => {
-    if(handleSubmit) {
-      navigate('/');
-      dispatch(clearUserStatusUpdates())
+    if(logoutSuccess) {
+      dispatch(clearUserStatusUpdates());
     }
-  }, [dispatch]);
+  }, [dispatch, logoutSuccess]);
 
-  if(!user || !userId) {
+
+
+
+  if(!userId) {
    return (
     <div className='navbar'>
       <div className="userButton">
@@ -97,9 +97,13 @@ const Navbar = () => {
            </Link>
           </IconButton>
       </div>
-      <div className="logoutButton">
-       <Button className="logout-button" name="logout-button" onClick={handleSubmit}>Log Out</Button>
-      </div> 
+      <div className="logout-button">
+        <IconButton onClick={handleClick}>
+         <Link to="/">
+          <LogoutIcon />
+         </Link>
+        </IconButton>
+       </div>
      </div>
     )
    }

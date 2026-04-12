@@ -1,7 +1,9 @@
 const passport = require('passport');
-const LocalStrategy = require('passport-local');
+const LocalStrategy = require('passport-local').Strategy;
 const authService = require('../services/authService');
 const authServiceInstance = new authService();
+const userService = require('../services/userService.js');
+const userServiceInstance = new userService();
 
 
 module.exports = (app) => {
@@ -13,8 +15,13 @@ module.exports = (app) => {
    done(null, user.id);
  });
  
- passport.deserializeUser((id, done) => {
-   done(null, { id });
+ passport.deserializeUser(async (id, done) => {
+   try { 
+     const user = await userServiceInstance.get({id});
+     done(null, user);
+   } catch(err) {
+     done(err);
+   }
  });
 
 

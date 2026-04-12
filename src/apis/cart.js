@@ -1,53 +1,51 @@
 import API from './client.js';
 
-
-export const createCart = async() => {
+export const getCart = async(userId) => {
   try {
-    return await API.post(`/carts/mine/`);
+   return await API.get(`/cart/mine`, userId);
   } catch(err) {
-    throw err.response.data;
-  }
-}
-
-
-export const getCart = async() => {
-  try {
-   return await API.get(`/carts/mine/`);
-  } catch(err) {
-   throw err.response.data;
+   throw err;
   }
 };
 
-export const addItem = async(cartItemId) => {
+export const findItems = async(userId) => {
   try {
-    return await API.post(`/carts/mine/${cartItemId}`);
+    return await API.get(`/cart/mine/items`, userId);
   } catch(err) {
-    throw err.response.data;
+    throw err;
+  }
+}
+
+export const addItem = async(productId, quantity) => {
+  try {
+    return await API.post(`/cart/mine/items`, {productId, quantity});
+  } catch(err) {
+    throw err;
   }
 };
 
 
 export const deleteItem = async(cartItemId) => {
   try {
-    return await API.delete(`/carts/mine/${cartItemId}`);
+    return await API.delete(`/cart/mine/items/${cartItemId}`);
   } catch(err) {
-    throw err.response.data;
+    throw err;
   }
 };
 
-export const updateItem = async(cartItemId) => {
+export const updateItem = async(cartItemId, quantity, userId) => {
   try {
-    return await API.put(`/carts/mine/${cartItemId}`);
+    return await API.put(`/cart/mine/items/${cartItemId}`, {userId, quantity});
   } catch(err) {
-    throw err.response.data;
+    throw err;
   }
 };
 
-export const cartCheckout = async() => {
+export const cartCheckout = async(cartId, paymentInfo) => {
   try {
-    return await API.post(`/cart/checkout`);
+    return await API.post(`/cart/checkout`, {cartId, paymentInfo});
   } catch(err) {
-    throw err.response.data;
+    throw err;
   }
 }
 
