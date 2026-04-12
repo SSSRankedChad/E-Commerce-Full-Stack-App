@@ -14,9 +14,11 @@ import Product from '../../components/Product/product.js';
 
 
 
-const Cart = ({cart}) => {
+const Cart = () => {
 
   const { cartItems } = useSelector(state => state.cart);
+  const { cart } = useSelector(state => state.cart);
+  const cartId = cart.id;
   const user = useSelector(selectUser);
   const userId = useSelector(selectUserId) || user.id;
   const product = useSelector(selectProduct);
@@ -95,7 +97,7 @@ const Cart = ({cart}) => {
         amount
       };
 
-      dispatch(checkout({ userId, address, paymentInfo} ));
+      dispatch(checkout({ cartId, userId, address, paymentInfo} ));
     }
   };
 
