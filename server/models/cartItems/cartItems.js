@@ -46,7 +46,7 @@ module.exports = class cartItemModel {
      if(results.rows?.length) {
 	     return results.rows;
      }
-     return null;
+     return [];
     } catch(err) {
       throw new Error(err);
    }
@@ -54,7 +54,7 @@ module.exports = class cartItemModel {
 
  async deleteItem(id) {
     try {
-     const statement = `DELETE cartItem FROM cartItems WHERE id = $1`;
+     const statement = `DELETE FROM "cartItems" WHERE id = $1 RETURNING *`;
      const values = [id];
      const results = await db.query(statement, values);
     

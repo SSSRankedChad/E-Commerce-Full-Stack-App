@@ -3,14 +3,18 @@
   flex-direction: row;
   position: fixed;
   border-radius: 0.55rem;
+  margin-bottom: 100px;
   width: 100%;
   z-index: 1;
+  padding: 10px 15px;
+  padding-left: 40%;
+  background-color: #E8E8E6;
 }
 
 .orderButton, .cartButtton, .productButton, .userButtton, .homeButton {
   margin-right: 10px;
+  size: 50%;
 }
-
 .userButton {
   margin-right: 20px;
 }

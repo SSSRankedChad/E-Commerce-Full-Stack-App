@@ -46,11 +46,11 @@ module.exports = (app) => {
     }
   })
 
-  router.post('/mine/checkout', requireAuth, async(req, res, next) => {
+  router.post('/checkout', requireAuth, async(req, res, next) => {
 	  try {
 	    const userId = req.user.id;
       const { cartId, paymentInfo } = req.body;
-	    const response = await cartServiceInstance.checkout({userId, cartId, paymentInfo});
+	    const response = await cartServiceInstance.checkout(userId, cartId, paymentInfo);
 	    res.status(200).send(response);
 	  } catch(err) {
 	     next(err);
@@ -73,7 +73,8 @@ module.exports = (app) => {
  router.post('/mine/items', requireAuth, async(req, res, next) => {
 	try {
 	   const userId = req.user.id;
-	   const response = await cartServiceInstance.addItem(userId, req.body);
+     const { quantity } = req.body;
+	   const response = await cartServiceInstance.addItem(userId, quantity);
 	   res.status(200).send(response);
 	} catch(err) {
 	  next(err);
@@ -82,9 +83,8 @@ module.exports = (app) => {
 
   router.delete('/mine/items/:cartItemId', requireAuth, async(req, res, next) => {
 	try {
-    const userId = req.user.id;
 	  const { cartItemId } = req.params;
-	  const response = await cartServiceInstance.deleteCartItem({userId, cartItemId});
+	  const response = await cartServiceInstance.deleteCartItem(cartItemId);
 	  res.status(200).send(response);
 	} catch(err) {
 	  next(err);

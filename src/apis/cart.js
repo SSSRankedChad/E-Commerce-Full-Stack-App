@@ -41,9 +41,9 @@ export const updateItem = async(cartItemId, quantity, userId) => {
   }
 };
 
-export const cartCheckout = async(cartId, paymentInfo) => {
+export const cartCheckout = async(userId, cartId, paymentInfo) => {
   try {
-    return await API.post(`/cart/checkout`, {cartId, paymentInfo});
+    return await API.post(`/cart/checkout`, {userId, cartId, paymentInfo});
   } catch(err) {
     throw err;
   }

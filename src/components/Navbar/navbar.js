@@ -40,20 +40,13 @@ const Navbar = () => {
     <div className='navbar'>
       <div className="userButton">
         <Link to="/login">
-         <AvatarCircle />
+         <AvatarCircle size="medium"/>
         </Link>
-      </div>
-      <div className="homeButton">
-       <IconButton>
-        <Link to="/home">
-         <HomeOutlined />
-        </Link>
-       </IconButton>
       </div>
       <div className="productButton">
         <IconButton>
          <Link to="/products">
-          <ShoppingBagIcon />
+          <ShoppingBagIcon size="medium"/>
          </Link>
         </IconButton>
       </div>
@@ -66,41 +59,34 @@ const Navbar = () => {
     <div className='navbar'>
       <div className="userButton">
        <Link to={`/user`} alt="Login">
-        <AvatarCircle />
+        <AvatarCircle size="medium" alt="User"/>
        </Link>
       </div>
-      <div className="homeButton">
-       <IconButton>
-        <Link to="/home">
-         <HomeOutlined />
-        </Link>
-       </IconButton>
-      </div>
-       <div className="productButton">
+     <div className="productButton">
         <IconButton>
          <Link to="/products">
-          <ShoppingBagIcon />
+          <ShoppingBagIcon size="medium" alt="Products"/>
          </Link>
         </IconButton>
        </div>
        <div className='cartButton'>
         <IconButton>
          <Link to="/cart">
-          <ShoppingCartIcon />
+          <ShoppingCartIcon size="medium" alt="Cart"/>
          </Link>
         </IconButton>
        </div>
       <div className='orderButton'>
           <IconButton>
            <Link to="/orders">
-            <HistoryIcon />
+            <HistoryIcon size="medium" alt="Order History"/>
            </Link>
           </IconButton>
       </div>
       <div className="logout-button">
         <IconButton onClick={handleClick}>
          <Link to="/">
-          <LogoutIcon />
+          <LogoutIcon size="medium" alt="Logout" />
          </Link>
         </IconButton>
        </div>

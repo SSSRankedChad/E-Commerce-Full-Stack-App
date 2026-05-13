@@ -18,7 +18,6 @@ const App = () => {
 
   return (
     <div className="App__main__container">
-      <Navbar /> 
       <Routes>
        <Route path="/login" element={<Login />} />
        <Route path="/products" element={<Products />}/>
@@ -27,7 +26,6 @@ const App = () => {
        <Route path="/orders" element={<Orders />}/>
        <Route path="/orders/:orderId" element={<Order />}/>
        <Route path="/cart" element={<StripeContainer />}/>
-       <Route path="/cart/checkout" element={<StripeContainer />} />
        <Route path="/" element={<Home />}/>
        <Route path="*" element={<Home />}/>
        <Route path='register' element={<Register />}/>

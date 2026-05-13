@@ -4,34 +4,21 @@ import Button from '@mui/material/Button';
 import Loader from '../Loader/loader.js';
 import Alert from '@mui/material/Alert';
 import { Link } from 'react-router-dom';
-import { setOrderId, clearOrders, cancelOrder, clearOrderStatusUpdates} from '../../store/Orders/orderSlice.js';
+import { clearOrderStatusUpdates} from '../../store/Orders/orderSlice.js';
 import { selectUserId } from '../../store/User/userSlice.js';
 import { useSelector, useDispatch } from 'react-redux';
 
 
 const Order = ({order}) => {
-  const date = Moment(order.date);
-  const payMethod = order.pay_method[0].toUpperCase() + order.pay_method.slice(1);
-  const cancelOrderSuccess = useSelector(selectCancelOrderSuccess);
-  const cancelOrderError = useSelector(selectCancelOrderError);
+  const orderId = order.id;
   const userId = useSelector(selectUserId);
   const dispatch = useDispatch();
 
-  const handleOrderClick = () => {
-    dispatch(setOrderId(orderId));
-  };
 
 
   const handleButtonClick = () => {
     dispatch(cancelOrder({userId, orderId}));
   };
-
-
-  useEffect(() => {
-    if(!order.some(order => order.order_id === orderId)) {
-      dispatch(clearOrders());
-    }
-  }, [orderId, clearOrders, dispatch]);
 
 
   if(Object.entries(order).length === 0) return null;
@@ -54,14 +41,12 @@ const Order = ({order}) => {
   return (
     <section className="Order">
      <div className="order__info__container">
-     {cancelOrderError && <Alert severity="error" msg={cancelOrderError} onClose={(() => dispatch(cearOrderStatusUpdates()))}/>}
       <Link to={`/orders/${orderId}`}>
-       <h3 className="order__id" onClick={handleOrderClick}>Order Id: {order.orderId}</h3>
+       <h3 className="order__id">{order.id}</h3>
       </Link>
      <p className="order__date"> Date: {order.date} </p>
      <p className="order__status"> Status: {order.status} </p>
      <div/>
-     {order.status === 'pending' && <Button name="Cancel Order" onClick={handleButtonClick}/>}
      <div className="order__container"/>
       <img className="order__image" src={order.url} alt=""/>
        <div className="Order__address">
@@ -75,8 +60,7 @@ const Order = ({order}) => {
        </div>
       <div className="Order__payment">
                     <h3 className="Order__total">Order Total: {order.total}</h3>
-                    <p className="Order__payMethod">Payment Method: {payMethod}</p>
-                    <p className="Order__cardNum">Card Number: *{order.card_num}</p>
+                    <p className="Order__cardNum">Card Number: *{order?.card_num}</p>
        </div>
       </div>
     </section>

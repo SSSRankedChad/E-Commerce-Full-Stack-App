@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import Product from '../../components/Product/product.js';
 import { loadProducts, selectProducts, selectProduct, selectProductId, clearProdStatusUpdates, selectProductLoadSuccess, selectProductsLoadError, selectProductPending, getProductById } from '../../store/Product/productSlice.js';
@@ -43,6 +44,7 @@ const Products = ({product}) => {
          <ul className="Products__list">
          {loadProductError && <Alert severity="error" msg={loadProductError} onClose={() => dispatch(clearProdStatusUpdates())}/>}
          {products.map((product) => <li key={product.id}><Product product={product}/></li>)}
+         <Link to="/home"> Home </Link> 
        </ul>
       </div>
     </div>

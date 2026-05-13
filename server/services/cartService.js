@@ -4,7 +4,8 @@ const cartModelInstance = new cartModel();
 const cartItemModel = require('../models/cartItems/cartItems.js');
 const cartItemModelInstance = new cartItemModel();
 const orderModel = require('../models/orders/orders.js');
-const orderModelInstance = new orderModel();
+const orderItemModel = require('../models/orderItems/orderItems.js');
+
 
 module.exports = class cartService {
 
@@ -12,7 +13,6 @@ module.exports = class cartService {
     const { userId } = data;
     try {
       const cart = await cartModelInstance.findOneById(data);
-      console.log(cart);
       return cart;
     } catch(err) {
       throw err;
@@ -79,32 +79,36 @@ async updateItem(cartItemId, data) {
  }
 
 
-async checkout(cartItem, data, payment) {
+async checkout(userId, cartId, paymentInfo) {
 
  try {
 
-  const stripe = require('stripe')('pk_test_51QpyhaPOpAye6nyzpjWArLlaDq3lZhEFoKNOUFumsjBW1e5gwYCk6pLnEWpfvCEVZJ7dvL8wSJii7v1XwnyhB6U900WKmey0Zw');
-  
-  const cartItems = await cartModelInstance.findOneById(cartId);
+  const stripe = require('stripe')("sk_test_51QpyhaPOpAye6nyzD3VqC72xpapWJwTGgNfVyapzWaiuqOus7tOI7IuJ1oUgkwDXFiUzA5eXoy3jn7KlQ3JnTRKA00EkuFkW92");
 
-  const total = cartItems.reduce((total, items) => {
-    return total + Number(item.price);
+  const cartItems = await cartItemModelInstance.findItemsById(cartId);
+
+  const orderItem = new orderItemModel();
+
+  const total = cartItems.reduce((total, item) => {
+    return total += (item.price * item.qty);
   }, 0);
 
-  const Order = await orderModelInstance({total, cartId});
-  await Order.addItems(cartItems);
-  await Order.create();
 
+  const Order = new orderModel({total, userid: userId});
+
+  await Order.addItems(cartItems);
+  Order.createOrder();
 
   const charge = await stripe.charges.create({
 	  amount: total,
 	  currency: 'usd',
-	  source: payment.id,
+	  source: paymentInfo.id,
 	  description: "E_Commerce_App"
-  }); 
+  });
 
- const order = Order.update({status: 'SUCCESSFUL'});
- return order;
+  const order = Order.updateOrder({status: "Successfull"});
+  return order;
+
 } catch(err) {
     throw err;
  }

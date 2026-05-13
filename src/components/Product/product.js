@@ -15,13 +15,14 @@ const Product = ({product, page }) => {
   const cartItems = useSelector((state) => state.cart.cartItems);
   const cartItem = cartItems.find((item) => item.id === product.id);
   const cartItemId = cartItem?.cartItemId;
+  console.log(cartItemId);
   const [cartQuantity, setCartQuantity] = useState(0);
   const [quantity, setQuantity] = useState(0);
   const userId = useSelector(selectUserId);
   const dispatch = useDispatch();
   let navigate = useNavigate();
 
-  const deleteFromCart = () => {
+  const handleRemoveCart = () => {
    setCartQuantity(prev => {
     if(!prev) return;
     else if (prev) return prev - 1;
@@ -35,6 +36,10 @@ const Product = ({product, page }) => {
 
   const handleCartClick = () => {
     dispatch(addCartItem({product, quantity: cartQuantity}));
+  }
+
+  const removeFromCart = () => {
+    dispatch(deleteCartItem(cartItemId));
   }
 
 
@@ -82,8 +87,9 @@ const Product = ({product, page }) => {
 		    <p className="Product__cart__label"> Quantity: </p>
 	        <IconButton onClick={handleAddClick}><AddCircle /></IconButton>
 		     <input className="Product__cart__quantity" type="number" id="quantity" min="0" max="100" value={cartQuantity} readOnly/>
-	        <IconButton onClick={deleteFromCart}><RemoveCircle /></IconButton>
+	        <IconButton onClick={handleRemoveCart}><RemoveCircle /></IconButton>
 	       </div>
+          <Button onClick={removeFromCart}> Delete From Cart </Button> 
 	    </div>
 	  );
    }
@@ -132,7 +138,7 @@ const Product = ({product, page }) => {
 	    </div>
 	    <div className="Product__default__button">
 		   <IconButton className="Product__default__add" onClick={handleAddClick}><AddCircle /></IconButton>
-       <IconButton className="Product__default__remove" onClick={deleteFromCart}><RemoveCircle /></IconButton>
+       <IconButton className="Product__default__remove" onClick={handleRemoveCart}><RemoveCircle /></IconButton>
        <Button className="Product__default__cart__button" onClick={handleCartClick}> Add to Cart </Button> 
        <input className="Product__cart__quantity" type="number" id="quantity" min="0" max="100" value={cartQuantity} readOnly/>
 	    </div>

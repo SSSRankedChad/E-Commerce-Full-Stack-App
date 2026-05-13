@@ -19,7 +19,7 @@ export const addCartItem = createAsyncThunk('/cart/addCartItem', async({product,
 export const deleteCartItem = createAsyncThunk('/cart/deleteCartItem', async(cartItemId, { rejectWithValue }) => {
   try {
     const response = await deleteItem(cartItemId);
-    return { item: cartItemId }
+    return { item: cartItemId };
   } catch(err) {
     return rejectWithValue(err.response.data);
   }
@@ -59,9 +59,9 @@ export const updateCart = createAsyncThunk('/cart/updateCart', async({ cartItemI
 })
 
 
-export const checkout = createAsyncThunk('/cart/checkout', async({cartId, paymentInfo}, { rejectWithValue }) => {
+export const checkout = createAsyncThunk('/cart/checkout', async({userId, cartId, paymentInfo}, { rejectWithValue }) => {
   try {
-    const response = await cartCheckout(cartId, paymentInfo);
+    const response = await cartCheckout(userId, cartId, paymentInfo);
     return response.data;
   } catch(err) {
     return rejectWithValue(err.response.data);
@@ -71,6 +71,7 @@ export const checkout = createAsyncThunk('/cart/checkout', async({cartId, paymen
 const initialState = {
   cart: {},
   cartItems: [],
+  checkoutSuccess: false,
 };
 
 const cartSlice = createSlice({
@@ -88,16 +89,16 @@ const cartSlice = createSlice({
       })
       .addCase(deleteCartItem.fulfilled, (state, action) => {
         const { item } = action.payload;
-        state.cartItems = state.cartItems.filter((product) => product.cartItemId !== item);
+        state.items = state.items.filter((product) => product.cartItemId !== item);
       })
       .addCase(checkout.fulfilled, (state, action) => {
+        state.checkoutSuccess = true;
       })
 
       .addCase(loadItems.fulfilled, (state, action) => {
         state.cartItems = action.payload.map((item) => ({
           ...item,
-          cartItemId: item.id,
-
+          cartItemId: item.id
         }));
 
        })
@@ -110,5 +111,7 @@ const cartSlice = createSlice({
       })
     }
 });
+
+export const selectCheckoutSuccess = state => state.cart.checkoutSuccess;
 
 export default cartSlice.reducer;

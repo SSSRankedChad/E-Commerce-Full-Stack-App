@@ -1,51 +1,37 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { createOrder, findOrder, findOrderById, orderUpdate, deleteOrder } from '../../apis/orders.js';
+import { createOrder, findOrder, orderUpdate, getOrders } from '../../apis/orders.js';
 
 const axios = require('axios');
 
-
-export const loadOrderById = createAsyncThunk('/orders/loadOrderById', async(orderId, thunkAPI) => {
-  try {
-    const response = await findOrderById(orderId);
-    return response.data;
-  } catch(err) {
-    return thunkAPI.rejectWithValue(err);
-  }
-});
-
-export const loadOrders = createAsyncThunk('/orders/loadOrders', async(orderId, thunkAPI) => {
+export const loadOrderById = createAsyncThunk('/orders/loadOrderById', async(orderId, { rejectWithValue }) => {
   try {
     const response = await findOrder(orderId);
+    console.log(response);
+    return response.data;
+  } catch(err) {
+    return rejectWithValue(err.response.data);
+  }
+});
+
+
+
+export const loadOrders = createAsyncThunk('/orders/loadOrders', async(param, { rejectWithValue }) => {
+  try {
+    const response = await getOrders();
+    console.log(response.data);
     return response.data;
    } catch(err) {
-    return thunkAPI.rejectWithValue(err);
+    return rejectWithValue(err.response.data);
   }
 });
 
-export const makeOrder = createAsyncThunk('/orders/createOrder', async(param, thunkAPI) => {
-  try {
-    const response = await createOrder();
-    return response.data;
-  } catch(err) {
-    return thuunkAPI.rejectWithValue(err);
-  }
-});
 
-export const cancelOrder = createAsyncThunk('/orders/cancelOrder', async(orderId, thunkAPI) => {
+export const updateOrder = createAsyncThunk('/orders/updateOrder', async({ orderId, order}, { rejectWithValue }) => {
   try {
-    const response = await deleteOrder(orderId);
+    const response = await orderUpdate(orderId, order);
     return response.data;
   } catch(err) {
-    return thunkAPI.rejectWIthValue(err);
-  }
-});
-
-export const updateOrder = createAsyncThunk('/orders/updateOrder', async(data, thunkAPI) => {
-  try {
-    const response = await orderUpdate(data);
-    return response.data;
-  } catch(err) {
-    return thunkAPI.rejectWithValue(err);
+    return rejectWithValue(err.response.data);
   }
 });
 
@@ -53,125 +39,24 @@ export const updateOrder = createAsyncThunk('/orders/updateOrder', async(data, t
 const initialState = {
   order: {},
   orders: [],
-  orderId: null,
-  orderPending: false,
-  orderLoadError: false,
-  orderLoadSuccess: false,
-  ordersPending: false,
-  ordersLoadError: false,
-  ordersLoadSuccess: false,
-  cancelingOrder: false,
-  cancelOrderError: false,
-  cancelOrderSuccess: false,
-  creatingOrder: false,
-  createOrderError: false,
-  createOrderSuccess: false,
-  updatingOrder: false,
-  updateOrderError: false,
-  updateOrderSuccess: false,
 };
 
 
 const orderSlice = createSlice({
   name: "orders",
   initialState,
-  reducers: {
-    setOrderId: (state) => {
-      state.orderId = action.payload.order_id;
-      return state;
-    },
-
-    clearOrders: (state) => {
-      state.orderId = null;
-      state.orders = [];
-      return state;
-    },
-    clearOrderStatusUpdates: (state) => {
-      state.orderPending = false;
-      state.orderLoadError = false;
-      state.ordersPending = false;
-      state.ordersLoadError = false;
-      state.cancelingOrder = false;
-      state.cancelOrderError = false;
-      state.creatingOrder = false;
-      state.createOrderError = false;
-      state.updatingOrder = false;
-      state.updateOrderError = false;
-    },
+  reducers: {},
     extraReducers: (builder) =>  {
       builder
-      .addCase(loadOrderById.pending, (state, action) => {
-        state.orderPending = true;
-        state.orderLoadError = false;
-      })
-      .addCase(loadOrderById.fulfilled, (state, action) => {
-        state.orderPending = false;
-        state.orderLoadError =  false;
-        state.orderLoadSuccess = true;
-        state.order = action.payload;
-        state.orderId = action.payload.id;
-      })
-      .addCase(loadOrderById.rejected, (state, action) => {
-        state.orderPending = false;
-        state.orderLoadError = action.payload;
-        state.order = {};
-        state.orderId = null;
-      })
-      .addCase(loadOrders.pending, (state, action) => {
-        state.ordersPending = true;
-        state.ordersLoadError = false;
-      })
       .addCase(loadOrders.fulfilled, (state, action) => {
         state.ordersPending = false;
         state.ordersLoadError = false;
         state.ordersLoadSuccess = true;
         state.orders = action.payload;
-        if(!orders) {
-         const orders = state.orders.find(order == order.id === action.payload.id);
-         orders.push(action.payload);
-        }
       })
-      .addCase(loadOrders.rejected, (state, action) => {
-        state.ordersPending = false;
-        state.ordersLoadError = action.payload;
-        state.orders = [];
-        state.orderId = null;
-      })
-      .addCase(makeOrder.pending, (state, action) => {
-        state.creatingOrder = true;
-        state.createOrderError = false;
-      })
-      .addCase(makeOrder.fulfilled, (state, action) => {
-        state.creatingOrder = false;
-        state.createOrderError = false;
-        state.creatOrderSuccess = true;
+      .addCase(loadOrderById.fulfilled, (state, action) => {
         state.order = action.payload;
         state.orderId = action.payload.id;
-      })
-      .addCase(makeOrder.rejected, (state, action) => {
-        state.creatingOrder = false;
-        state.createOrderError = action.payload;
-        state.order = {};
-        state.orderId = null;
-      })
-      .addCase(cancelOrder.pending, (state, action) => {
-        state.cancelingOrder = true;
-        state.cancelOrderError = false;
-      })
-      .addCase(cancelOrder.fulfilled, (state, action) => {
-        state.cancelingOrder = false;
-        state.cancelOrderError = false;
-        state.cancelOrderSuccess = action.payload;
-        state.order = {};
-        state.orderId = null;
-      })
-      .addCase(cancelOrder.rejected, (state, action) => {
-        state.cancelingOrder = false;
-        state.cancelOrderError = action.payload;
-      })
-      .addCase(updateOrder.pending, (state, action) => {
-        state.updatingOrder = false;
-        state.updateOrderError = false;
       })
       .addCase(updateOrder.fulfilled, (state, action) => {
         state.updatingOrder = false;
@@ -179,30 +64,11 @@ const orderSlice = createSlice({
         state.updateOrderSuccess = true;
         state.order = action.payload;
       })
-      .addCase(updateOrder.rejected, (state, action) => {
-        state.updatingOrder = false;
-        state.updateOrderError = action.payload;
-        state.order = {};
-        state.orderId = null;
-      })
     }
-  }
 });
-  export const {setOrderId, clearOrderStatusUpdates, clearOrders} = orderSlice.actions;
+
   export default orderSlice.reducer;
 
-  export const selectOrderPending = state => state.orders.orderPending;
-  export const selectOrdersPending = state => state.orders.orderPending;
-  export const selectOrderLoadError = state => state.orders.orderLoadError;
-  export const selectOrdersLoadError = state => state.orders.ordersLoadError;
-  export const selectOrdersLoadSuccess = state => state.orders.ordersLoadSuccess;
-  export const selectCancelingOrder = state => state.orders.cancelingOrder;
-  export const selectCancelOrderSuccess = state => state.orders.cancelOrderSuccess;
-  export const selectCancelingOrderError = state => state.orders.cancelOrderError;
-  export const selectCreatingOrder = state => state.orders.creatingOrder;
-  export const selectCreatingOrderError = state => state.orders.creatingOrderError;
-  export const selectUpdatingOrder = state => state.orders.updateOrder;
-  export const selectUpdatingOrderErorr = state => state.orders.updateOrderError;
-  export const selectDeletingOrder = state => state.orders.deletingOrder;
-  export const selectDeleteOrderSuccess = state => state.orders.deleteOrderSuccess;
-  export const seleteDeleteOrderError = state => state.orders.deleteOrderError;
+
+  export const selectOrder = state => state.orders.order;
+  export const selectOrders = state => state.orders.orders;
