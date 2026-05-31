@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { getCart, addItem, cartCheckout, updateItem, findItems } from '../../apis/cart.js';
+import { getCart, addItem, cartCheckout, updateItem, findItems, deleteItem } from '../../apis/cart.js';
 
 export const addCartItem = createAsyncThunk('/cart/addCartItem', async({product, quantity}, { rejectWithValue }) => {
   try {
@@ -89,7 +89,7 @@ const cartSlice = createSlice({
       })
       .addCase(deleteCartItem.fulfilled, (state, action) => {
         const { item } = action.payload;
-        state.items = state.items.filter((product) => product.cartItemId !== item);
+        state.cartItems = state.cartItems.filter((product) => product.cartItemId !== item.id);
       })
       .addCase(checkout.fulfilled, (state, action) => {
         state.checkoutSuccess = true;

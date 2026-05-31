@@ -15,7 +15,6 @@ const Product = ({product, page }) => {
   const cartItems = useSelector((state) => state.cart.cartItems);
   const cartItem = cartItems.find((item) => item.id === product.id);
   const cartItemId = cartItem?.cartItemId;
-  console.log(cartItemId);
   const [cartQuantity, setCartQuantity] = useState(0);
   const [quantity, setQuantity] = useState(0);
   const userId = useSelector(selectUserId);

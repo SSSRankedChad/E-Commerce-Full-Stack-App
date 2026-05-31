@@ -62,7 +62,7 @@ module.exports = class cartService {
 
 async deleteCartItem(cartItemId) {
  try {
-  const cartItem = await cartItemModelInstance.deleteCartId(cartItemId);
+  const cartItem = await cartItemModelInstance.deleteItem(cartItemId);
   return cartItem;
  } catch(err) {
    throw err;

@@ -54,7 +54,7 @@ module.exports = class cartItemModel {
 
  async deleteItem(id) {
     try {
-     const statement = `DELETE FROM "cartItems" WHERE id = $1 RETURNING *`;
+     const statement = `DELETE FROM "cartitems" WHERE id = $1 RETURNING *`;
      const values = [id];
      const results = await db.query(statement, values);
     
