@@ -31,9 +31,9 @@ module.exports = class userModel {
    }
  }
 
-  async updateUser(data, id) {
+  async updateUser(data) {
    try {
-     const condition = `WHERE id = ${id}` + 'RETURNING *';
+     const condition = `WHERE id = $1` + 'RETURNING *';
      const statement = pgp.helpers.insert(data, null, 'users') + condition;
      
      const results = await db.query(statement);

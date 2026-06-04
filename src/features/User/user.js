@@ -5,7 +5,7 @@ import TextInput from '@mui/material/TextField';
 import Loader from '../../components/Loader/loader.js';
 import Alert from '@mui/material/Alert';
 import Button from '@mui/material/Button';
-import { loadUserById, updateUser, changePassword, selectUser, selectUserId, selectUserLoading, selectUserLoadingError, selectRegisterUserSuccess,
+import { loadUserById, updateUser, selectUser, selectUserId, selectUserLoading, selectUserLoadingError, selectRegisterUserSuccess,
         selectUpdatingUser, selectUpdateUserSuccess, selectUpdateUserError,  selectChangePasswordSuccess, selectChangePasswordError,
         selectLoginSuccess, selectSessionSuccess, clearUserStatusUpdates } from '../../store/User/userSlice.js';
 import { useSelector, useDispatch } from 'react-redux';
@@ -26,7 +26,7 @@ const User = () => {
     const [state, setState] = useState(user.state);
     const [zip, setZip] = useState(user.zip_code);
     const [password, setPassword] = useState('');
-    const [passMatch, setPassMatch] = useState('');
+    const passMatch = user.password === password;
     const userId = useSelector(selectUserId);
     const passwordMatch = password === passMatch;
     const userLoading = useSelector(selectUserLoading);
@@ -72,7 +72,7 @@ const User = () => {
       else if (target.name === 'zip') {
           setZip(target.value);
       }
-      else if (target.name === 'passwordmatch') {
+      else if (target.name === 'password_match') {
        setPassMatch(target.value);
       }
       else if (target.name === "state") {
@@ -80,28 +80,10 @@ const User = () => {
       }
   };
 
-  const userProfile = {
-    firstName,
-    lastName,
-    gender,
-    username,
-    email,
-    phone,
-    state,
-    city,
-    zip,
-    streetAddress,
-  };
-
     const handleClick = (e) => {
         e.preventDefault();
-        if(e.target.id === 'updateuser-button') {
-            dispatch(updateUser(userId, userProfile));
-        }
-        else if (e.target.id === 'changepassword-button') {
-            dispatch(changePassword(userId, password));
-        }
-    };
+        dispatch(updateUser(userId));
+     };
 
     useEffect(() => {
        dispatch(clearUserStatusUpdates())
@@ -138,15 +120,13 @@ const User = () => {
          <select name="state" value={state} onChange={handleChange}>
          {states.map((state, i) => <option key={`${state}___${i}`} value={state}>{state}</option>)}
          </select>
-
          <TextInput name="zip" value={zip} onChange={handleChange}/>
 
        <section className="change__password__container">
          <h3 className> Change Password </h3>
          {changePasswordSuccess && <Alert severity="error" msg={changePasswordError} onClose={(() => dispatch(clearUserStatusUpdates()))}/>}
-         <TextInput name="New Password" value={password} onChange={handleChange}/>
-         {password && <TextInput name="password_match" value={passMatch} type="password" onChange={handleChange} placeholder="Please enter a new password"/>}
-         {passMatch && <Button id="changepassword-buttton" name="Change Password" onClick={handleClick}>Submit</Button>}
+         <TextInput name="password" value={password} type="password" onChange={handleChange} placeholder="Enter your password"/>
+         {passMatch && <TextInput name="password_match" value={passMatch} type="password" onChange={handleChange} placeholder="Please enter your password"/>}
         </section>
          <Button id="updateuser-button" name="Update User" onClick={handleClick}> Update Account </Button>
          <Link to='/orders'><p className="order__link"> View order history</p></Link>

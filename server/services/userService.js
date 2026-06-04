@@ -24,9 +24,8 @@ module.exports = class userService {
 
   async update(data) {
     try {
-      const { id } = data;
 
-      const user = await userModelInstance.updateUser(id);
+      const user = await userModelInstance.updateUser(data);
 
       if(!user) {
         createError('409', 'User not found!');

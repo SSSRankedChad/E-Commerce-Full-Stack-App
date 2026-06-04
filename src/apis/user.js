@@ -11,7 +11,7 @@ export const getUser = async(userId) => {
 
 export const userUpdate = async(userId) => {
   try {
-    return await API.post(`/user/${userId}`);
+    return await API.put(`/user/${userId}`, data);
   } catch(err) {
     throw err;
   }

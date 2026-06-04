@@ -12,32 +12,24 @@ export const loadUserById = createAsyncThunk('/user/loadUserById', async(userId,
   }
 });
 
-export const registerUser = createAsyncThunk('/auth/registerUser', async(userData, { rejectWithValue }) => {
+export const registerUser = createAsyncThunk('/auth/registerUser', async(data, { rejectWithValue }) => {
   try {
-    const response = await register(userData);
+    const response = await register(data);
     return response.data
   } catch(err) {
     return rejectWithValue(err.response.data);
   }
 });
 
-export const updateUser = createAsyncThunk('/user/updateUser', async(data, { rejectWithValue }) => {
+export const updateUser = createAsyncThunk('/user/updateUser', async(userId, { rejectWithValue }) => {
   try {
-    const response = await userUpdate(data);
+    const response = await userUpdate(userId);
     return response.data;
   } catch (err) {
     return rejectWithValue(err.response.data);
   }
 });
 
-export const changePassword = createAsyncThunk('user/changePassword', async({userId, password}, { rejectWithValue }) => {
-  try {
-    const response = await axios.put('/users/changePassword', {userId, password});
-    return response.data;
-  } catch(err) {
-    return rejectWithValue(err.response.data);
-  }
-});
 
 export const login = createAsyncThunk('auth/login', async(data, { rejectwWithValue }) => {
   try {
@@ -175,24 +167,6 @@ const userSlice = createSlice({
         state.updatingUser = false;
         state.updateUserError = action.payload;
         state.user = {};
-      })
-
-      .addCase(changePassword.pending, (state, action) => {
-        state.changingPassword = true;
-        state.changePasswordError = false;
-      })
-
-      .addCase(changePassword.fulfilled, (state, action) => {
-        state.changePasswordError = false;
-        state.changePasswordSuccess = true;
-        state.user = action.payload;
-        state.changingPassword = false;
-      })
-
-
-      .addCase(changePassword.rejected, (state, action) => {
-        state.changingPassword = false;
-        state.changePasswordError = action.payload;
       })
 
 
