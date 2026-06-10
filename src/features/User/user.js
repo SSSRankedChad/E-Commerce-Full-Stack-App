@@ -125,8 +125,8 @@ const User = () => {
        <section className="change__password__container">
          <h3 className> Change Password </h3>
          {changePasswordSuccess && <Alert severity="error" msg={changePasswordError} onClose={(() => dispatch(clearUserStatusUpdates()))}/>}
-         <TextInput name="password" value={password} type="password" onChange={handleChange} placeholder="Enter your password"/>
-         {passMatch && <TextInput name="password_match" value={passMatch} type="password" onChange={handleChange} placeholder="Please enter your password"/>}
+         <TextInput name="password_match" value={passMatch} type="password" onChange={handleChange} placeholder="Enter your password"/>
+         {passMatch && <TextInput name="password" value={password} type="password" onChange={handleChange} placeholder="Enter new password"/>}
         </section>
          <Button id="updateuser-button" name="Update User" onClick={handleClick}> Update Account </Button>
          <Link to='/orders'><p className="order__link"> View order history</p></Link>
