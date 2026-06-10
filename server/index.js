@@ -1,7 +1,6 @@
 const express = require('express');
 const app = express();
 const loaders = require('./loaders');
-const { PORT }= require('./config');
 
 async function startServer() {
 
@@ -9,6 +8,7 @@ async function startServer() {
 
     loaders(app);
 
+    const PORT = process.env.PORT || 5000;
 
     app.listen(PORT, () => {
       console.log(`Listening on PORT ${PORT}`);
