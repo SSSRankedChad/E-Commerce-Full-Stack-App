@@ -8,7 +8,7 @@ const { SESSION_SECRET } = require('../config.js');
 
 module.exports = (app) => {
   app.use(cors({
-    origin: 'http://localhost:3000',
+    origin:"https://e-commerce-full-stack-app.netlify.app/" ,
     credentials: true
   }));
   app.use(express.json());
