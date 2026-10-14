@@ -2,7 +2,7 @@ import API from './client.js';
 
 export const createOrder = async(userId) => {
   try {
-    return await API.post('/orders/');
+    return await API.post('/api/orders/');
   } catch(err) {
     throw err;
   }
@@ -10,7 +10,7 @@ export const createOrder = async(userId) => {
 
 export const deleteOrder = async() => {
   try {
-    return await API.delete('/orders/');
+    return await API.delete('/api/orders/');
   } catch(err) {
     throw err;
   }
@@ -19,7 +19,7 @@ export const deleteOrder = async() => {
 
 export const findOrder = async(orderId) => {
   try {
-    return await API.get(`/orders/${orderId}`);
+    return await API.get(`/api/orders/${orderId}`);
   } catch(err) {
     throw err;
   }
@@ -28,7 +28,7 @@ export const findOrder = async(orderId) => {
 
 export const orderUpdate = async(orderId, order) => {
   try {
-    return await API.put(`orders/${orderId}`, { order });
+    return await API.put(`/api/orders/${orderId}`, { order });
   } catch(err) {
     throw err;
   }
@@ -36,7 +36,7 @@ export const orderUpdate = async(orderId, order) => {
 
 export const getOrders = async() => {
   try {
-    return await API.get(`/orders/`);
+    return await API.get(`/api/orders/`);
   } catch(err) {
     throw err;
   }
