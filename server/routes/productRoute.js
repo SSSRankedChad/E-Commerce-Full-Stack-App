@@ -9,7 +9,7 @@ module.exports = (app) => {
  app.use('/api/products', router);
 
 
-  router.get('/', async(req, res, next) => {
+  router.get('/api/products/', async(req, res, next) => {
 	 try {
       const products = req.query;
 	    const response = await productServiceInstance.get(products);
@@ -20,7 +20,7 @@ module.exports = (app) => {
    });
 
 	
- router.get('/:productId', async(req, res, next) => {
+ router.get('/api/products/:productId', async(req, res, next) => {
    try { 
    	 const { productId } = req.params;
 	   const response = await productServiceInstance.find(productId);

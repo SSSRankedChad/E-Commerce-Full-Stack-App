@@ -16,7 +16,7 @@ module.exports = (app) => {
     next();
   }
 
-  router.post('/mine', requireAuth, async(req, res, next) => {
+  router.post('/api/cart/mine', requireAuth, async(req, res, next) => {
     try {
        const userId = req.user.id;
        const response = await cartServiceInstance.create(userId);
@@ -26,7 +26,7 @@ module.exports = (app) => {
     }
    });
 
-  router.get('/mine/items', requireAuth, async(req, res, next) => {
+  router.get('/api/cart/mine/items', requireAuth, async(req, res, next) => {
     try {
       const userId = req.user.id;
       const response = await cartServiceInstance.findItems(userId);
@@ -36,7 +36,7 @@ module.exports = (app) => {
     }
   })
 
-  router.get('/mine', requireAuth, async(req, res, next) => {
+  router.get('/api/cart/mine', requireAuth, async(req, res, next) => {
     try {
       const userId = req.user.id;
       const response = await cartServiceInstance.get(userId);
@@ -46,7 +46,7 @@ module.exports = (app) => {
     }
   })
 
-  router.post('/checkout', requireAuth, async(req, res, next) => {
+  router.post('/api/cart/checkout', requireAuth, async(req, res, next) => {
 	  try {
 	    const userId = req.user.id;
       const { cartId, paymentInfo } = req.body;
@@ -58,7 +58,7 @@ module.exports = (app) => {
   });
 
 
-  router.put('/mine/items/:cartItemId', requireAuth, async(req, res, next) => {
+  router.put('/api/cart/mine/items/:cartItemId', requireAuth, async(req, res, next) => {
 	 try {
      const userId = req.user.id;
      const { quantity } = req.body;
@@ -70,7 +70,7 @@ module.exports = (app) => {
 	}
  });
 
- router.post('/mine/items', requireAuth, async(req, res, next) => {
+ router.post('/api/cart/mine/items', requireAuth, async(req, res, next) => {
 	try {
 	   const userId = req.user.id;
      const { quantity } = req.body;
@@ -81,7 +81,7 @@ module.exports = (app) => {
 	}
  });
 
-  router.delete('/mine/items/:cartItemId', requireAuth, async(req, res, next) => {
+  router.delete('/api/cart/mine/items/:cartItemId', requireAuth, async(req, res, next) => {
 	try {
 	  const { cartItemId } = req.params;
 	  const response = await cartServiceInstance.deleteCartItem(cartItemId);

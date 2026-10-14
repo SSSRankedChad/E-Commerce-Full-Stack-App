@@ -9,7 +9,7 @@ module.exports = (app) => {
 
    app.use('/api/user', router);
 
-  router.get('/:userId', async(req, res, next) => {
+  router.get('/api/users/:userId', async(req, res, next) => {
 	 try {
 	    const { userId } = req.params;
 	    const response = await userServiceInstance.get({id: userId});
@@ -20,7 +20,7 @@ module.exports = (app) => {
   });
 
 
-  router.put('/:userId', async(req, res, next) => {
+  router.put('/api/users/:userId', async(req, res, next) => {
     try {
 	   const { userId } = req.params;
 	   const data = req.body;

@@ -9,7 +9,7 @@ module.exports = (app) => {
 
   app.use('/api/orders', router);
 
-  router.post('/', async(req, res, next) => {
+  router.post('/api/orders/', async(req, res, next) => {
     try {
 	    const response = await orderServiceInstance.create();
 	    res.status(200).send(response);
@@ -18,7 +18,7 @@ module.exports = (app) => {
     }
   });
 	
-  router.get('/:orderId', async(req, res, next) => {
+  router.get('/api/orders/:orderId', async(req, res, next) => {
     try {
 	    const { orderId } = req.params;
 	    const response = await orderServiceInstance.get(orderId);
@@ -28,7 +28,7 @@ module.exports = (app) => {
 	 }
   });
 
-  router.get('/', async(req, res, next) => {
+  router.get('/api/orders/', async(req, res, next) => {
   try {
     const userId = req.user.id;
 	  const response = await orderServiceInstance.list(userId);
@@ -38,7 +38,7 @@ module.exports = (app) => {
 	}
  }); 
 
- router.put('/:orderId', async(req, res, next) => {
+ router.put('/api/orders/:orderId', async(req, res, next) => {
    try {
       const { orderId } = req.params;
 	    const { order } = req.body;

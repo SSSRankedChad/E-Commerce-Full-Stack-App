@@ -8,7 +8,7 @@ module.exports = (app, passport) => {
 
    app.use('/api/auth', router);
 
-   router.post('/register', async(req, res, next) => {
+   router.post('/api/ruth/register', async(req, res, next) => {
     try {
 	   const data = req.body;
 	   const response = await authServiceInstance.register(data);
@@ -19,7 +19,7 @@ module.exports = (app, passport) => {
    });
 
     
-  router.post('/login', passport.authenticate('local'), async(req, res, next) => {
+  router.post('/api/auth/login', passport.authenticate('local'), async(req, res, next) => {
      try {
        const { email, password } = req.body;
        const response = await authServiceInstance.login({ email, password });
@@ -29,7 +29,7 @@ module.exports = (app, passport) => {
      }
   });
 
-  router.get('/session', (req, res, next) => {
+  router.get('/api/auth/session', (req, res, next) => {
    try {
     res.status(200).json({user: req.session.user});
     } catch(err) {
@@ -37,7 +37,7 @@ module.exports = (app, passport) => {
     }
   });
 
-  router.post('/logout', async (req, res, next) => {
+  router.post('/api/auth/logout', async (req, res, next) => {
     req.session.destroy((err => {
          if(err) {
            res.status(500).json({message: "Session not destroyed"});
