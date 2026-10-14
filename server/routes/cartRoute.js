@@ -7,7 +7,7 @@ const cartServiceInstance = new cartService();
 
 module.exports = (app) => {
 
-  app.use('/api/cart', router);
+  app.use('/', router);
 
   function requireAuth(req, res, next) {
     if(!req.isAuthenticated()) {

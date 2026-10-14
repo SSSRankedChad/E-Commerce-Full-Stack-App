@@ -7,7 +7,7 @@ const orderServiceInstance = new orderService();
 
 module.exports = (app) => {
 
-  app.use('/api/orders', router);
+  app.use('/', router);
 
   router.post('/api/orders/', async(req, res, next) => {
     try {

@@ -7,7 +7,7 @@ const userServiceInstance = new userService();
 
 module.exports = (app) => {
 
-   app.use('/api/user', router);
+   app.use('/', router);
 
   router.get('/api/users/:userId', async(req, res, next) => {
 	 try {
