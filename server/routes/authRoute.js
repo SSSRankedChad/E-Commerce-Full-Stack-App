@@ -8,7 +8,7 @@ module.exports = (app, passport) => {
 
    app.use('/', router);
 
-   router.post('/api/ruth/register', async(req, res, next) => {
+   router.post('/api/auth/register', async(req, res, next) => {
     try {
 	   const data = req.body;
 	   const response = await authServiceInstance.register(data);
