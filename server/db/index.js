@@ -9,7 +9,7 @@ const pool = new Pool({
    host: DB.PGHOST,
    port: DB.PGPORT,
    database: DB.PGDATABASE,
-   databaseurl: DB.PGDATABASEURL
+   connectionString: DB.PGDATABASEURL
 });
 
 module.exports = {
