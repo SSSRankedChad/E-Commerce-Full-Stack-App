@@ -4,6 +4,18 @@
   publish = "build"
 
 [build.environment]
-  NODE_VERSION = "18"
+  NODE_VERSION = "22"
 
 
+# Proxy API calls to the Express server hosted on Render
+[[redirects]]
+  from = "/api/*"
+  to = "https://e-commerce-app-p5as.onrender.com/api/:splat"
+  status = 200
+  force = true
+
+# Serve the React app for client-side routes (e.g. /products/1)
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
