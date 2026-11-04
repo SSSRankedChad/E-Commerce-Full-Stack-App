@@ -44,11 +44,10 @@ const Order = ({order}) => {
       <Link to={`/orders/${orderId}`}>
        <h3 className="order__id">{order.id}</h3>
       </Link>
-     <p className="order__date"> Date: {order.date} </p>
+     <p className="order__date"> Date: {order.created} </p>
      <p className="order__status"> Status: {order.status} </p>
      <div/>
      <div className="order__container"/>
-      <img className="order__image" src={order.url} alt=""/>
        <div className="Order__address">
                     <h3 className="Order__shipping__info">Shipping Address</h3>
                     <p className="Order__fullname">{order.shipto_name}</p>
