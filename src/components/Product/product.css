@@ -3,3 +3,9 @@
   margin-left: 50rem;
   align-content: center;
 }
+
+.Product__default__container {
+  display: flex;
+  margin-left: 500px;
+  border-color: black; 
+}
