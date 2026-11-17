@@ -2,7 +2,6 @@
 .Product__default__container {
   display: grid;
   margin-left: 500px;
-  border: 1px solid black; 
 }
 
 
@@ -11,6 +10,5 @@ li {
 }
 
 img {
-  width: 100px;
-  border: 1px solid black;
+  width: 50px;
 }
