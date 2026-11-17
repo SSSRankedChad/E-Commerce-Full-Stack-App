@@ -2,10 +2,15 @@
 .Product__default__container {
   display: grid;
   margin-left: 500px;
-  border-color: black; 
+  border: 1px solid black; 
 }
 
 
 li {
   list-style-type: none;
+}
+
+img {
+  width: 100px;
+  border: 1px solid black;
 }

@@ -97,19 +97,15 @@ const Product = ({product, page }) => {
 	return (
 	  <div className="Product__details__container">
 	    <div className="Product__details__category">
-	     <p className="Product__details__category__label"> Category: </p>
 	     <p className="Product__details__category__value"> {product.category} </p>
 	    </div>
 	    <div className="Product__details__name">
-	      <p className="Product__details__name__label"> Name: </p> 
 	      <p className="Product__details__name__value"> {product.name} </p>
 	    </div> 
 	    <div className="Product__details__price">
-	       <p className="Product__details__price__label"> Price: </p>
 	       <p className="Product__details__price__value"> {product.price} </p>
 	    </div>
 	    <div className="Product__details__description">
-	       <p className="Product__details__description__label"> Description: </p>
 	       <p className="Product__details__description__value"> {product.description} </p>
 	   </div>
      </div>
@@ -121,18 +117,15 @@ const Product = ({product, page }) => {
 	return (
 	   <div className="Product__default__container">
 	    <div className="Product__default__image">
-	      <img style={{maxWidth: "100%", maxHeight: "100%"}} src={product.url} /> 
+	      <img src={product.url} /> 
 	    </div>
 	     <div className="Product__default__name__container">
-	       <p className="Product__default__name__label">Name: </p>
 		     <Link to={`products/${product.id}`}>
 		      <h2 className="product__cart__name" id={product.id}>{product.name}</h2>
 	       </Link>
 	     </div>
 	    <div className="Product__default__description">
-	      <p className="Product__default__description__label"> Description: </p>
 	      <p className="Product__default__description__value"> {product.description} </p>
-        <p className="Product__default__price__label"> Price: </p>
         <p className="Product__default__price__value">{product.price}</p>
 	    </div>
 	    <div className="Product__default__button">

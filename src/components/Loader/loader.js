@@ -5,7 +5,7 @@ import 'ldrs/react/Ring.css';
 const Loader = () => {
   return (
    <Ring
-    size="40"
+    size="150"
     stroke="5"
     bg-opacity="0"
     speed="0.8"
