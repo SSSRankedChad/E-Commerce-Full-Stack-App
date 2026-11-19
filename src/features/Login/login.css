@@ -3,3 +3,9 @@
   align-content: center;
   margin-bottom: 1rem;
 }
+
+.User__loading__container {
+  padding-top: 500px;
+  padding-left: 500px;
+  width: 50%;
+}
