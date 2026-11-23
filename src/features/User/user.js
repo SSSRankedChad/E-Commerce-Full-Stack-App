@@ -16,9 +16,8 @@ const User = () => {
     const [firstName, setFirstName] = useState(user.firstname);
     const [lastName, setLastName] = useState(user.lastname);
     const [gender, setGender] = useState("");
-    const genderList = ["Male", "Female" ,"Non-Binary"];
+    const genderList = ["Male", "Female" , "Other"];
     const states = ['AL','AK','AZ','AR','CA','CO','CT','DE','FL','GA','HI','ID','IL','IN','IA','KS','KY','LA','ME','MD','MA','MI','MN','MS','MO','MT','NE','NV','NH','NJ','NM','NY','NC','ND','OH','OK','OR','PA','RI','SC','SD','TN','TX','UT','VT','VA','WA','WV','WI','WY'];
-    let [dob, setDob] = useState(user.date_of_birth);
     const [phone, setPhone] = useState(user.phone);
     const [email, setEmail] = useState(user.email);
     const [streetAddress, setStreetAddress] = useState(user.street_address);
@@ -40,6 +39,20 @@ const User = () => {
     const loginSuccess = useSelector(selectLoginSuccess);
     const session = useSelector(selectSessionSuccess);
     const dispatch = useDispatch();
+
+
+    const userProfile = {
+      firstName,
+      lastName,
+      username,
+      phone,
+      gender,
+      city,
+      state,
+      zip,
+      password,
+      email,
+    }
 
     const handleChange = ({target}) => {
       if(target.name === "username") {
@@ -78,11 +91,14 @@ const User = () => {
       else if (target.name === "state") {
         setState(target.value);
       }
+      else if (target.name === "phone_num") {
+        setPhone(target.value);
+      }
   };
 
     const handleClick = (e) => {
         e.preventDefault();
-        dispatch(updateUser(userId));
+        dispatch(updateUser({userId, userProfile}));
      };
 
     useEffect(() => {
@@ -97,7 +113,7 @@ const User = () => {
 
     if(userLoading || updatingUser) {
       return (
-       <div className="Info__loading__container">
+       <div className="Info__loading_container">
         <Loader /> 
        </div> 
       );
@@ -112,6 +128,7 @@ const User = () => {
          <TextInput name="username" value={username} onChange={handleChange}/>
          <TextInput name="firstname" placeholder="Last Name" value={firstName} onChange={handleChange}/>
          <TextInput name="lastname" placeholder="First Name" value={lastName} onChange={handleChange}/>
+         <input type="tel" id="phone" name="phone_num" value={phone} pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}" placeholder="Enter your phone number" onChange={handleChange}> 
          <select name="gender" value={gender} onChange={handleChange}>
          {genderList.map((gender, i) => <option key={`${gender}___${i}`} value={gender}>{gender}</option>)}
          </select>

@@ -151,7 +151,7 @@ const Cart = () => {
                 <div className="Cart__info">
                     <div className="Cart__info__details">
                         <div className="Cart__info__pay__details">
-                            <p className="Cart__shipping">Shipping: $9.99</p>
+                            <p className="Cart__shipping">Shipping: $5.99</p>
                             <p className="Cart__tax">{`Tax: $${(calculateTotal * 0.0825).toFixed(2)}`}</p>
                         </div>
                         <p className="Cart__total">{`Total: $${(calculateTotal * 0.0825 + 9.99).toFixed(2)}`}</p>
