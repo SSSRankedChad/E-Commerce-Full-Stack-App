@@ -66,7 +66,7 @@ const Product = ({product, page }) => {
 	return (
 	   <div className="Product__cart__container">
 	      <div className="Product__image__container">
-	        <img style= {{maxWidth: "100%", maxHeight: "100%"}} src={product.url} alt=""/>
+	        <img style= src={product.url}/>
 	       </div>
 	       <div className="Product__cart__name__container">
 	         <p className="Product__cart__label">Name: </p>

@@ -1,5 +1,5 @@
 
-.Product__default__container, .Product__cart__container, .Prodct__details__container {
+.Product__default__container {
   display: grid;
   margin-left: 500px;
   padding-top: 100px;
