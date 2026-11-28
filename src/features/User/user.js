@@ -121,9 +121,8 @@ const User = () => {
     };
 
     return (
-      <>
-      <Navbar />
       <section className="user__container">
+       <Navbar />
        {loginSuccess && <Alert severity="error" msg={loadUserError} onClose={(() => dispatch(clearUserStatusUpdates()))}/>}
        {updateUserSuccess && <Alert severity="error" msg={updateUserError} onClose={(() => dispatch(clearUserStatusUpdates()))}/>}
         <h3 className="profile_title">{`Welcome, ${user.username}!`}</h3>
@@ -152,8 +151,6 @@ const User = () => {
          <Link to='/orders'><p className="order__link"> View order history</p></Link>
          <Link to='/home'><p className="home__link">Home</p></Link>
       </section>
-     </section>
-      </>
     );
 
 }
