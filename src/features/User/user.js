@@ -152,6 +152,7 @@ const User = () => {
          <Link to='/orders'><p className="order__link"> View order history</p></Link>
          <Link to='/home'><p className="home__link">Home</p></Link>
       </section>
+     </section>
       </>
     );
 
