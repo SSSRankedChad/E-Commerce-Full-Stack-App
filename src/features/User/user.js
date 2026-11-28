@@ -130,7 +130,7 @@ const User = () => {
          <TextInput name="username" value={username} onChange={handleChange}/>
          <TextInput name="firstname" placeholder="Last Name" value={firstName} onChange={handleChange}/>
          <TextInput name="lastname" placeholder="First Name" value={lastName} onChange={handleChange}/>
-         <input type="tel" id="phone" name="phone_num" value={phone} pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}" placeholder="Enter your phone number" onChange={handleChange}> 
+         <input type="tel" id="phone" name="phone_num" value={phone} pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}" placeholder="Enter your phone number" onChange={handleChange} />
          <select name="gender" value={gender} onChange={handleChange}>
          {genderList.map((gender, i) => <option key={`${gender}___${i}`} value={gender}>{gender}</option>)}
          </select>
@@ -150,9 +150,8 @@ const User = () => {
          <Button id="updateuser-button" name="Update User" onClick={handleClick}> Update Account </Button>
          <Link to='/orders'><p className="order__link"> View order history</p></Link>
          <Link to='/home'><p className="home__link">Home</p></Link>
-      </section>
+     </section>
     );
-
 }
 
 export default User;
