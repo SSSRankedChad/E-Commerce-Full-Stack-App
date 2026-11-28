@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import Product from '../../components/Product/product.js';
+import Navbar from '../../components/Navbar/navbar.js';
 import { loadProducts, selectProducts, selectProduct, selectProductId, clearProdStatusUpdates, selectProductLoadSuccess, selectProductsLoadError, selectProductPending, getProductById } from '../../store/Product/productSlice.js';
 import Alert from '@mui/material/Alert';
 import Button from '@mui/material/Button';
@@ -48,6 +49,7 @@ const Products = ({product}) => {
   }
   return (
     <div className="Products">
+     <Navbar /> 
       <div className="Products__container">
          <ul className="Products__list">
          {loadProductError && <Alert severity="error" msg={loadProductError} onClose={() => dispatch(clearProdStatusUpdates())}/>}

@@ -12,6 +12,7 @@ import { selectUserId, selectUser } from '../../store/User/userSlice.js';
 import { selectProduct } from '../../store/Product/productSlice.js';
 import Loader from '../../components/Loader/loader.js';
 import Product from '../../components/Product/product.js';
+import Navbar from '../../components/Navbar/navbar.js';
 
 
 
@@ -127,6 +128,8 @@ const Cart = () => {
 
 
  return (
+      <>
+      <Navbar />
       <section className="Cart">
             <form className="Cart__form" onSubmit={handleSubmit}>
                 <div className="Cart__address">
@@ -161,6 +164,7 @@ const Cart = () => {
              </section>
           </form>
     </section>
+   </> 
   );
 }
 

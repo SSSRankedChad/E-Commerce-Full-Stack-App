@@ -4,6 +4,7 @@ import AvatarCircle from '@mui/material/Avatar';
 import TextInput from '@mui/material/TextField';
 import Loader from '../../components/Loader/loader.js';
 import Alert from '@mui/material/Alert';
+import Navbar from '../../components/Navbar/navbar.js';
 import Button from '@mui/material/Button';
 import { loadUserById, updateUser, selectUser, selectUserId, selectUserLoading, selectUserLoadingError, selectRegisterUserSuccess,
         selectUpdatingUser, selectUpdateUserSuccess, selectUpdateUserError,  selectChangePasswordSuccess, selectChangePasswordError,
@@ -120,6 +121,8 @@ const User = () => {
     };
 
     return (
+      <>
+      <Navbar />
       <section className="user__container">
        {loginSuccess && <Alert severity="error" msg={loadUserError} onClose={(() => dispatch(clearUserStatusUpdates()))}/>}
        {updateUserSuccess && <Alert severity="error" msg={updateUserError} onClose={(() => dispatch(clearUserStatusUpdates()))}/>}
@@ -149,6 +152,7 @@ const User = () => {
          <Link to='/orders'><p className="order__link"> View order history</p></Link>
          <Link to='/home'><p className="home__link">Home</p></Link>
       </section>
+      </>
     );
 
 }
